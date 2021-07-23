@@ -1,0 +1,22 @@
+Index: admin/config/main.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n$config = require(ROOT_PATH . \"/include/config.php\");\r\n$params = array_merge($config['params'], array('administrator' => array('admin'),));\r\n$st=\"\";\r\n\r\n    $params['roleItem'] = array(\r\n    array(\r\n     '表格样例',\r\n        array(\r\n            'award_index43' => array('样例', 'testList/index'),\r\n        ),\r\n    ),\r\n        array(\r\n            '数据维护',\r\n            array(\r\n                'award_index42' => array('基本数据维护', 'baseCode/index'),\r\n\r\n            ),\r\n\r\n        )\r\n  );\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n$main = array(\r\n    'basePath' => ROOT_PATH . '/admin',\r\n    'runtimePath' => ROOT_PATH . '/runtime/admin',\r\n    'name' => '',\r\n    'defaultController' => 'index',\r\n    'components' => array(\r\n        'db' => $config['components']['db'],\r\n        'log' => array(\r\n            'class' => 'CLogRouter',\r\n            'routes' => array(\r\n                array(\r\n                    'class' => 'CFileLogRoute',\r\n                    'levels' => 'info,error, warning'\r\n                ),\r\n                array(\r\n                    'class' => 'CWebLogRoute',\r\n                    'levels' => 'trace'\r\n                ),\r\n            ),\r\n        ),\r\n    ),\r\n    'params' => $params,\r\n);\r\n\r\nreturn array_merge($config, $main);\r\n?>\r\n\r\n<ul class=\"sidebar-menu\">            \r\n<li class=\"treeview\">               \r\n    <a href=\"#\">                    \r\n        <i class=\"fa fa-gears\"></i> <span>權限控制</span>                    \r\n        <i class=\"fa fa-angle-left pull-right\"></i>               \r\n    </a>               \r\n    <ul class=\"treeview-menu\">                   \r\n        <li class=\"treeview\">                        \r\n            <a href=\"/admin\">管理員</a>                        \r\n            <ul class=\"treeview-menu\">                            \r\n                <li><a href=\"/user\"><i class=\"fa fa-circle-o\"></i> 後臺用戶</a></li>                            \r\n                <li class=\"treeview\">                                \r\n                    <a href=\"/admin/role\"> <i class=\"fa fa-circle-o\"></i> 權限 <i class=\"fa fa-angle-left pull-right\"></i>\r\n                    </a>                                \r\n                    <ul class=\"treeview-menu\">                                    \r\n                        <li><a href=\"/admin/route\"><i class=\"fa fa-circle-o\"></i> 路由</a></li>\r\n                        <li><a href=\"/admin/permission\"><i class=\"fa fa-circle-o\"></i> 權限</a></li>\r\n                        <li><a href=\"/admin/role\"><i class=\"fa fa-circle-o\"></i> 角色</a></li>\r\n                        <li><a href=\"/admin/assignment\"><i class=\"fa fa-circle-o\"></i> 分配</a></li>\r\n                        <li><a href=\"/admin/menu\"><i class=\"fa fa-circle-o\"></i> 菜單</a></li>\r\n                    </ul>                           \r\n                </li>                        \r\n            </ul>                    \r\n        </li>                \r\n    </ul>            \r\n    </li>        \r\n</ul>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- admin/config/main.php	(revision cf3589ad0f6484f94fe096e98706228aa2320779)
++++ admin/config/main.php	(date 1612092999096)
+@@ -14,9 +14,11 @@
+     array(
+      '表格样例',
+         array(
+-            'award_index43' => array('样例', 'testList/index'),
++            'award_index43' => array('菜品分类', 'foodClass/index'),
++            'award_index44' => array('菜品信息', 'foodInfo/index'),
+         ),
+     ),
++
+         array(
+             '数据维护',
+             array(
