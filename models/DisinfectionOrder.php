@@ -19,7 +19,7 @@ class DisinfectionOrder extends BaseModel {
             // array('id', 'required', 'message' => '{attribute} 不能为空'),
             //array('restaurant_id', 'required', 'message' => '{attribute} 不能为空'),
             array('disinfection_name', 'required', 'message' => '{attribute} 不能为空'),
-            array('date', 'required', 'message' => '{attribute} 不能为空'),
+            //array('date', 'required', 'message' => '{attribute} 不能为空'),
             //array('complete_time', 'required', 'message' => '{attribute} 不能为空'),
 
         );
