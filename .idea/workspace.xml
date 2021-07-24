@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="71bd1a4f-83a7-4342-aa2f-601b770caf70" name="Default Changelist" comment="Default Changelist" />
+    <list default="true" id="71bd1a4f-83a7-4342-aa2f-601b770caf70" name="Default Changelist" comment="Default Changelist">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,7 +59,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/models" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -64,18 +67,18 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\wamp64\www\HhYii\admin\views\Ice" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\wamp64\www\HhYii\admin\views" />
       <recent name="D:\wamp64\www\HhYii\models" />
       <recent name="D:\wamp64\www\HhYii\admin\controllers" />
-      <recent name="D:\wamp64\www\HhYii\admin\views" />
       <recent name="D:\wamp64\www\HhYii\admin\views\iceLog" />
+      <recent name="D:\wamp64\www\HhYii\admin\views\Ice" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\wamp64\www\HhYii\admin\views\Ice" />
     </key>
   </component>
@@ -89,7 +92,7 @@
       <method v="2" />
     </configuration>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="应用程序级" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -145,18 +148,44 @@
       <workItem from="1626924868545" duration="887000" />
       <workItem from="1626925790576" duration="74000" />
       <workItem from="1626944261971" duration="7715000" />
+      <workItem from="1627021847510" duration="2007000" />
+      <workItem from="1627024134171" duration="448000" />
+      <workItem from="1627030568082" duration="687000" />
+      <workItem from="1627031267233" duration="158000" />
+      <workItem from="1627031429252" duration="26000" />
+      <workItem from="1627094073644" duration="630000" />
     </task>
+    <task id="LOCAL-00001" summary="test to push">
+      <created>1627024229103</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1627024229103</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -165,32 +194,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="501" y="212" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1626778076536">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="501" y="212" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1626778076536" />
-    <state x="394" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1626962290192">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="394" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1626962290192" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1626957905907">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1626957905907" />
-    <state x="359" y="100" width="1191" height="811" maximized="true" key="dock-window-1" timestamp="1626796889835">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="359" y="100" width="1191" height="811" maximized="true" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1626796889835" />
-    <state x="936" y="256" width="600" height="568" key="find.popup" timestamp="1626963761427">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="936" y="256" width="600" height="568" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1626963761427" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1626958550270">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1626958550270" />
+    <MESSAGE value="test to push" />
+    <option name="LAST_COMMIT_MESSAGE" value="test to push" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
