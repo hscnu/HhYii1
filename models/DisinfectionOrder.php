@@ -91,7 +91,7 @@ class DisinfectionOrder extends BaseModel {
             case 1:return '申请中';
             case 2:return '已提交';
             case 3:return '待审核';
-            case 4:return '审核通过';
+            case 4:return '待消毒中心审核';
             case 5:return '待接收';
             case 6:return '已接受';
             case 7:return '待消毒';
