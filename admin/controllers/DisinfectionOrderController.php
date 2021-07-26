@@ -159,7 +159,17 @@ class DisinfectionOrderController extends BaseController {
     //待审核
     public function actionIndex_appoint_finish($keywords = '') {
         $w="state=3";
-        $this->actionIndex_by_condition('index',$keywords,$w);
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+    }
+    //内部审核通过
+    public function actionIndex_I_examine($keywords = '') {
+        $w="state=12";
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+    }
+    //消毒中心审核通过
+    public function actionIndex_F_examine($keywords = '') {
+        $w="state=4";
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
     }
     //待签收
     public function actionIndex_wait_sign($keywords = '') {
@@ -180,12 +190,16 @@ class DisinfectionOrderController extends BaseController {
         $finishCount = count($modelName::model()->findAll('state=3'));
         $waitSignCount = count($modelName::model()->findAll('state=10'));
         $signedCount = count($modelName::model()->findAll('state=11'));
+        $IExamine = count($modelName::model()->findAll('state=12'));
+        $FExamine = count($modelName::model()->findAll('state=4'));
         return array(
             'todayCount'=>$todayCount,
             'waitCount'=>$waitCount,
             'finishCount'=>$finishCount,
             'waitSignCount'=>$waitSignCount,
             'signedCount'=>$signedCount,
+            'IExamineCount'=>$IExamine,
+            'FExamineCount'=>$FExamine,
         );
     }
     public function getDisinfectionKeyWords($keywords = ''){
@@ -226,15 +240,17 @@ class DisinfectionOrderController extends BaseController {
         parent::_list($model, $criteria, 'detail', $data);//渲染detail
     }
     /// 查看明细end
-    /// 状态改变
+    /// 状态改变按钮
     public function actionChangeState($id,$Now_state,$keywords=''){
 
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);
 
-        if($Now_state=='审核通过'){$tmp->state=10;}
+        if($Now_state=='外部审核通过'){$tmp->state=10;}
         if($Now_state=='提交'){$tmp->state=3;}
         if($Now_state=='签收'){$tmp->state=11;}
+        if($Now_state=='内部审核通过'){$tmp->state=4;}
+
 
         $tmp->save();
 
@@ -283,4 +299,25 @@ class DisinfectionOrderController extends BaseController {
         parent::_list($model, $criteria, 'index_sign', $data);
     }
     /// 订单签收end
+    /// 订单审核
+    public function actionIndex_examine($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+
+
+        $model->deleteAll('state'.' in (' . 0 . ')');
+
+
+        $data = $this->getAppointCountList();
+
+        parent::_list($model, $criteria, 'index_examine', $data);
+    }
+
+    /// 订单审核end
 }
