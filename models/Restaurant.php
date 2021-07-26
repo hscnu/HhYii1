@@ -33,9 +33,9 @@ class Restaurant extends BaseModel {
     public function attributeLabels(){
         return array(
             'id' => 'ID',
-            'name' => '酒楼名称',
-            'address' => '酒店地址',
-            'phone' => '酒店电话',
+            'r_name' => '酒楼名称',
+            'r_address' => '酒店地址',
+            'r_phone' => '酒店电话',
 
         );
     }
@@ -62,7 +62,7 @@ class Restaurant extends BaseModel {
     public function getNameFromId($id=''){
         //$criteria = new CDbCriteria();
         $tmp=$this->model()->find("id='".$id."'");
-        $result = $tmp['name'];
+        $result = $tmp['r_name'];
         return $result;
     }
 

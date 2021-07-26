@@ -44,9 +44,9 @@ class RestaurantController extends BaseController {
 
     function saveData($model, $post) {
         $model->attributes = $post;
-     //   put_msg($post);
-      //  put_msg($model->attributes);
-        
+        //   put_msg($post);
+        //  put_msg($model->attributes);
+
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
 
@@ -56,8 +56,8 @@ class RestaurantController extends BaseController {
         $modelName = $this->model;
         $model = $modelName::model();
         $criteria = new CDbCriteria;
-        $criteria -> condition = get_like('1','name,address,phone',$keywords);
-        $criteria -> condition = get_like( $criteria -> condition,'name,address,phone',$keywords);
+        $criteria -> condition = get_like('1','r_name,r_address,r_phone',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'r_name,r_address,r_phone',$keywords);
 
         $data = array();
         parent::_list($model, $criteria, 'index', $data);

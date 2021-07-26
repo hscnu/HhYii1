@@ -17,45 +17,45 @@
                         <td colspan="2">申请信息</td>
                     </tr>
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'name'); ?></td>
+                        <td width="30%"><?php echo $form->labelEx($model, 'r_name'); ?></td>
                         <td width="30%">
-                            <?php echo $form->textField($model, 'name', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'name', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'r_name', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'r_name', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'address'); ?></td>
+                        <td><?php echo $form->labelEx($model, 'r_address'); ?></td>
                         <td>
-                            <?php echo $form->textField($model, 'address', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'address', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'r_address', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'r_address', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'phone'); ?></td>
+                        <td><?php echo $form->labelEx($model, 'r_phone'); ?></td>
                         <td>
-                            <?php echo $form->textField($model, 'phone', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'phone', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'r_phone', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'r_phone', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
 
-                    </table>
-                </div>
-            </div><!--box-detail-tab-item end   style="display:block;"-->
+                </table>
+            </div>
+        </div><!--box-detail-tab-item end   style="display:block;"-->
 
-        </div><!--box-detail-bd end-->
+    </div><!--box-detail-bd end-->
 
 
 
-        <div class="box-detail-submit">
-            <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
-            <button class="btn" type="button" onclick="we.back();">取消</button>
-        </div>
+    <div class="box-detail-submit">
+        <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
+        <button class="btn" type="button" onclick="we.back();">取消</button>
+    </div>
 
-        <?php $this->endWidget(); ?>
-    </div><!--box-detail end-->
+    <?php $this->endWidget(); ?>
+</div><!--box-detail end-->
 </div><!--box end-->
 
 
