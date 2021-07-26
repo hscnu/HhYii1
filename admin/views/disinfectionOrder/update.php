@@ -1,7 +1,7 @@
 <div class="box">
     <div class="box-title c"><h1><i class="fa fa-table"></i>填写消毒订单</h1><span class="back"><a class="btn"
-                                                                                           href="javascript:;"
-                                                                                           onclick="we.back();"><i
+                                                                                             href="javascript:;"
+                                                                                             onclick="we.back();"><i
                         class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
@@ -14,7 +14,7 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr class="table-title">
-                        <td colspan="2">申请信息</td>
+                        <td colspan="6">填写订单信息</td>
                     </tr>
 
                     <tr>
@@ -22,17 +22,13 @@
                         <td><?php echo Select2::activeDropDownList($model, 'disinfection_name',Chtml::listData(DisinfectionCenter::model()->getAllName(), 'name', 'name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
                             <?php echo $form->error($model, 'disinfection_name', $htmlOptions = array());?>
                         </td>
-                    </tr>
 
-                    <tr>
                         <td><?php echo $form->labelEx($model, 'date');?></td>
                         <td>
                             <?php echo $form->textField($model, 'date', array('class' => 'Wdate','style'=>'width:180px;'));?>
                             <?php echo $form->error($model, 'date', $htmlOptions = array());?>
                         </td>
-                    </tr>
 
-                    <tr>
                         <td><?php echo $form->labelEx($model, 'notes');?></td>
                         <td > <?php echo $form->textArea($model, 'notes',
                                 array('class' => 'input-text', 'style'=>'width:97%;height:100px','maxlength' => '2000','placeholder'=>"本栏目限填2000字"));?>
@@ -42,15 +38,15 @@
 
 
                 </table>
-                </div>
-            </div><!--box-detail-tab-item end   style="display:block;"-->
+            </div>
+        </div><!--box-detail-tab-item end   style="display:block;"-->
 
         <div class="box-table">
             <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加餐具</button>
             <table class="list">
                 <thead>
                 <tr>
-<!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
+                    <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
                     <?php $model2 = DisinfectionOrderDetail::model();?>
                     <?php
                     $str='order_id,tableware_type,tableware_name,unit,cost,number,total_cost';
@@ -61,33 +57,33 @@
                 <tbody>
                 <?php
                 if(isset($detailList))
-                foreach ($detailList as $v) { ?>
-                    <tr>
-<!--                        <td class="check check-item"><input class="input-check" type="checkbox"-->
-<!--                                                            value="--><?php //echo CHtml::encode($v->id); ?><!--"></td>-->
-                        <?php echo $v->gridRow($str); ?>
+                    foreach ($detailList as $v) { ?>
+                        <tr>
+                            <!--                        <td class="check check-item"><input class="input-check" type="checkbox"-->
+                            <!--                                                            value="--><?php //echo CHtml::encode($v->id); ?><!--"></td>-->
+                            <?php echo $v->gridRow($str); ?>
 
-                        <td>
-                            <button class="btn" type="button" onclick="updateDetail(<?php echo $v->id;?>);">编辑</button>
-                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                               title="删除"><i class="fa fa-trash-o"></i></a>
-                        </td>
-                    </tr>
-                <?php } ?>
+                            <td>
+                                <button class="btn" type="button" onclick="updateDetail(<?php echo $v->id;?>);">编辑</button>
+                                <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
+                                   title="删除"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div><!--box-table end-->
-        </div><!--box-detail-bd end-->
+    </div><!--box-detail-bd end-->
 
 
 
-        <div class="box-detail-submit">
-            <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
-            <button class="btn" type="button" onclick="we.back();">取消</button>
-        </div>
+    <div class="box-detail-submit">
+        <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
+        <button class="btn" type="button" onclick="we.back();">取消</button>
+    </div>
 
-        <?php $this->endWidget(); ?>
-    </div><!--box-detail end-->
+    <?php $this->endWidget(); ?>
+</div><!--box-detail end-->
 </div><!--box end-->
 
 <script>

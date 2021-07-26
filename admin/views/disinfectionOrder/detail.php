@@ -12,7 +12,7 @@
         <div class="box-search">
             <form action="<?php echo Yii::app()->request->url; ?>" method="get">
                 <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
-               <!-- <label style="margin-right:10px;">
+                <!-- <label style="margin-right:10px;">
                     <span>关键字：</span>
                     <input style="width:200px;" class="input-text" type="text" name="keywords"
                            value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
@@ -25,7 +25,7 @@
                 <thead>
                 <tr>
                     <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
-                   <!-- <th><?php echo $model->getAttributeLabel('id'); ?></th>-->
+                    <!-- <th><?php echo $model->getAttributeLabel('id'); ?></th>-->
                     <th><?php echo $model->getAttributeLabel('order_id'); ?></th>
                     <th><?php echo $model->getAttributeLabel('tableware_type'); ?></th>
                     <th><?php echo $model->getAttributeLabel('tableware_name'); ?></th>
@@ -39,7 +39,7 @@
                 <?php foreach ($arclist as $v) { ?>
                     <tr  data-id="<?php echo $v->id;?>"  >
                         <!--                        <td class="check check-item"><input class="input-check" type="checkbox" value="--><?php //echo CHtml::encode($v->userId); ?><!--"></td>-->
-                       <!-- <td style='text-align: center;'><?php echo $v->id; ?></td>-->
+                        <!-- <td style='text-align: center;'><?php echo $v->id; ?></td>-->
                         <td style='text-align: center;'><?php echo $v->order_id; ?></td>
                         <td style='text-align: center;'><?php echo $v->tableware_type; ?></td>
                         <td style='text-align: center;'><?php echo $v->tableware_name; ?></td>
