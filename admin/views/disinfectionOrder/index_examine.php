@@ -1,7 +1,6 @@
 <div class="box">
     <div class="box-content">
         <div class="box-header">
-            <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>申请订单</a>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
@@ -11,11 +10,8 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
-        $navData[]=array('Index_appoint','申请中','('.$todayCount.')');
-        $navData[]=array('index_appoint_wait','已提交','('.$waitCount.')');
         $navData[]=array('index_appoint_finish','待审核','('.$finishCount.')');
-        $navData[]=array('Index_wait_sign','待签收','('.$waitSignCount.')');
-        $navData[]=array('Index_signed','已签收','('.$signedCount.')');
+        $navData[]=array('Index_F_examine','外部审核','('.$FExamineCount.')');
         echo $this->getNav($navData);
         ;?>
 
@@ -66,20 +62,19 @@
 
                         <td style='text-align: center;'><?php echo $model->getCHName($v->state); ?></td>
                         <td style='text-align: center;'><?php echo $v->complete_time; ?></td>
-
+                        
                         <td>
                             <?php {?>
                                 <button class="btn" type="button" onclick="chooseShr(<?php echo $v->id;?>);">查看细则</button>
                             <?php }?>
 
-                            <!--                            <a class="btn btn-blue" href="--><?php //echo $this->createUrl('ChangeState', array('id' => $v->id)); ?><!--"-->
-                            <!--  状态改变                             >提交</a>-->
-                            <?php echo $this->chge_state_btn($v,'提交','Index_appoint')?>
-                            <?php echo $this->chge_state_btn($v,'审核通过','index_appoint_finish')?>
-                            <?php echo $this->chge_state_btn($v,'签收','Index_wait_sign')?>
-                            <!-- 状态改变end                           -->
-                            <!--                            <a class="btn" href="--><?php //echo $this->createUrl('update', array('id' => $v->id)); ?><!--"-->
-                            <!--                               title="编辑"><i class="fa fa-edit"></i></a>-->
+<!--                            <a class="btn btn-blue" href="--><?php //echo $this->createUrl('ChangeState', array('id' => $v->id)); ?><!--"-->
+<!--  状态改变                             >提交</a>-->
+                            <?php echo $this->chge_state_btn($v,'内部审核通过','index_appoint_finish')?>
+                            <?php echo $this->chge_state_btn($v,'外部审核通过','Index_F_examine')?>
+<!-- 状态改变end                           -->
+<!--                            <a class="btn" href="--><?php //echo $this->createUrl('update', array('id' => $v->id)); ?><!--"-->
+<!--                               title="编辑"><i class="fa fa-edit"></i></a>-->
                             <?php echo $this->edit_btn($v)?>
                             <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                                title="删除"><i class="fa fa-trash-o"></i></a>

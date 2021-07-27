@@ -29,6 +29,7 @@
                             <?php echo $form->error($model, 'tableware_type', $htmlOptions = array()); ?>
                         </td>
                     </tr>
+
                     <tr>
                         <td><?php echo $form->labelEx($model, 'tableware_name'); ?></td>
                         <td>
@@ -36,8 +37,6 @@
                             <?php echo $form->error($model, 'tableware_name', $htmlOptions = array()); ?>
                         </td>
                     </tr>
-
-
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'unit'); ?></td>
@@ -59,20 +58,20 @@
 
 
 
-                    </table>
-                </div>
-            </div><!--box-detail-tab-item end   style="display:block;"-->
+                </table>
+            </div>
+        </div><!--box-detail-tab-item end   style="display:block;"-->
 
-        </div><!--box-detail-bd end-->
+    </div><!--box-detail-bd end-->
 
 
 
-        <div class="box-detail-submit">
-            <button onclick="save()" class="btn btn-blue" type="submit">保存</button>
-        </div>
+    <div class="box-detail-submit">
+        <button onclick="save()" class="btn btn-blue" type="submit">保存</button>
+    </div>
 
-        <?php $this->endWidget(); ?>
-    </div><!--box-detail end-->
+    <?php $this->endWidget(); ?>
+</div><!--box-detail end-->
 </div><!--box end-->
 
 <script>
@@ -93,37 +92,40 @@
 
     });
 </script>
+
 <script>
     <?php
     $JSON=tableWare::model()->findAll();//选项表
-    $JSON=toIoArray($JSON,'type,code,name');//封装方法，选定字段构造数组，准备输出JSON数据
+    $JSON=toIoArray($JSON,'type,code,name');//封装方法，选定字段构造数组，准备输出Json数据
     ?>
-    var jsonData= <?php echo json_encode($JSON)?>;//输出JSON数据
+    var jsonData= <?php echo json_encode($JSON)?>;//输出json数据
     var selectType='<?php echo $model->tableware_type; ?>';//种类
     var Name='<?php echo $model->tableware_name; ?>';//名称
-    var ptype=$('#<?php echo get_class($model)?>_tableware_type')
-    ptype.on('change',function () {
+    var ptype=$('#<?php echo get_class($model)?>_tableware_type');
+    ptype.on('change',function (){
         select(this)
     })
-    select(ptype)
+
+    select(ptype);
     function select(obj){
         var show_id=$(obj).val();//选中的种类
-        if (show_id===undefined){ //初始进入页面默认设置
+        if (show_id===undefined){//初始进入页面的默认设置
             show_id=Name;
         }
-        var c1,c2;//c1用来设置是否选中，c2用来判断种类
+        var c1,c2;//c1判断是否选中，c2用来判断种类
         var p_html ='<option value="">请选择</option>';
         for (j = 0; j < jsonData.length; j++) {
-            if(jsonData[j]['type']===show_id) {//遍历选项种类，如果等于选中的种类，构造HTML下拉选项框
+            if(jsonData[j]['type']===show_id) {//遍历选项种类，如果等于选中种类，构造HTML下拉框
                 c2 = we.trim(jsonData[j]['name'], ' ');
                 c1=''
-                if (c2 === Name) { //初始进入页面默认设置
+                if (c2 === Name) {//初始进入页面的默认设置
                     c1 = 'selected';
                 }
                 p_html = p_html + '<option value="' + c2 + '"' + c1 + '>' + c2 + '</option>';
             }
         }
         $("#<?php echo get_class($model)?>_tableware_name").html(p_html);//写入html
+
     }
 </script>
 

@@ -116,11 +116,18 @@
                     <tr>
                         <td><?php echo $form->labelEx($model, 'order_remark'); ?></td>
                         <td>
-                            <?php echo $form->textField($model, 'order_remark', array('class' => 'e.point.lat')); ?>
+                            <?php echo $form->textField($model, 'order_remark', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'order_remark', $htmlOptions = array()); ?>
                         </td>
+
                     </tr>
                 </table>
+
+                <table>
+                    <tr class="table-title">
+                        <td colspan="2">冰的类型</td>
+                </table>
+
             </div>
         </div><!--box-detail-tab-item end   style="display:block;"-->
 

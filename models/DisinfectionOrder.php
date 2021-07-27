@@ -4,7 +4,7 @@ class DisinfectionOrder extends BaseModel {
 
     public $check_save=1;
     public $club_list_pic = '';
-    
+
     public function tableName() {
         return '{{disinfection_order}}';
     }
@@ -15,14 +15,14 @@ class DisinfectionOrder extends BaseModel {
     public function rules() {
 
         if($this->check_save)
-        $a=array(
-            // array('id', 'required', 'message' => '{attribute} 不能为空'),
-            //array('restaurant_id', 'required', 'message' => '{attribute} 不能为空'),
-            array('disinfection_name', 'required', 'message' => '{attribute} 不能为空'),
-            //array('date', 'required', 'message' => '{attribute} 不能为空'),
-            //array('complete_time', 'required', 'message' => '{attribute} 不能为空'),
+            $a=array(
+                // array('id', 'required', 'message' => '{attribute} 不能为空'),
+                //array('restaurant_id', 'required', 'message' => '{attribute} 不能为空'),
+                array('disinfection_name', 'required', 'message' => '{attribute} 不能为空'),
+                array('date', 'required', 'message' => '{attribute} 不能为空'),
+                //array('complete_time', 'required', 'message' => '{attribute} 不能为空'),
 
-        );
+            );
 
         $a[]= array($this->safeField(), 'safe');
         return $a;
@@ -86,7 +86,21 @@ class DisinfectionOrder extends BaseModel {
             $finishCount,
         );
     }
+    public function getCHName($state){
+        switch ($state){
+            case 1:return '申请中';
+            case 2:return '已提交';
+            case 3:return '待审核';
+            case 4:return '待消毒中心审核';
+            case 5:return '待接收';
+            case 6:return '已接受';
+            case 7:return '待消毒';
+            case 8:return '消毒完成';
+            case 9:return '待归还';
+            case 10:return '待签收';
+            case 11:return '已签收';
+        }
 
-
+    }
 
 }

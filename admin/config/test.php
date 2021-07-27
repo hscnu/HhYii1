@@ -12,6 +12,7 @@ return CMap::mergeArray(
 				'connectionString'=>'DSN for test database',
 			),
 			*/
+            //ok
 		),
 	)
 );

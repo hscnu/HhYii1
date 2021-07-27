@@ -8,6 +8,23 @@
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
                     class="fa fa-trash-o"></i>删除</a>
 
+            <div class="box-detail-tab box-detail-tab mt15">
+                <ul class="c">
+                    <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
+                    <li<?php if($action=='index_confirm_deliver'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/index_confirm_deliver');?>">待确认<?php echo '('.$wait_deliver_Count.')'?></a>
+                    </li>
+                    <li<?php if($action=='index_wait_deliver'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/index_wait_deliver');?>">待配送<?php echo '('.$delivering_Count.')'?></a>
+                    </li>
+                    <li<?php if($action=='index_delivering'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/index_delivering');?>">配送中<?php echo '('.$distributionCount.')'?></a>
+                    </li>
+                    <li<?php if($action=='index_finish_deliver'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/index_finish_deliver');?>">已完成<?php echo '('.$finishCount.')'?></a>
+                    </li>
+                </ul>
+            </div>
         </div><!--box-header end-->
         <div class="box-search">
             <form action="<?php echo Yii::app()->request->url; ?>" method="get">
@@ -32,9 +49,9 @@
                     <th width="5%"><?php echo $model->getAttributeLabel('ice_amount'); ?></th>
                     <th width="25%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
-                    <th width="30%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
+                    <th width="25%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
                     <th width="5%"><?php echo $model->getAttributeLabel('order_state'); ?></th>
-                    <th width="7%">操作</th>
+                    <th width="12%">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,16 +65,15 @@
                         <td style='text-align: center;'><?php echo $v->ice_amount; ?></td>
                         <td style='text-align: center;'>
                             <?php echo $v->order_destination; ?>
-                            <button class="btn" type="button" onclick="showLocation(<?php echo $v->id;?>);">定位</button>
                         </td>
                         <td style='text-align: center;'><?php echo $v->order_time; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_remark; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_state; ?></td>
                         <td>
-                            <?php if ($v->order_state==3){?>
-                                <a class="btn" href=" <?php echo $this->createUrl('qrsh', array('id' => $v->id)); ?>"
-                                   title="确认收货"><i class="fa fa-plus-square"></i></a>
-                            <?php }?>
+                            <button class="btn" type="button" onclick="showLocation(<?php echo $v->id;?>);">定位</button>
+                            <?php echo $this->chge_state_btn($v,'确认','index_confirm_deliver')?>
+                            <?php echo $this->chge_state_btn($v,'配送','index_wait_deliver')?>
+                            <?php echo $this->chge_state_btn($v,'确认收货','index_delivering')?>
                         </td>
                     </tr>
                 <?php } ?>

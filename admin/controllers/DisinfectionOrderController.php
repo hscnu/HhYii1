@@ -81,7 +81,9 @@ class DisinfectionOrderController extends BaseController {
 
         $model->deleteAll('state'.' in (' . 0 . ')');
 
+
         $data = $this->getAppointCountList();
+
         parent::_list($model, $criteria, 'index', $data);
     }
 
@@ -123,7 +125,7 @@ class DisinfectionOrderController extends BaseController {
     }
     /////导航栏
 
-    public function actionIndex_by_condition($keywords = '',$w='',$istoday=0) {
+    public function actionIndex_by_condition($next_index,$keywords = '',$w='',$istoday=0) {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
@@ -138,37 +140,66 @@ class DisinfectionOrderController extends BaseController {
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
         $data = $this->getAppointCountList();
         $data['istoday']=$istoday;
-        parent::_list($model, $criteria, 'index', $data);
+        parent::_list($model, $criteria, $next_index, $data);
     }
 
 
     //申请中
     public function actionIndex_appoint($keywords = '') {
         $w="state=1";
-        $this->actionIndex_by_condition($keywords,$w,1);
+        $this->actionIndex_by_condition('index',$keywords,$w,1);
     }
 
     //已提交
     public function actionIndex_appoint_wait($keywords = '') {
         $w="state=2";
-        $this->actionIndex_by_condition($keywords,$w);
+        $this->actionIndex_by_condition('index',$keywords,$w);
     }
 
     //待审核
     public function actionIndex_appoint_finish($keywords = '') {
         $w="state=3";
-        $this->actionIndex_by_condition($keywords,$w);
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+    }
+    //内部审核通过
+    public function actionIndex_I_examine($keywords = '') {
+        $w="state=12";
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+    }
+    //消毒中心审核通过
+    public function actionIndex_F_examine($keywords = '') {
+        $w="state=4";
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+    }
+    //待签收
+    public function actionIndex_wait_sign($keywords = '') {
+        $w="state=10";
+        $this->actionIndex_by_condition('index_sign',$keywords,$w);
+    }
+    //已签收
+    public function actionIndex_signed($keywords = '') {
+        $w="state=11";
+        $this->actionIndex_by_condition('index_sign',$keywords,$w);
     }
 
     public function getAppointCountList(){
+        $modelName = $this->model;
 
-        $todayCount = count(DisinfectionOrder::model()->findAll('state=1'));
-        $waitCount = count(DisinfectionOrder::model()->findAll('state=2'));
-        $finishCount = count(DisinfectionOrder::model()->findAll('state=3'));
+        $todayCount = count($modelName::model()->findAll('state=1'));
+        $waitCount = count($modelName::model()->findAll('state=2'));
+        $finishCount = count($modelName::model()->findAll('state=3'));
+        $waitSignCount = count($modelName::model()->findAll('state=10'));
+        $signedCount = count($modelName::model()->findAll('state=11'));
+        $IExamine = count($modelName::model()->findAll('state=12'));
+        $FExamine = count($modelName::model()->findAll('state=4'));
         return array(
             'todayCount'=>$todayCount,
             'waitCount'=>$waitCount,
             'finishCount'=>$finishCount,
+            'waitSignCount'=>$waitSignCount,
+            'signedCount'=>$signedCount,
+            'IExamineCount'=>$IExamine,
+            'FExamineCount'=>$FExamine,
         );
     }
     public function getDisinfectionKeyWords($keywords = ''){
@@ -209,4 +240,84 @@ class DisinfectionOrderController extends BaseController {
         parent::_list($model, $criteria, 'detail', $data);//渲染detail
     }
     /// 查看明细end
+    /// 状态改变按钮
+    public function actionChangeState($id,$Now_state,$keywords=''){
+
+        $modelname=$this->model;
+        $tmp=$modelname::model()->find('id='.$id);
+
+        if($Now_state=='外部审核通过'){$tmp->state=10;}
+        if($Now_state=='提交'){$tmp->state=3;}
+        if($Now_state=='签收'){$tmp->state=11;}
+        if($Now_state=='内部审核通过'){$tmp->state=4;}
+
+
+        $tmp->save();
+
+        echo '<script>window.history.back();</script>';
+    }
+
+    public function chge_state_btn($v,$titleName,$action_chosed=''){
+        $action=strtolower(Yii::app()->controller->getAction()->id);
+        $judgeAction=strtolower($action_chosed);
+        $htlm='<a class="btn btn-blue" href="';
+        $url=$this->createUrl('ChangeState',array('id' => $v->id,'Now_state'=>$titleName));
+        $htlm.=$url.'">'.$titleName.'</a>';
+        if($action==$judgeAction){
+            return $htlm;
+        }
+    }
+    public function edit_btn($v){
+        $action=strtolower(Yii::app()->controller->getAction()->id);
+        $html='<a class="btn" href="';
+        $url=$this->createUrl('update',array('id' => $v->id));
+        $html.=$url.'"'.'title="编辑"><i class="fa fa-edit"></i></a>';
+
+        if('index_appoint'==$action){
+            return $html;
+        }
+
+    }
+    /// 状态改变end
+    /// 订单签收
+    public function actionIndex_sign($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+
+
+        $model->deleteAll('state'.' in (' . 0 . ')');
+
+
+        $data = $this->getAppointCountList();
+
+        parent::_list($model, $criteria, 'index_sign', $data);
+    }
+    /// 订单签收end
+    /// 订单审核
+    public function actionIndex_examine($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+
+
+        $model->deleteAll('state'.' in (' . 0 . ')');
+
+
+        $data = $this->getAppointCountList();
+
+        parent::_list($model, $criteria, 'index_examine', $data);
+    }
+
+    /// 订单审核end
 }

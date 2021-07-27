@@ -26,9 +26,9 @@
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
-                    <th><?php echo $model->getAttributeLabel('name'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('address'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('phone'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('r_name'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('r_address'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('r_phone'); ?></th>
 
 
                     <th>操作</th>
@@ -40,9 +40,9 @@
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
 
-                        <td style='text-align: center;'><?php echo $v->name; ?></td>
-                        <td style='text-align: center;'><?php echo $v->address; ?></td>
-                        <td style='text-align: center;'><?php echo $v->phone; ?></td>
+                        <td style='text-align: center;'><?php echo $v->r_name; ?></td>
+                        <td style='text-align: center;'><?php echo $v->r_address; ?></td>
+                        <td style='text-align: center;'><?php echo $v->r_phone; ?></td>
 
                         <td>
                             <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
