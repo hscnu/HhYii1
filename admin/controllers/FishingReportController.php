@@ -4,7 +4,7 @@
 class FishingReportController extends BaseController {
 
     protected $model = '';
-
+//ceshi
     public function init() {
         $this->model = substr(__CLASS__, 0, -10);
         parent::init();
