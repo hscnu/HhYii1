@@ -44,8 +44,10 @@
 <?php $cs->registerScriptFile($js_path.'/js/jquery.contextMenu/jquery.contextMenu.js');?>
 <?php $cs->registerScriptFile($js_path.'/js/public.js');?>
 
-<script charset="utf_8" src="<?php echo Yii::app()->request->baseUrl;?>/static/admin/js/PCASClass.js">
-</script>
+
+<script charset="gb2312" src="<?php echo Yii::app()->request->baseUrl;?>/static/admin/js/PCASClass.js"></script>
+
+
 <script>  
     var baseUrl = '<?php echo Yii::app()->request->baseUrl;?>';
     var indexUrl = '<?php echo get_cookie('_currentUrl_');?>';

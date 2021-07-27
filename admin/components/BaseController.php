@@ -444,7 +444,7 @@ class BaseController extends CController {
         foreach($navData as $item){
             $judgeAction=strtolower($item[0]);
             $titleName=$item[1];
-            $hz=$item[2];
+            $hz=isset($item[2])?$item[2]:'';
             $html.='<li ';
             if($action==$judgeAction){
                 $html.='class="current"';
