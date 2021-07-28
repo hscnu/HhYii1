@@ -33,10 +33,10 @@ class DisinfectionOrderController extends BaseController {
             $data = array();
             $data['model'] = $model;
             $data['detailList'] = $detailList;
-            //测试
+
             $resId=$this->getUserUnit();
             $data['restaurant_name']=Restaurant::model()->getNameFromId($resId);
-            //测试
+
             $this->render('update', $data);
         } else {
 
@@ -242,11 +242,15 @@ class DisinfectionOrderController extends BaseController {
 
 
     public function actionOpenDialogOrder($keywords='',$Id=0){
-        //put_msg($Id);
+
+        $modelName = $this->model;
+        $order_model =$this->loadModel($Id,$modelName);
+
         $model = DisinfectionOrderDetail::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getOrderKeyWords($Id);
         $data = array();
+        $data['order_model']=$order_model;
         parent::_list($model, $criteria, 'detail', $data);//渲染detail
     }
     /// 查看明细end
