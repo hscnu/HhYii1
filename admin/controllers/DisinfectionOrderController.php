@@ -33,6 +33,10 @@ class DisinfectionOrderController extends BaseController {
             $data = array();
             $data['model'] = $model;
             $data['detailList'] = $detailList;
+            //测试
+            $resId=$this->getUserUnit();
+            $data['restaurant_name']=Restaurant::model()->getNameFromId($resId);
+            //测试
             $this->render('update', $data);
         } else {
 
@@ -40,21 +44,27 @@ class DisinfectionOrderController extends BaseController {
         }
     }
 
+    //获取用户所属单位
+    function getUserUnit(){
+        $userId=get_session('userId');
+        $tmp=User::model()->find('userId='.$userId);
+        if($tmp){
+            return $tmp->unitId;
+        }
+    }
+
 
     function saveData($model, $post) {
         $model->attributes = $post;
 //识别用户单位
-        $userId=get_session('userId');
-        $tmp=User::model()->find('userId='.$userId);
-        if($tmp){
-            $resId=$tmp->unitId;
-            $model['restaurant_id']=$resId;
-            $model['restaurant_name']=Restaurant::model()->getNameFromId($model['restaurant_id']);
-        }
+        $resId=$this->getUserUnit();
+        $model['restaurant_id']=$resId;
+        $model['restaurant_name']=Restaurant::model()->getNameFromId($model['restaurant_id']);
+
         if($model['state']==0){
             $model['state']=1;
         }
-//测试
+
         $model['disinfection_id']=DisinfectionCenter::model()->getIdFromName($model['disinfection_name']);
 
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
@@ -246,10 +256,13 @@ class DisinfectionOrderController extends BaseController {
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);
 
-        if($Now_state=='外部审核通过'){$tmp->state=10;}
-        if($Now_state=='提交'){$tmp->state=3;}
-        if($Now_state=='签收'){$tmp->state=11;}
-        if($Now_state=='内部审核通过'){$tmp->state=4;}
+        $a=array(
+            '外部审核通过'=>10,
+            '提交'=>3,
+            '签收'=>11,
+            '内部审核通过'=>4,
+        );
+        $tmp->state= $a[$Now_state] ?? $Now_state;
 
 
         $tmp->save();

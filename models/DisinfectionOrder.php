@@ -51,6 +51,7 @@ class DisinfectionOrder extends BaseModel {
             'disinfection_name' => '消毒中心名称',
             'complete_time' => '完成时间',
             'notes' => '备注',
+            'title'=>'订单标题',
 
         );
     }
@@ -87,20 +88,20 @@ class DisinfectionOrder extends BaseModel {
         );
     }
     public function getCHName($state){
-        switch ($state){
-            case 1:return '申请中';
-            case 2:return '已提交';
-            case 3:return '待审核';
-            case 4:return '待消毒中心审核';
-            case 5:return '待接收';
-            case 6:return '已接受';
-            case 7:return '待消毒';
-            case 8:return '消毒完成';
-            case 9:return '待归还';
-            case 10:return '待签收';
-            case 11:return '已签收';
-        }
-
+        $a=array(
+            1=>'申请中',
+            2=>'已提交',
+            3=>'待审核',
+            4=>'待消毒中心审核',
+            5=>'待接收',
+            6=>'已接受',
+            7=>'待消毒',
+            8=>'消毒完成',
+            9=>'待归还',
+            10=>'待签收',
+            11=>'已签收',
+        );
+        return $a[$state] ?? '未知';
     }
 
 }

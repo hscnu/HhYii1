@@ -39,12 +39,13 @@
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
+                    <th><?php echo $model->getAttributeLabel('title'); ?></th>
                     <th><?php echo $model->getAttributeLabel('restaurant_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('disinfection_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('date'); ?></th>
 
                     <th><?php echo $model->getAttributeLabel('state'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('complete_time'); ?></th>
+
 
 
                     <th>操作</th>
@@ -55,26 +56,26 @@
                     <tr>
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
-
+                        <td style='text-align: center;'><?php echo $v->title; ?></td>
                         <td style='text-align: center;'><?php echo $v->restaurant_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->disinfection_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->date; ?></td>
 
                         <td style='text-align: center;'><?php echo $model->getCHName($v->state); ?></td>
-                        <td style='text-align: center;'><?php echo $v->complete_time; ?></td>
-                        
+
+
                         <td>
                             <?php {?>
                                 <button class="btn" type="button" onclick="chooseShr(<?php echo $v->id;?>);">查看细则</button>
                             <?php }?>
 
-<!--                            <a class="btn btn-blue" href="--><?php //echo $this->createUrl('ChangeState', array('id' => $v->id)); ?><!--"-->
-<!--  状态改变                             >提交</a>-->
+                            <!--                            <a class="btn btn-blue" href="--><?php //echo $this->createUrl('ChangeState', array('id' => $v->id)); ?><!--"-->
+                            <!--  状态改变                             >提交</a>-->
                             <?php echo $this->chge_state_btn($v,'内部审核通过','index_appoint_finish')?>
                             <?php echo $this->chge_state_btn($v,'外部审核通过','Index_F_examine')?>
-<!-- 状态改变end                           -->
-<!--                            <a class="btn" href="--><?php //echo $this->createUrl('update', array('id' => $v->id)); ?><!--"-->
-<!--                               title="编辑"><i class="fa fa-edit"></i></a>-->
+                            <!-- 状态改变end                           -->
+                            <!--                            <a class="btn" href="--><?php //echo $this->createUrl('update', array('id' => $v->id)); ?><!--"-->
+                            <!--                               title="编辑"><i class="fa fa-edit"></i></a>-->
                             <?php echo $this->edit_btn($v)?>
                             <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                                title="删除"><i class="fa fa-trash-o"></i></a>
