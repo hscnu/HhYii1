@@ -2,7 +2,7 @@
     <div class="box-title c"><h1><i class="fa fa-table"></i>单位信息</h1><span class="back"><a class="btn"
                                                                                            href="javascript:;"
                                                                                            onclick="we.back();"><i
-                        class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->
+                        class="fa fa-reply"></i>返回</a></span></div>
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
         <div class="box-detail-tab">

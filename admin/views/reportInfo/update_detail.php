@@ -6,7 +6,7 @@
             <ul class="c">
                 <li class="current">基本信息</li>
             </ul>
-        </div><!--box-detail-tab end-->
+        </div>
         <div class="box-detail-bd">
             <div style="display:block;" class="box-detail-tab-item">
                 <table>

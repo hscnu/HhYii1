@@ -172,12 +172,9 @@ class ReportInfoController extends BaseController {
         $tmp=User::model()->find('userId='.$userId);
         if($tmp){
             $roleName=$tmp->F_ROLENAME;
-            if($roleName=="审核员")
-            {
-                $checktorId=$tmp->checkid;
-                $criteria ->addCondition('checktor_id='.$checktorId);
+            if ($roleName==='用户' or $roleName==="审核员"){
+                $criteria ->addCondition('reporter_id='.$userId);
             }
-
         }
 
 

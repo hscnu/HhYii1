@@ -54,7 +54,7 @@ class ReportInfo extends BaseModel
             'state' => '上报状态',
             'operate_time' => '操作时间',
             'checktor' => '审核员',
-            'checktor_id' => '审核员账号'
+            'checktor_id' => '审核员ID'
 
         );
     }
