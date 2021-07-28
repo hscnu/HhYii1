@@ -32,29 +32,6 @@
                         </td>
                     </tr>
 
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'r_price'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'r_price', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'r_price', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'r_service'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'r_service', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'r_service', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'r_rank'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'r_rank', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'r_rank', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'r_phone'); ?></td>
@@ -78,10 +55,11 @@
                     <tr>
                         <td><?php echo $form->labelEx($model, 'r_introduce'); ?></td>
                         <td >
-                            <?php echo $form->textArea($model, 'r_introduce', array('class' => 'input-text', 'style'=>'width:95%;height:100px','maxlength' => '1000','placeholder'=>"限填1000字")); ?>
+                            <?php echo $form->textArea($model, 'r_introduce', array('class' => 'input-text', 'style'=>'width:95%;height:100px','maxlength' => '2000','placeholder'=>"限填1000字")); ?>
                             <?php echo $form->error($model, 'r_introduce', $htmlOptions = array()); ?>
                         </td>
                     </tr>
+
                 </table>
             </div>
         </div><!--box-detail-tab-item end   style="display:block;"-->
