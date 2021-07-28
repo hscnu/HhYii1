@@ -20,7 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71bd1a4f-83a7-4342-aa2f-601b770caf70" name="Default Changelist" comment="Default Changelist">
+      <change afterPath="$PROJECT_DIR$/admin/views/reportInfo/update_detail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021_2_1_9_34__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021_2_1_9_34__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/controllers/ReportInfoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/controllers/ReportInfoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/views/reportInfo/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/views/reportInfo/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/views/reportInfo/index_appoint.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/views/reportInfo/update.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/views/reportInfo/update.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/ReportInfo.php" beforeDir="false" afterPath="$PROJECT_DIR$/models/ReportInfo.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +65,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="E:/金珠云集项目/压缩文件/上报记录(状态检索与日期搜索功能)" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -156,6 +163,7 @@
       <workItem from="1627098355474" duration="379000" />
       <workItem from="1627111343996" duration="1634000" />
       <workItem from="1627113525106" duration="416000" />
+      <workItem from="1627481088025" duration="1446000" />
     </task>
     <task id="LOCAL-00001" summary="test to push">
       <created>1627024229103</created>
