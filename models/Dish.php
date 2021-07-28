@@ -71,4 +71,3 @@ class Dish extends BaseModel {
     }
 
 }
-
