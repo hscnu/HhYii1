@@ -277,16 +277,20 @@ class IceController extends BaseController {
             return $html;
         }
     }
+
     //变化订单状态
     public function actionChangeState($id,$Now_state,$keywords=''){
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);//找出对应id的那条记录
-        if($Now_state=='确认订单'){$tmp->order_state=2;}
-        if($Now_state=='审核'){$tmp->order_state=3;}
-        if($Now_state=='退回'){$tmp->order_state=1;}
-        if($Now_state=='确认'){$tmp->order_state=6;}
-        if($Now_state=='配送'){$tmp->order_state=7;}
-        if($Now_state=='确认收货'){$tmp->order_state=8;}
+        $a=array(
+            '确认订单'=>2,
+            '审核'=>3,
+            '退回'=>1,
+            '确认'=>6,
+            '配送'=>7,
+            '确认收货'=>8
+        );
+        $tmp->order_state=isset($a[$Now_state])?$a[$Now_state]:0; //不在数组里赋0
         $tmp->save();
         echo '<script>window.history.back();</script>';
     }
