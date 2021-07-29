@@ -37,7 +37,7 @@
                 $typename=$v->typename;
                 $class=$v->class;
                 ?>
-                <a class="tab-item active " target="container-iframe" href=" >createUrl($url);?>">
+                <a class="tab-item active " target="container-iframe" href="<?php echo $this->createUrl($url);?>">
                     <i class="<?php echo $class?>"></i><?php echo $typename?></a>
             <?php }?>
         </div>
