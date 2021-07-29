@@ -3,52 +3,61 @@
                                                                                            href="javascript:;"
                                                                                            onclick="we.back();"><i
                         class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->
+
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
-
         <div class="box-detail-tab">
             <ul class="c">
                 <li class="current">基本信息</li>
             </ul>
         </div><!--box-detail-tab end-->
-        
         <div class="box-detail-bd">
             <div style="display:block;" class="box-detail-tab-item">
-
                 <table>
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'name'); ?></td>
+                        <td style='text-align: center;',width="20%"><?php echo $form->labelEx($model, 'name'); ?></td>
                         <td width="30%">
                             <?php echo $form->textField($model, 'name', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'name', $htmlOptions = array()); ?>
                         </td>
-                    </tr>
-
-                    <tr>
-                        
-                       <td> <?php echo $form->labelEx($model, 'company'); ?></td>
-                         <td >
+                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'company'); ?></td>
+                        <td >
                             <?php echo $form->textField($model, 'company', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'company', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
                     <tr>
-                    <td><?php echo $form->labelEx($model, 'fishingtime');?></td>
-                    <td>
-                    <?php echo $form->textField($model, 'fishingtime', array('class' => 'Wdate','style'=>'width:180px;'));?>
-                    <?php echo $form->error($model, 'fishingtime', $htmlOptions = array());?>
-                    </td>
+                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'number'); ?></td>
+                        <td >
+                            <?php echo $form->textField($model, 'number', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'number', $htmlOptions = array()); ?>
+                        </td>
+
+                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'count'); ?></td>
+                        <td >
+                            <?php echo $form->textField($model, 'count', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'count', $htmlOptions = array()); ?>
+                        </td>
                     </tr>
 
                     <tr>
-                    <td><?php echo $form->labelEx($model, 'reporttime');?></td>
-                    <td>
-                    <?php echo $form->textField($model, 'reporttime', array('class' => 'Wdate','style'=>'width:180px;'));?>
-                    <?php echo $form->error($model, 'reporttime', $htmlOptions = array());?>
-                    </td>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'fishingtime');?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'fishingtime', array('class' => 'Wdate','style'=>'width:180px;'));?>
+                            <?php echo $form->error($model, 'fishingtime', $htmlOptions = array());?>
+                        </td>
+
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'reporttime');?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'reporttime', array('class' => 'Wdate','style'=>'width:180px;'));?>
+                            <?php echo $form->error($model, 'reporttime', $htmlOptions = array());?>
+                        </td>
                     </tr>
-                     
+
+
+
+
                 </table>
 
             </div><!--box-detail-tab-item end   style="display:block;"-->
@@ -59,7 +68,7 @@
             <table class="list">
                 <thead>
                 <tr>
-<!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
+                    <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
                     <?php $model2 =ReportDetail::model();?>
                     <?php
                     $str='order_id,species,weight';
@@ -70,32 +79,36 @@
                 <tbody>
                 <?php
                 if(isset($detailList))
-                foreach ($detailList as $v) { ?>
-                    <tr>
-<!--                        <td class="check check-item"><input class="input-check" type="checkbox"-->
-<!--                                                            value="--><?php //echo CHtml::encode($v->id); ?><!--"></td>-->
-                        <?php echo $v->gridRow($str); ?>
+                    foreach ($detailList as $v) { ?>
+                        <tr>
+                            <!--                        <td class="check check-item"><input class="input-check" type="checkbox"-->
+                            <!--                                                            value="--><?php //echo CHtml::encode($v->id); ?><!--"></td>-->
+                            <?php echo $v->gridRow($str); ?>
 
-                        <td>
-                            <button class="btn" type="button" onclick="updateDetail(<?php echo $v->id;?>);">编辑</button>
-                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                               title="删除"><i class="fa fa-trash-o"></i></a>
-                        </td>
-                    </tr>
-                <?php } ?>
+                            <td>
+                                <button class="btn" type="button" onclick="updateDetail(<?php echo $v->id;?>);">编辑</button>
+                                <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
+                                   title="删除"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
+
         </div><!--box-table end-->
-        </div><!--box-detail-bd end-->
+    </div><!--box-detail-bd end-->
 
 
-        <div class="box-detail-submit">
-            <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
-            <button class="btn" type="button" onclick="we.back();">取消</button>
-        </div>
 
-        <?php $this->endWidget(); ?>
-    </div><!--box-detail end-->
+
+
+    <div class="box-detail-submit">
+        <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
+        <button class="btn" type="button" onclick="we.back();">取消</button>
+    </div>
+
+    <?php $this->endWidget(); ?>
+</div><!--box-detail end-->
 </div><!--box end-->
 
 <script>
@@ -159,5 +172,4 @@
         })
     }
 </script>
-
 

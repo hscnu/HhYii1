@@ -14,11 +14,11 @@ class FishingReport extends BaseModel
      */
     public function rules() {
         if($this->check_save)
-        $a=array(
-            // array('id', 'required', 'message' => '{attribute} 不能为空'),
-            array('name', 'required', 'message' => '{attribute} 不能为空'),
-        
-        );
+            $a=array(
+                // array('id', 'required', 'message' => '{attribute} 不能为空'),
+                //array('name', 'required', 'message' => '{attribute} 不能为空'),
+
+            );
         $a[]= array($this->safeField(), 'safe');
         return $a;
     }
@@ -36,20 +36,26 @@ class FishingReport extends BaseModel
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
+            'id' => '表单号',
             'state'=>'状态',
-            'number'=>'表单号',
-            'reason'=>'退回原因',
+            'number'=>'船号',
             'name' => '上报人姓名',
             'company'=>'公司名称',
             'count'=>'记录数',
             'fishingtime' => '捕鱼时间',
             'reporttime'=>'上报时间',
-            'telephone'=>'联系电话',
+
 
 
         );
     }
+
+
+    public function getInfoFromMenu($views,$field) {
+        $tmp1=Menu::model()->find("f_name='".$views."'");
+        return $tmp1->{$field};
+    }
+
 
     /**
      * Returns the static model of the specified AR class.
@@ -65,8 +71,17 @@ class FishingReport extends BaseModel
         return $this->findAll('1=1');
     }
 
-    public function getInfoFromMenu($views,$field) {
-       $tmp1=Menu::model()->find("f_name='".$views."'");
-       return $tmp1->{$field};
+
+    public function getStateName($state='')
+    {
+
+        $a=array(
+            '1'=>'待审核',
+            '2'=>'审核通过',
+            '3'=>'审核不通过',
+
+        );
+        return isset($a[$state])?$a[$state]:'未知状态';
     }
+
 }
