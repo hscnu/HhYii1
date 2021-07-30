@@ -2,11 +2,12 @@
     <div class="box-content">
         <div class="box-header">
             <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>添加单位</a>
+            <a class="btn" href="javascript:;" onclick="deleteUseless();""><i class="fa fa-archive"></i>删除无用明细记录</a>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
-                    class="fa fa-trash-o"></i>删除</a>
+                        class="fa fa-trash-o"></i>删除</a>
 
         </div><!--box-header end-->
         <div class="box-search">
@@ -79,4 +80,11 @@
 </div><!--box end-->
 <script>
     var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
+    function deleteUseless(){
+        let url = '<?php echo $this->createUrl('DeleteUselessDetail');?>'
+        $.get(url,()=>{
+            we.success('删除成功');
+            we.reload();
+        })
+    }
 </script>

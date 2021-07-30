@@ -63,4 +63,12 @@ class DisinfectionOrderDetailController extends BaseController {
         $data = array();
         parent::_list($model, $criteria, 'index', $data);
     }
+    //删除无用明细
+    public function actionDeleteUselessDetail()
+    {
+        $db = Yii::app()->db;
+        $sql = "DELETE  FROM `disinfection_order_detail` WHERE order_id not in (SELECT id FROM `disinfection_order` WHERE state >0)";
+        $command = $db->createCommand($sql);
+        show_status($command->execute(), '成功删除', get_cookie('_currentUrl_'), '没有多余的记录');
+    }
 }
