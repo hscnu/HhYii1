@@ -52,7 +52,7 @@ class FishingReportController extends BaseController {
         $criteria = new CDbCriteria;
         $start_date=DecodeAsk('start_date',Date('Y-m-d'));
         $state=DecodeAsk('state',$state);
-        $criteria -> condition = get_like( '1' ,'id,name,fishingtime,reporttime,count,state,number,company',$keywords);
+        $criteria -> condition = get_like( '1' ,'id,name,fishingtime,reporttime,count,state,boatname,company',$keywords);
         $criteria-> condition = get_like( $criteria -> condition,'reporttime',$start_date);
         //附加条件
         $p_condition=$model::model()->getInfoFromMenu($views,'p_condition');

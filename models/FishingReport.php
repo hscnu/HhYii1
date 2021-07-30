@@ -38,7 +38,7 @@ class FishingReport extends BaseModel
         return array(
             'id' => '表单号',
             'state'=>'状态',
-            'number'=>'船号',
+            'boatname'=>'船名',
             'name' => '上报人姓名',
             'company'=>'公司名称',
             'count'=>'记录数',

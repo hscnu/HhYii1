@@ -28,10 +28,10 @@
                     </tr>
 
                     <tr>
-                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'number'); ?></td>
+                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'boatname'); ?></td>
                         <td >
-                            <?php echo $form->textField($model, 'number', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'number', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'boatname', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'boatname', $htmlOptions = array()); ?>
                         </td>
 
                         <td style='text-align: center;'> <?php echo $form->labelEx($model, 'count'); ?></td>
@@ -172,4 +172,5 @@
         })
     }
 </script>
+
 

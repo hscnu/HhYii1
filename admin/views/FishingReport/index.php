@@ -60,7 +60,7 @@
 
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('id'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('name'); ?></th>
-                    <th style='text-align: center;'><?php echo $model->getAttributeLabel('number'); ?></th>
+                    <th style='text-align: center;'><?php echo $model->getAttributeLabel('boatname'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('company'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('fishingtime'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('reporttime'); ?></th>
@@ -77,7 +77,7 @@
 
                         <td style='text-align: center;'><?php echo $v->id; ?></td>
                         <td style='text-align: center;'><?php echo $v->name; ?></td>
-                        <td style='text-align: center;'><?php echo $v->number; ?></td>
+                        <td style='text-align: center;'><?php echo $v->boatname; ?></td>
                         <td style='text-align: center;'><?php echo $v->company; ?> </td>
                         <td style='text-align: center;'><?php echo $v->fishingtime; ?></td>
                         <td style='text-align: center;'><?php echo $v->reporttime; ?></td>
