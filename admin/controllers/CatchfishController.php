@@ -55,7 +55,7 @@ class CatchFishController extends BaseController {
     }
 
     //列表搜索
-    public function actionIndex($keywords = '', $start_date = '', $end_date = '') {
+    public function actionIndex($keywords = '', $start_date = '', $end_date = '', $state = '') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
@@ -63,17 +63,20 @@ class CatchFishController extends BaseController {
         //new一个参数对象
         $criteria = new CDbCriteria;
         //condition表示的是查询的条件，即sql语句中where后面的语句
-        $criteria -> condition = get_like('1','boat_name',$keywords);
+       // $criteria -> condition = get_like('1','id,time,fisherman_name,fisherman_phonenum,fisherman_idnum,boat_name,valid_time_boat,valid_time_catch,oil,company,state,longitude,latitude',$keywords);
+        $criteria->condition=get_like($criteria->condition,'state', $state);
+        
         $criteria->condition=get_where($criteria->condition,($start_date!=""),'time>=',$start_date,'"');
         $criteria->condition=get_where($criteria->condition,($end_date!=""),'time<=',$end_date,'"');
-    
+        
+
         //get_like是全局函数，一个变量与多个字段进行关键字模糊匹配
         //第一个参数是旧的condition，当第一次调用get_like时，第一个参数是'1',表示没有条件限制;之后调用则需要写$criteria -> condition
         //第二个参数是要匹配的字段
         //第三个参数是要匹配的关键词
         //即在网页输入了关键词‘大酒店’，放到keywords变量里，
         //分别在'restaurant,res_owner_phone,food_class,food_name,user_name'字段中匹配含有大酒店的记录
-        $criteria -> condition = get_like( $criteria -> condition,'boat_name',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'id,time,fisherman_name,fisherman_phonenum,fisherman_idnum,boat_name,valid_time_boat,valid_time_catch,oil,company,state,longitude,latitude',$keywords);
         $data = array();
         parent::_list($model, $criteria, 'index', $data);//调用父类方法
         

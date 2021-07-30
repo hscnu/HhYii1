@@ -23,9 +23,9 @@ class CatchFish extends BaseModel
             array('fisherman_idnum', 'required', 'message' => '{attribute} 不能为空'),
             array('boat_name', 'required', 'message' => '{attribute} 不能为空'),
             array('picture_of_boat', 'required', 'message' => '{attribute} 不能为空'),
-            array('certificate_boat', 'required', 'message' => '{attribute} 不能为空'),
+            array('picture_certificate_boat', 'required', 'message' => '{attribute} 不能为空'),
             array('valid_time_boat', 'required', 'message' => '{attribute} 不能为空'),
-            array('certificate_catch', 'required', 'message' => '{attribute} 不能为空'),
+            array('picture_certificate_catch', 'required', 'message' => '{attribute} 不能为空'),
             array('valid_time_catch', 'required', 'message' => '{attribute} 不能为空'),
             array('oil', 'required', 'message' => '{attribute} 不能为空'),
             array('company', 'required', 'message' => '{attribute} 不能为空'),
@@ -54,21 +54,20 @@ class CatchFish extends BaseModel
             'fisherman_name' => '渔民姓名',
             'fisherman_phonenum' => '渔民手机号',
             'fisherman_idnum' => '渔民身份证',
+            'picture_idnum_front' => '渔民身份证正面照',
+            'picture_idnum_back' => '渔民身份证反面照',
             'boat_name' => '船名',
             'picture_of_boat' => '渔船的图片',
-            'certificate_boat' => '所属国籍, 港籍, 有效日期, etc',
+            'picture_certificate_boat' => '船舶证件照',
             'valid_time_boat' => '渔船证件有效期',
-            'certificate_catch' => '捕捞许可证',
+            'picture_certificate_catch' => '捕捞许可证照片',
             'valid_time_catch' => '捕捞许可证有效期',
             'oil' => '渔船所用的油',
             'company' => '渔船所属公司',
-            'state' => '已申报, 审核中, 审核通过,  ',
+            'state' => '审核状态',
             'longitude' => '经度',
             'latitude' => '纬度',
 
-            'f_name' => '名称',
-            'f_type' => '类型',
-            'f_type_CN' => '类型中文名',
         );
     }
 
@@ -85,4 +84,32 @@ class CatchFish extends BaseModel
     {
         return $this->findAll('1=1');
     }
+
+    
+    public function picLabels()
+    {
+        return "picture_idnum_front";
+    }
+/*
+    public function picLabels2()
+    {
+        return "picture_idnum_back";
+    }
+
+    public function picLabels()
+    {
+        return "picture_of_boat";
+    }
+
+    public function picLabels()
+    {
+        return "picture_certificate_boat";
+    }
+
+    public function picLabels()
+    {
+        return "picture_certificate_catch";
+    }
+
+*/
 }

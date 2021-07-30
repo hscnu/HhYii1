@@ -59,6 +59,40 @@
                             <?php echo $form->error($model, 'fisherman_idnum', $htmlOptions = array()); ?>
                         </td>
                     </tr>
+
+
+
+                                        <!--                            图片上传-->
+                    <td ><?php echo $form->labelEx($model, 'picture_idnum_front');
+                        ?></td>
+                    <td>
+                        <?php echo $form->hiddenField($model, 'picture_idnum_front', array('class' => 'input-text fl'));
+                        ?>
+                        <?php echo show_pic($model->picture_idnum_front,get_class($model).'_'.'picture_idnum_front')?>
+                        <script>we.uploadpic('<?php echo get_class($model);?>_picture_idnum_front', 'jpg');
+                        </script>
+                        <?php echo $form->error($model, 'picture_idnum_front', $htmlOptions = array());
+                        ?>
+                    </td>
+
+
+
+
+
+                    <!--                            图片上传-->
+                    <td ><?php echo $form->labelEx($model, 'picture_idnum_back');
+                        ?></td>
+                    <td>
+                        <?php echo $form->hiddenField($model, 'picture_idnum_back', array('class' => 'input-text fl'));
+                        ?>
+                        <?php echo show_pic($model->picture_idnum_back,get_class($model).'_'.'picture_idnum_back')?>
+                        <script>we.uploadpic('<?php echo get_class($model);?>_picture_idnum_back', 'jpg');
+                        </script>
+                        <?php echo $form->error($model, 'picture_idnum_back', $htmlOptions = array());
+                        ?>
+                    </td>
+
+
                     <tr>
                         <td><?php echo $form->labelEx($model, 'boat_name'); ?></td>
                         <td><!--区域选择弹窗未显示-->
@@ -71,25 +105,38 @@
 
 
 
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'picture_of_boat'); ?></td>
-                        <td><!--区域选择弹窗未显示-->
-                            <?php echo $form->textField($model, 'picture_of_boat', array('class' => 'input-text')); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'Longitude'); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'latitude'); ?>
-                            <?php echo $form->error($model, 'picture_of_boat', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'certificate_boat'); ?></td>
-                        <td><!--区域选择弹窗未显示-->
-                            <?php echo $form->textField($model, 'certificate_boat', array('class' => 'input-text')); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'Longitude'); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'latitude'); ?>
-                            <?php echo $form->error($model, 'certificate_boat', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
+
+
+                    <!--                            图片上传-->
+                    <td ><?php echo $form->labelEx($model, 'picture_of_boat');
+                        ?></td>
+                    <td>
+                        <?php echo $form->hiddenField($model, 'picture_of_boat', array('class' => 'input-text fl'));
+                        ?>
+                        <?php echo show_pic($model->picture_of_boat,get_class($model).'_'.'picture_of_boat')?>
+                        <script>we.uploadpic('<?php echo get_class($model);?>_picture_of_boat', 'jpg');
+                        </script>
+                        <?php echo $form->error($model, 'picture_of_boat', $htmlOptions = array());
+                        ?>
+                    </td>
+
+
+
+
+                    <!--                            图片上传-->
+                    <td ><?php echo $form->labelEx($model, 'picture_certificate_boat');
+                        ?></td>
+                    <td>
+                        <?php echo $form->hiddenField($model, 'picture_certificate_boat', array('class' => 'input-text fl'));
+                        ?>
+                        <?php echo show_pic($model->picture_certificate_boat,get_class($model).'_'.'picture_certificate_boat')?>
+                        <script>we.uploadpic('<?php echo get_class($model);?>_picture_certificate_boat', 'jpg');
+                        </script>
+                        <?php echo $form->error($model, 'picture_certificate_boat', $htmlOptions = array());
+                        ?>
+                    </td>
+
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'valid_time_boat'); ?></td>
@@ -102,15 +149,20 @@
                     </tr>
 
 
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'certificate_catch'); ?></td>
-                        <td><!--区域选择弹窗未显示-->
-                            <?php echo $form->textField($model, 'certificate_catch', array('class' => 'input-text')); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'Longitude'); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'latitude'); ?>
-                            <?php echo $form->error($model, 'certificate_catch', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
+
+
+                    <!--                            图片上传-->
+                    <td ><?php echo $form->labelEx($model, 'picture_certificate_catch');
+                        ?></td>
+                    <td>
+                        <?php echo $form->hiddenField($model, 'picture_certificate_catch', array('class' => 'input-text fl'));
+                        ?>
+                        <?php echo show_pic($model->picture_certificate_catch,get_class($model).'_'.'picture_certificate_catch')?>
+                        <script>we.uploadpic('<?php echo get_class($model);?>_picture_certificate_catch', 'jpg');
+                        </script>
+                        <?php echo $form->error($model, 'picture_certificate_catch', $htmlOptions = array());
+                        ?>
+                    </td>
 
 
                     <tr>
@@ -179,47 +231,15 @@
                     </tr>
 
 
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'f_name'); ?></td>
-                        <td><!--区域选择弹窗未显示-->
-                            <?php echo $form->textField($model, 'f_name', array('class' => 'input-text')); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'Longitude'); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'latitude'); ?>
-                            <?php echo $form->error($model, 'f_name', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-
-
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'f_type'); ?></td>
-                        <td><!--区域选择弹窗未显示-->
-                            <?php echo $form->textField($model, 'f_type', array('class' => 'input-text')); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'Longitude'); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'latitude'); ?>
-                            <?php echo $form->error($model, 'f_type', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'f_type_CN'); ?></td>
-                        <td><!--区域选择弹窗未显示-->
-                            <?php echo $form->textField($model, 'f_type_CN', array('class' => 'input-text')); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'Longitude'); ?>
-                            <!--                            --><?php //echo $form->hiddenField($model, 'latitude'); ?>
-                            <?php echo $form->error($model, 'f_type_CN', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-
-
+ 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'state');?></td>
                         <td><?php echo Select2::activeDropDownList($model, 'state',Chtml::listData(BaseCode::model()->getByType('pass_fail'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
                         <?php echo $form->error($model, 'state', $htmlOptions = array());?>
                         </td>
                     </tr>
+
+
 
 
 

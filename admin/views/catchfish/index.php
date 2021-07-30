@@ -29,7 +29,7 @@
                 $list=BaseCode::model()->getByType('pass_fail');
                 {?>
                 <label style="margin-right:20px;">
-                    <span>是否上架：</span>
+                    <span>是否通过审核：</span>
                     <select  class="singleSelect" style="width: 130px;" name="state">
                         <option value="">请选择</option>
                         <?php foreach($list as $v){?>
@@ -53,13 +53,15 @@
                     <th><?php echo $model->getAttributeLabel('fisherman_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('fisherman_phonenum'); ?></th>
                     <th><?php echo $model->getAttributeLabel('fisherman_idnum'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('picture_idnum_front'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('picture_idnum_back'); ?></th>
                     <th><?php echo $model->getAttributeLabel('boat_name'); ?></th>
                     
                     <th><?php echo $model->getAttributeLabel('picture_of_boat'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('certificate_boat'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('picture_certificate_boat'); ?></th>
                     <th><?php echo $model->getAttributeLabel('valid_time_boat'); ?></th>
                     
-                    <th><?php echo $model->getAttributeLabel('certificate_catch'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('picture_certificate_catch'); ?></th>
                     <th><?php echo $model->getAttributeLabel('valid_time_catch'); ?></th>
 
                     <th><?php echo $model->getAttributeLabel('oil'); ?></th>
@@ -72,9 +74,6 @@
                     <th><?php echo $model->getAttributeLabel('longitude'); ?></th>
                     <th><?php echo $model->getAttributeLabel('latitude'); ?></th> 
 
-                    <th><?php echo $model->getAttributeLabel('f_name'); ?></th> 
-                    <th><?php echo $model->getAttributeLabel('f_type'); ?></th> 
-                    <th><?php echo $model->getAttributeLabel('f_type_CN'); ?></th> 
 
 
 
@@ -89,26 +88,23 @@
 
                         <td style='text-align: center;'><?php echo $v->id; ?></td>
                         <td style='text-align: center;'><?php echo $v->time; ?></td>
-                        <td><?php echo $v->fisherman_name; ?></td>
-                        <td><?php echo $v->fisherman_phonenum; ?></td>
-                        <td><?php echo $v->fisherman_idnum; ?></td>
-                        <td><?php echo $v->boat_name; ?></td>
-                        <td><?php echo $v->picture_of_boat; ?></td>
-                        <td><?php echo $v->certificate_boat; ?></td>
-                        <td><?php echo $v->valid_time_boat; ?></td>
-                        <td><?php echo $v->certificate_catch; ?></td>
-                        <td><?php echo $v->valid_time_catch; ?></td>
-                        <td><?php echo $v->oil; ?></td>
-                        <td><?php echo $v->company; ?></td>
-                        <td><?php echo $v->state; ?></td>
+                        <td style='text-align: center;'><?php echo $v->fisherman_name; ?></td>
+                        <td style='text-align: center;'><?php echo $v->fisherman_phonenum; ?></td>
+                        <td style='text-align: center;'><?php echo $v->fisherman_idnum; ?></td>
+                        <td style='text-align: center;'><?php echo show_pic($v->picture_idnum_front); ?></td>
+                        <td style='text-align: center;'><?php echo show_pic($v->picture_idnum_back); ?></td>
+                        <td style='text-align: center;'><?php echo $v->boat_name; ?></td>
+                        <td style='text-align: center;'><?php echo show_pic($v->picture_of_boat); ?></td>
+                        <td style='text-align: center;'><?php echo show_pic($v->picture_certificate_boat); ?></td>
+                        <td style='text-align: center;'><?php echo $v->valid_time_boat; ?></td>
+                        <td style='text-align: center;'><?php echo show_pic($v->picture_certificate_catch); ?></td>
+                        <td style='text-align: center;'><?php echo $v->valid_time_catch; ?></td>
+                        <td style='text-align: center;'><?php echo $v->oil; ?></td>
+                        <td style='text-align: center;'><?php echo $v->company; ?></td>
+                        <td style='text-align: center;'><?php echo $v->state; ?></td>
 
-                        <td><?php echo $v->longitude; ?></td>
-                        <td><?php echo $v->latitude; ?></td>
-
-
-                        <td><?php echo $v->f_name; ?></td>
-                        <td><?php echo $v->f_type; ?></td>
-                        <td><?php echo $v->f_type_CN; ?></td>
+                        <td style='text-align: center;'><?php echo $v->longitude; ?></td>
+                        <td style='text-align: center;'><?php echo $v->latitude; ?></td>
 
 
 
