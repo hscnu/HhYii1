@@ -23,7 +23,26 @@
     <?php $cs->registerScriptFile(Yii::app()->request->baseUrl.'/static/admin/js/index.js', CClientScript::POS_END);?>
 </head>
 <body>
+
+<link href="css/ionic.min.css" rel="stylesheet">
+<script src="js/ionic.bundle.min.js"></script>
+
 <div class="wrapper">
+    <div class="tabs tabs-positive tabs-icon-top">
+        <div class="tabs tabs-positive tabs-icon-top">
+            <?php
+            $tmp=MobileMenu::model()->findALL();
+            foreach ($tmp as $v) {
+                $url=$v->url;
+                $typename=$v->typename;
+                $class=$v->class;
+                ?>
+                <a class="tab-item active " target="container-iframe" href="<?php echo $this->createUrl($url);?>">
+                    <i class="<?php echo $class?>"></i><?php echo $typename?></a>
+            <?php }?>
+        </div>
+    </div>
+
     <div class="header c">
         <div class="logo"><a href="<?php echo Yii::app()->homeUrl;?>">
                 <img src="<?php echo SITE_PATH;?>/static/admin/img/logo.png">
@@ -39,6 +58,8 @@
             <li><a href="<?php echo $this->createUrl('index/logout');?>"><i class="fa fa-sign-out"></i> <span>退出</span></a></li>;
         </ul><!--tool end-->
     </div><!--header end-->
+
+
     <div class="container">
         <div class="container-left">
             <div class="subnav">
@@ -60,10 +81,16 @@
                 <?php }?>
             </div><!--subnav end-->
         </div><!--container-left end-->
+
+
         <div class="container-right">
             <iframe id="container-iframe" name="container-iframe" frameborder="0" scrolling="auto" src="<?php echo $this->createUrl('public/index');?>"></iframe>
         </div><!--container-right end-->
     </div><!--container end-->
+
+
+
+
 </div><!--wrapper end-->
 </body>
 </html>

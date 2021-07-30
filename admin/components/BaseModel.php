@@ -18,6 +18,8 @@ class BaseModel extends CActiveRecord {
         parent::beforeSave();
         $tname= str_replace('{','',$this->tableName());
         $tname= str_replace('}','',$tname);
+        $this->movePath();//删除路径，保留相对路径
+
         if(!($tname=="table_update")){
             if(!$this->getIsNewRecord()) $this->update_log($tname);
         }
@@ -26,6 +28,51 @@ class BaseModel extends CActiveRecord {
     protected function afterDelete() {
         parent::afterDelete();
     }
+
+    protected function movePath(){
+        $ds=$this->getPicField();
+        foreach($ds as $v1){ //加上路径名称
+            $this->{$v1}=BasePath::model()->reMovePath($this->{$v1});
+        }
+    }
+
+
+    //自动图片加上路径
+    protected function afterFind(){
+        parent::afterFind();
+        $this->toAddPath();
+        $this->strToJson(0);
+        return true;
+    }
+    protected function strToJson($type=1){
+        $ds=$this->getPicField('jsonLabels');
+        foreach($ds as $v1){ //加上路径名称
+            $s1=$this->{$v1};
+            $this->{$v1}=($type==1) ? json_encode($s1) : json_decode($s1);
+        }
+    }
+
+    protected function toAddPath(){
+        $ds=$this->getPicField();
+        foreach($ds as $v1){ //加上路径名称
+            $this->{$v1}=BasePath::model()->addPath($this->{$v1});
+        }
+    }
+
+    //获得表的图片属性名称
+    protected function getPicField($method='picLabels') {
+        $rs=array();
+        if(method_exists($this,$method)){
+            $ds=$this->{$method}();
+            $afieldstr=$ds;
+            if(is_array($ds)){
+                $afieldstr=$ds['fields'];//要处理的图片名称
+            }
+            $rs=explode(',',$afieldstr);
+        }
+        return $rs;
+    }
+
 
     public function safeField($type='safe') {
         $dm=$this->safeFieldArray($type);

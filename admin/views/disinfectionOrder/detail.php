@@ -20,13 +20,28 @@
                 <button class="btn btn-blue" type="submit">查询</button>-->
             </form>
         </div><!--box-search end-->
+
         <div class="box-table">
             <table class="list">
                 <thead>
                 <tr>
-                    <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
-                    <!-- <th><?php echo $model->getAttributeLabel('id'); ?></th>-->
-                    <th><?php echo $model->getAttributeLabel('order_id'); ?></th>
+                    <?php
+                    $str='title,restaurant_name,disinfection_name,complete_time,notes';
+                    echo $order_model->gridHead($str); ?>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <?php echo $order_model->gridRow($str); ?>
+                </tr>
+                </tbody>
+            </table>
+        </div><!--box-table end-->
+
+        <div class="box-table">
+            <table class="list">
+                <thead>
+                <tr>
                     <th><?php echo $model->getAttributeLabel('tableware_type'); ?></th>
                     <th><?php echo $model->getAttributeLabel('tableware_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('unit'); ?></th>
@@ -38,9 +53,6 @@
                 <tbody>
                 <?php foreach ($arclist as $v) { ?>
                     <tr  data-id="<?php echo $v->id;?>"  >
-                        <!--                        <td class="check check-item"><input class="input-check" type="checkbox" value="--><?php //echo CHtml::encode($v->userId); ?><!--"></td>-->
-                        <!-- <td style='text-align: center;'><?php echo $v->id; ?></td>-->
-                        <td style='text-align: center;'><?php echo $v->order_id; ?></td>
                         <td style='text-align: center;'><?php echo $v->tableware_type; ?></td>
                         <td style='text-align: center;'><?php echo $v->tableware_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->unit; ?></td>

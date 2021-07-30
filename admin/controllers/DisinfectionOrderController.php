@@ -33,6 +33,10 @@ class DisinfectionOrderController extends BaseController {
             $data = array();
             $data['model'] = $model;
             $data['detailList'] = $detailList;
+
+            $resId=$this->getUserUnit();
+            $data['restaurant_name']=Restaurant::model()->getNameFromId($resId);
+
             $this->render('update', $data);
         } else {
 
@@ -40,21 +44,27 @@ class DisinfectionOrderController extends BaseController {
         }
     }
 
+    //获取用户所属单位
+    function getUserUnit(){
+        $userId=get_session('userId');
+        $tmp=User::model()->find('userId='.$userId);
+        if($tmp){
+            return $tmp->unitId;
+        }
+    }
+
 
     function saveData($model, $post) {
         $model->attributes = $post;
 //识别用户单位
-        $userId=get_session('userId');
-        $tmp=User::model()->find('userId='.$userId);
-        if($tmp){
-            $resId=$tmp->unitId;
-            $model['restaurant_id']=$resId;
-            $model['restaurant_name']=Restaurant::model()->getNameFromId($model['restaurant_id']);
-        }
+        $resId=$this->getUserUnit();
+        $model['restaurant_id']=$resId;
+        $model['restaurant_name']=Restaurant::model()->getNameFromId($model['restaurant_id']);
+
         if($model['state']==0){
             $model['state']=1;
         }
-//测试
+
         $model['disinfection_id']=DisinfectionCenter::model()->getIdFromName($model['disinfection_name']);
 
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
@@ -147,19 +157,29 @@ class DisinfectionOrderController extends BaseController {
     //申请中
     public function actionIndex_appoint($keywords = '') {
         $w="state=1";
-        $this->actionIndex_by_condition('index',$keywords,$w,1);
+        $this->actionIndex_by_condition('index_appointed',$keywords,$w,1);
     }
 
     //已提交
     public function actionIndex_appoint_wait($keywords = '') {
         $w="state=2";
-        $this->actionIndex_by_condition('index',$keywords,$w);
+        $this->actionIndex_by_condition('index_appointed',$keywords,$w);
     }
 
     //待审核
     public function actionIndex_appoint_finish($keywords = '') {
         $w="state=3";
-        $this->actionIndex_by_condition('index',$keywords,$w);
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+    }
+    //内部审核通过
+    public function actionIndex_I_examine($keywords = '') {
+        $w="state=12";
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+    }
+    //消毒中心审核通过
+    public function actionIndex_F_examine($keywords = '') {
+        $w="state=4";
+        $this->actionIndex_by_condition('index_examine',$keywords,$w);
     }
     //待签收
     public function actionIndex_wait_sign($keywords = '') {
@@ -171,7 +191,19 @@ class DisinfectionOrderController extends BaseController {
         $w="state=11";
         $this->actionIndex_by_condition('index_sign',$keywords,$w);
     }
+    //待配送
+    public function actionIndex_deliver_wait($keywords = '')
+    {
+        $w = "state=13";
+        $this->actionIndex_by_condition('index_get_delivered', $keywords, $w);
+    }
 
+    //已配送
+    public function actionIndex_deliver_finish($keywords = '')
+    {
+        $w = "state=10";
+        $this->actionIndex_by_condition('index_get_delivered', $keywords, $w);
+    }
     public function getAppointCountList(){
         $modelName = $this->model;
 
@@ -180,12 +212,20 @@ class DisinfectionOrderController extends BaseController {
         $finishCount = count($modelName::model()->findAll('state=3'));
         $waitSignCount = count($modelName::model()->findAll('state=10'));
         $signedCount = count($modelName::model()->findAll('state=11'));
+        $IExamine = count($modelName::model()->findAll('state=12'));
+        $FExamine = count($modelName::model()->findAll('state=4'));
+        $deliver_wait = count($modelName::model()->findAll('state=13'));
+        $deliver_finish = count($modelName::model()->findAll('state=10'));
         return array(
             'todayCount'=>$todayCount,
             'waitCount'=>$waitCount,
             'finishCount'=>$finishCount,
             'waitSignCount'=>$waitSignCount,
             'signedCount'=>$signedCount,
+            'IExamineCount'=>$IExamine,
+            'FExamineCount'=>$FExamine,
+            'deliverwaitCount' => $deliver_wait,
+            'deliverfinishCount' => $deliver_finish,
         );
     }
     public function getDisinfectionKeyWords($keywords = ''){
@@ -218,23 +258,64 @@ class DisinfectionOrderController extends BaseController {
 
 
     public function actionOpenDialogOrder($keywords='',$Id=0){
-        //put_msg($Id);
+
+        $modelName = $this->model;
+        $order_model =$this->loadModel($Id,$modelName);
+
         $model = DisinfectionOrderDetail::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getOrderKeyWords($Id);
         $data = array();
+        $data['order_model']=$order_model;
         parent::_list($model, $criteria, 'detail', $data);//渲染detail
     }
     /// 查看明细end
-    /// 状态改变
+    /// 配送订单
+    public function actionSetShrIdAndName($oId, $shrId)
+    {
+        $shr = DistributorCen::model()->find('user_id=' . $shrId);//根据送货人ID找到该用户信息
+        $order = DisinfectionOrder::model()->findAll("id in (" . $oId . ")");//找订单
+        if ($order) {
+            foreach ($order as $v) {
+                $v->deliver_id = $shrId;//填入送货人信息
+                $v->deliver_name = $shr->user_name;
+                $v->deliver_tel = $shr->user_tel;
+                $v->state = 10;//修改状态
+                $v->save();
+            }
+        }
+        echo CJSON::encode('succeed');
+    }
+
+    public function getUserKeyWords($keywords)
+    {
+        return get_like('1', 'user_name', $keywords);
+    }
+
+    public function actionOpenDialogShr($keywords = '')
+    {
+        $model = DistributorCen::model();
+        $criteria = new CDbCriteria;
+        $criteria->condition = $this->getUserKeyWords($keywords);
+        $data = array();
+        parent::_list($model, $criteria, 'select', $data);//渲染select
+    }
+    //配送订单end
+    /// 状态改变按钮
     public function actionChangeState($id,$Now_state,$keywords=''){
 
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);
 
-        if($Now_state=='审核通过'){$tmp->state=10;}
-        if($Now_state=='提交'){$tmp->state=3;}
-        if($Now_state=='签收'){$tmp->state=11;}
+        $a=array(
+            '外部审核通过'=>13,
+            '签收'=>11,
+            '内部审核通过'=>4,
+            '提交'=>2,
+            '送往审核'=>3,
+        );
+        $tmp->state= $a[$Now_state] ?? $Now_state;
+
 
         $tmp->save();
 
@@ -283,4 +364,56 @@ class DisinfectionOrderController extends BaseController {
         parent::_list($model, $criteria, 'index_sign', $data);
     }
     /// 订单签收end
+    /// 订单审核
+    public function actionIndex_examine($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+
+
+        $model->deleteAll('state'.' in (' . 0 . ')');
+
+
+        $data = $this->getAppointCountList();
+
+        parent::_list($model, $criteria, 'index_examine', $data);
+    }
+
+    /// 订单审核end
+    ///配送订单
+    public function actionIndex_get_delivered($keywords='')
+    {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+        $model->deleteAll('state'.' in (' . 0 . ')');
+        $data = $this->getAppointCountList();
+        parent::_list($model, $criteria, 'index_get_delivered', $data);
+    }
+    ///配送订单end
+    ///申请订单
+    public function actionIndex_appointed($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+        $model->deleteAll('state'.' in (' . 0 . ')');
+        $data = $this->getAppointCountList();
+        parent::_list($model, $criteria, 'index_appointed', $data);
+    }
+    ///申请订单end
 }

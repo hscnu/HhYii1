@@ -1,8 +1,8 @@
 <div class="box">
-    <div class="box-title c"><h1><i class="fa fa-table"></i>单位信息</h1><span class="back"><a class="btn"
+    <div class="box-title c"><h1><i class="fa fa-table"></i>店家信息</h1><span class="back"><a class="btn"
                                                                                            href="javascript:;"
                                                                                            onclick="we.back();"><i
-                        class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->
+                    class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
         <div class="box-detail-tab">
@@ -25,10 +25,34 @@
                     </tr>
 
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'r_address'); ?></td>
-                        <td>
+                        <td width="30%"><?php echo $form->labelEx($model, 'r_address'); ?></td>
+                        <td width="30%">
                             <?php echo $form->textField($model, 'r_address', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'r_address', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'r_price'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'r_price', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'r_price', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'r_service'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'r_service', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'r_service', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'r_rank'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'r_rank', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'r_rank', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
@@ -40,7 +64,24 @@
                         </td>
                     </tr>
 
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'r_image'); ?></td>
+                        <td>
+                            <?php echo $form->hiddenField($model, 'r_image', array('class' => 'input-text fl')); ?>
+                            <?php echo show_pic($model->r_image,get_class($model).'_'.'r_image')?>
+                            <script>we.uploadpic('<?php echo get_class($model);?>_r_image', 'jpg');
+                            </script>
+                            <?php echo $form->error($model, 'r_image', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
 
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'r_introduce'); ?></td>
+                        <td >
+                            <?php echo $form->textArea($model, 'r_introduce', array('class' => 'input-text', 'style'=>'width:95%;height:100px','maxlength' => '1000','placeholder'=>"限填1000字")); ?>
+                            <?php echo $form->error($model, 'r_introduce', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div><!--box-detail-tab-item end   style="display:block;"-->
