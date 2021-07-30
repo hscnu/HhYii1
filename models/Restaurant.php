@@ -106,4 +106,11 @@ class Restaurant extends BaseModel
         return true;
     }
 
+    public function getNameFromId($id=''){
+        //$criteria = new CDbCriteria();
+        $tmp=$this->model()->find("id='".$id."'");
+        $result = $tmp['r_name'];
+        return $result;
+    }
+
 }

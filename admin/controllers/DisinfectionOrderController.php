@@ -201,7 +201,7 @@ class DisinfectionOrderController extends BaseController {
     //已配送
     public function actionIndex_deliver_finish($keywords = '')
     {
-        $w = "state=14";
+        $w = "state=10";
         $this->actionIndex_by_condition('index_get_delivered', $keywords, $w);
     }
     public function getAppointCountList(){
@@ -215,7 +215,7 @@ class DisinfectionOrderController extends BaseController {
         $IExamine = count($modelName::model()->findAll('state=12'));
         $FExamine = count($modelName::model()->findAll('state=4'));
         $deliver_wait = count($modelName::model()->findAll('state=13'));
-        $deliver_finish = count($modelName::model()->findAll('state=14'));
+        $deliver_finish = count($modelName::model()->findAll('state=10'));
         return array(
             'todayCount'=>$todayCount,
             'waitCount'=>$waitCount,
@@ -280,7 +280,7 @@ class DisinfectionOrderController extends BaseController {
                 $v->deliver_id = $shrId;//填入送货人信息
                 $v->deliver_name = $shr->user_name;
                 $v->deliver_tel = $shr->user_tel;
-                $v->state = 14;//修改状态
+                $v->state = 10;//修改状态
                 $v->save();
             }
         }
@@ -308,8 +308,7 @@ class DisinfectionOrderController extends BaseController {
         $tmp=$modelname::model()->find('id='.$id);
 
         $a=array(
-            '外部审核通过'=>10,
-            '提交'=>3,
+            '外部审核通过'=>13,
             '签收'=>11,
             '内部审核通过'=>4,
             '提交'=>2,
