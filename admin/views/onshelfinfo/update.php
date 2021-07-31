@@ -2,7 +2,7 @@
     <div class="box-title c"><h1><i class="fa fa-table"></i>单位信息</h1><span class="back"><a class="btn"
                                                                                            href="javascript:;"
                                                                                            onclick="we.back();"><i
-                        class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->
+                    class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
         <div class="box-detail-tab">
@@ -14,30 +14,30 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr class="table-title">
-                        <td colspan="2">上报信息</td>
+                        <td colspan="2">上架申请信息</td>
                     </tr>
 
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'report_order'); ?></td>
+                        <td width="30%"><?php echo $form->labelEx($model, 'apply_order'); ?></td>
                         <td width="30%">
-                            <?php echo $form->textField($model, 'report_order', array('class' => 'input-text', 'readonly' => true)); ?>
-                            <?php echo $form->error($model, 'report_order', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'apply_order', array('class' => 'input-text', 'readonly' => true)); ?>
+                            <?php echo $form->error($model, 'apply_order', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'reporter_name'); ?></td>
+                        <td width="30%"><?php echo $form->labelEx($model, 'apply_name'); ?></td>
                         <td width="30%">
-                            <?php echo $form->textField($model, 'reporter_name', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'reporter_name', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'apply_name', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'apply_name', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'report_date');?></td>
+                        <td><?php echo $form->labelEx($model, 'apply_date');?></td>
                         <td>
-                            <?php echo $form->textField($model, 'report_date', array('class' => 'Wdate','style'=>'width:180px;'));?>
-                            <?php echo $form->error($model, 'report_date', $htmlOptions = array());?>
+                            <?php echo $form->textField($model, 'apply_date', array('class' => 'Wdate','style'=>'width:180px;'));?>
+                            <?php echo $form->error($model, 'apply_date', $htmlOptions = array());?>
                         </td>
                     </tr>
 
@@ -57,14 +57,14 @@
         </div><!--box-detail-tab-item end   style="display:block;"-->
 
         <div class="box-table">
-            <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加上报明细</button>
+            <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加上架明细</button>
             <table class="list">
                 <thead>
                 <tr>
                     <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
-                    <?php $model2 = ReportProduct::model();?>
+                    <?php $model2 = OnShelfProduct::model();?>
                     <?php
-                    $str='report_order,product_name,production,production_unit,origin_place';
+                    $str='apply_order,product_name,number,number_unit,price,put_time,sale_time,supplier,trade_means,contact_details';
                     echo $model2->gridHead($str); ?>
                     <th>操作</th>
                 </tr>
@@ -103,7 +103,7 @@
 
 <script>
     $(function() {
-            var $date=$('#<?php echo get_class($model);?>_report_date');
+            var $date=$('#<?php echo get_class($model);?>_apply_date');
             $date.on('click', function() {
                     WdatePicker( {
                             startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'
@@ -117,11 +117,11 @@
 </script>
 
 <script>
-    var deleteUrl = '<?php echo $this->createUrl('ReportProduct/delete', array('id' => 'ID')); ?>';
+    var deleteUrl = '<?php echo $this->createUrl('OnShelfProduct/delete', array('id' => 'ID')); ?>';
     function updateDetail(id=0){
         saveFormDate()
         url = '<?php echo $this->createUrl("OpenDialog");?>'
-        url += '&report_order=<?php echo $model->report_order;?>'
+        url += '&apply_order=<?php echo $model->apply_order;?>'
         url +='&detail_id='+id
         tl= id===0?'添加明细':'修改明细'
         $.dialog.data('id',0)
@@ -129,7 +129,7 @@
             id: 'updateDetail',
             lock:true,opacity:0.3,
             width:'1000px',
-            height:'80%',
+            height:'100%',
             title:tl,
             close: function () {
                 redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
@@ -151,6 +151,7 @@
         })
     }
 </script>
+
 
 
 

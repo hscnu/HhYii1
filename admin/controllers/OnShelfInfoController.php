@@ -1,6 +1,6 @@
 <?php
 
-class ReportInfoController extends BaseController {
+class OnShelfInfoController extends BaseController {
 
     protected $model = '';
 
@@ -15,7 +15,7 @@ class ReportInfoController extends BaseController {
         $modelName = $this->model;
         $model = $modelName::model();
         $data = $model->find('id='.$id);
-        ReportProduct::model()->deleteAll('report_order='.$data['report_order']);
+        OnShelfProduct::model()->deleteAll('apply_order='.$data['apply_order']);
         parent::_clear($id);
 
     }
@@ -27,9 +27,9 @@ class ReportInfoController extends BaseController {
         $model = new $modelName('create');
         $model->check_save=0;//跳过必填（required）检验
 
-        $model->report_order = Date('YmdHis').get_session('userId');
+        $model->apply_order = Date('YmdHis').get_session('userId');
         $model->state = '填写中';
-        $model->reporter_id = get_session('userId');
+        $model->apply_id = get_session('userId');
         $model->save();
         $this->actionUpdate($model->id);//跳转到修改动作
 //        $this->redirect(array('Update','id' => $model->id));
@@ -40,7 +40,7 @@ class ReportInfoController extends BaseController {
 
         $modelName = $this->model;
         $model = $this->loadModel($id, $modelName);
-        $detailList=ReportProduct::model()->findAll('report_order='.$model->report_order);
+        $detailList=OnShelfProduct::model()->findAll('apply_order='.$model->apply_order);
         if (!Yii::app()->request->isPostRequest) {
             $data = array();
             $data['model'] = $model;
@@ -54,14 +54,14 @@ class ReportInfoController extends BaseController {
     }
 
     public function actionOpenDialog(){
-        $modelName='ReportProduct';
+        $modelName='OnShelfProduct';
         $detail_id=DecodeAsk('detail_id');
         if($detail_id){
             $model=$this->loadModel($detail_id,$modelName);
         }
         else{
-            $model = new ReportProduct();
-            $model->report_order=DecodeAsk('report_order');
+            $model = new OnShelfProduct();
+            $model->apply_order = DecodeAsk('apply_order');
         }
 
         if (!Yii::app()->request->isPostRequest) {
@@ -70,14 +70,14 @@ class ReportInfoController extends BaseController {
             $data['isClose'] = DecodeAsk('isClose');
             $this->render('update_detail', $data);
         }else {
-            $this->Save_detail($model, $_POST['ReportProduct']);
+            $this->Save_detail($model, $_POST['OnShelfProduct']);
         }
     }
 
     public function Save_detail($model, $post) {
         $model->attributes = $post;
         $url=Yii::app()->request->getUrl().'&isClose=1';//刷新并传递参数通知弹窗关闭
-        $status = show_status($model->save(), '保存成功',$url, '保存失败');
+        show_status($model->save(), '保存成功',$url, '保存失败');
 
     }
 
@@ -96,14 +96,14 @@ class ReportInfoController extends BaseController {
         if ($model->save()) {
             $model->state = '待审核';
             $model->operate_time = Date('Y-m-d H:i:s');
-            $theme = $model->reporter_name.'在'.$model->report_date.'上报了';
-            $data = ReportProduct::model()->findAll('report_order='.$model->report_order);
+            $theme = $model->apply_name.'在'.$model->apply_date.'申请上架了';
+            $data = OnShelfProduct::model()->findAll('apply_order='.$model->apply_order);
             foreach ($data as $v){
                 $theme.= $v['product_name'];
                 if(next($data))
                     $theme.='，';
             }
-            $theme.='的产量。';
+            $theme.='。';
             $model->theme = $theme;
         }
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
@@ -112,14 +112,14 @@ class ReportInfoController extends BaseController {
 
     //列表搜索
 
-    public function actionIndex($keywords = '',$start_date_operate='',$end_date_operate='',$start_date_report='', $end_date_report='') {
+    public function actionIndex($keywords = '',$start_date_operate='',$end_date_operate='',$start_date_apply='', $end_date_apply='') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
 
         $data = $model->findAll("state='填写中'");
         foreach ($data as $v) {
-            ReportProduct::model()->deleteAll('report_order='.$v['report_order']);
+            OnShelfProduct::model()->deleteAll('apply_order='.$v['apply_order']);
         }
         $model->deleteAll("state='填写中'");
 
@@ -134,13 +134,13 @@ class ReportInfoController extends BaseController {
 //        $start_date_operate=DecodeAsk('start_date_operate');
 //        $criteria -> condition= get_like( $criteria -> condition,'operate_time',$start_date_operate);
 
-        //识别权限 当为审核员时执行条件
+        //识别权限 当不是系统管理员员时执行条件
         $userId=get_session('userId');
         $tmp=User::model()->find('userId='.$userId);
         if($tmp){
             $roleName=$tmp->F_ROLENAME;
             if ($roleName==='用户' or $roleName==="审核员"){
-                $criteria ->addCondition('reporter_id='.$userId);
+                $criteria ->addCondition('apply_id='.$userId);
             }
         }
 
@@ -148,8 +148,8 @@ class ReportInfoController extends BaseController {
         $criteria->condition=get_where($criteria->condition,($start_date_operate!=""),'operate_time>=',$start_date_operate,'"');
         $criteria->condition=get_where($criteria->condition,($end_date_operate!=""),'operate_time<=',$end_date_operate,'"');
 
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_apply!=""),'apply_date>=',$start_date_apply,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_apply!=""),'apply_date<=',$end_date_apply,'"');
 
 
 
@@ -158,14 +158,14 @@ class ReportInfoController extends BaseController {
     }
 
 
-    public function actionIndex_appoint_by_condition($keywords = '',  $start_date_operate='', $end_date_operate='', $start_date_report='', $end_date_report='',$w='',$istoday=0) {
+    public function actionIndex_appoint_by_condition($keywords = '',  $start_date_operate='', $end_date_operate='', $start_date_apply='', $end_date_apply='',$w='',$istoday=0) {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
 
         $data = $model->findAll("state='填写中'");
         foreach ($data as $v) {
-            ReportProduct::model()->deleteAll('report_order='.$v['report_order']);
+            OnShelfProduct::model()->deleteAll('apply_order='.$v['apply_order']);
         }
         $model->deleteAll("state='填写中'");
 
@@ -175,18 +175,19 @@ class ReportInfoController extends BaseController {
             $criteria -> addCondition($w);
         }
 
+        //识别权限 当不是系统管理员员时执行条件
         $userId=get_session('userId');
         $tmp=User::model()->find('userId='.$userId);
         if($tmp){
             $roleName=$tmp->F_ROLENAME;
             if ($roleName==='用户' or $roleName==="审核员"){
-                $criteria ->addCondition('reporter_id='.$userId);
+                $criteria ->addCondition('apply_id='.$userId);
             }
         }
 
 
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_apply!=""),'apply_date>=',$start_date_apply,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_apply!=""),'apply_date<=',$end_date_apply,'"');
 
         $criteria->condition=get_where($criteria->condition,($start_date_operate!=""),'operate_time>=',$start_date_operate,'"');
         $criteria->condition=get_where($criteria->condition,($end_date_operate!=""),'operate_time<=',$end_date_operate,'"');
@@ -196,17 +197,17 @@ class ReportInfoController extends BaseController {
     }
 
     //待审核
-    public function actionIndex_appoint_wait($keywords = '',  $start_date_operate='', $end_date_operate='',$start_date_report='', $end_date_report='') {
+    public function actionIndex_appoint_wait($keywords = '',  $start_date_operate='', $end_date_operate='',$start_date_apply='', $end_date_apply='') {
         $w="state='待审核'";
 
-        $this->actionIndex_appoint_by_condition($keywords, $start_date_operate, $end_date_operate,$start_date_report, $end_date_report,$w);
+        $this->actionIndex_appoint_by_condition($keywords, $start_date_operate, $end_date_operate,$start_date_apply, $end_date_apply,$w);
     }
 
     //已审核
-    public function actionIndex_appoint_finish($keywords = '', $start_date_operate='', $end_date_operate='',$start_date_report='', $end_date_report='') {
+    public function actionIndex_appoint_finish($keywords = '', $start_date_operate='', $end_date_operate='',$start_date_apply='', $end_date_apply='') {
         $w="state='已通过' or state='未通过'";
 
-        $this->actionIndex_appoint_by_condition($keywords, $start_date_operate, $end_date_operate,$start_date_report, $end_date_report,$w);
+        $this->actionIndex_appoint_by_condition($keywords, $start_date_operate, $end_date_operate,$start_date_apply, $end_date_apply,$w);
     }
 
 
@@ -228,16 +229,13 @@ class ReportInfoController extends BaseController {
 
     }
 //以上报日期搜素
-    public function actionIndex_appoint_report_by_condition($keywords='',$start_date_report='',$end_date_report='') {
+    public function actionIndex_appoint_report_by_condition($keywords='',$start_date_apply='',$end_date_apply='') {
         $model=$this->setCookieAndGetModel();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getReportInfoKeyWords($keywords);
-//        if($w){
-//            $criteria -> addCondition($w);
-//        }
-        // $start_date_report=DecodeAsk('start_date_report');
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
+
+        $criteria->condition=get_where($criteria->condition,($start_date_apply!=""),'apply_date>=',$start_date_apply,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_apply!=""),'apply_date<=',$end_date_apply,'"');
         $data['istoday']=DecodeAsk('is_today');
         parent::_list($model, $criteria, 'index', $data);
     }
@@ -245,7 +243,7 @@ class ReportInfoController extends BaseController {
 
 
     public function getReportInfoKeyWords($keywords){
-        return  get_like('1','id,theme,report_order,report_date,reporter_name ,state,operate_time,checktor',$keywords);
+        return  get_like('1','id,theme,apply_order,apply_date,apply_name ,state,operate_time,checktor',$keywords);
     }
 
     function DecodeAsk($var,$default='0'){
