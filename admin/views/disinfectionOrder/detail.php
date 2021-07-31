@@ -3,10 +3,7 @@
         <div class="box-header">
             <!--            <a class="btn" href="--><?php //echo $this->createUrl('create'); ?><!--"><i class="fa fa-plus"></i>添加用户</a>-->
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
-
-            <!--            <a style="display:none;" id="j-delete" class="btn" href="javascript:;"-->
-            <!--               onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i-->
-            <!--                        class="fa fa-trash-o"></i>删除</a>-->
+            <a id = "csbt" class="btn btn-blue" href="javascript:;" onclick="changStatebtn();"><i class="fa fa-check-square"></i>通过审核</a>
 
         </div><!--box-header end-->
         <div class="box-search">
@@ -65,6 +62,7 @@
             </table>
         </div><!--box-table end-->
         <div class="box-page c"><?php $this->page($pages); ?></div>
+
     </div><!--box-content end-->
 </div><!--box end-->
 <script>
@@ -81,6 +79,59 @@
             if($(this).attr('data-id')){
                 $.dialog.data('id',$(this).attr('data-id'));
                 $.dialog.close();
+            }
+        });
+    });
+</script>
+<script>
+    var nowView = '<?php echo $nowView;?>';
+    var examineType = '<?php echo $examineType?>';
+    var op=true;
+    $(document).ready(function(){
+        if(nowView!=='index_examine'){
+            $("#csbt").hide();
+        }
+        if(nowView==='index_examine'){
+            $("a.btn").click(function(){
+                if(op){
+                    alert('审核已通过');
+                    $("#csbt").hide(100,"linear",function() {
+                    });
+                }
+            });
+        }
+    });
+    function changStatebtn(){
+        var url1 = '<?php echo $this->createUrl("ChangeState",array('id' => $order_model->id,'Now_state'=>'内部审核通过'));?>';
+        var url2 = '<?php echo $this->createUrl("ChangeState",array('id' => $order_model->id,'Now_state'=>'外部审核通过'));?>';
+        var url='';
+        if(examineType==='I_examine'){
+            url=url1;
+        }
+        else if(examineType==='F_examine'){
+            url=url2;
+        }
+        else{
+            alert('操作失败！');
+            op=false;
+        }
+        //var url = examineType==='I_examine'?url1:url2;
+        if(nowView==='index_examine'){
+            $.ajax({
+                url:url,
+                type:'post',
+                success: function(data){
+                    we.close();
+                },
+            })
+        }
+    }
+</script>
+<script>
+    $(document).ready(function(){
+        $("a").load(function(){
+            if(nowView!=='index_examine'){
+                $("#csbt").hide();
             }
         });
     });

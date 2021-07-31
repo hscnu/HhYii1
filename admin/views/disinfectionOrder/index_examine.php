@@ -2,7 +2,6 @@
     <div class="box-content">
         <div class="box-header">
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
-
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
                         class="fa fa-trash-o"></i>删除</a>
@@ -66,16 +65,15 @@
 
                         <td>
                             <?php {?>
-                                <button class="btn" type="button" onclick="chooseShr(<?php echo $v->id;?>);">查看细则</button>
+                                <button class="btn" type="button" onclick="chooseShr(<?php echo $v->id;?>);">查看明细</button>
                             <?php }?>
 
-                            <!--                            <a class="btn btn-blue" href="--><?php //echo $this->createUrl('ChangeState', array('id' => $v->id)); ?><!--"-->
+
                             <!--  状态改变                             >提交</a>-->
-                            <?php echo $this->chge_state_btn($v,'内部审核通过','index_appoint_finish')?>
-                            <?php echo $this->chge_state_btn($v,'外部审核通过','Index_F_examine')?>
+                            <!--                            --><?php //echo $this->chge_state_btn($v,'内部审核通过','index_appoint_finish')?>
+                            <!--                            --><?php //echo $this->chge_state_btn($v,'外部审核通过','Index_F_examine')?>
                             <!-- 状态改变end                           -->
-                            <!--                            <a class="btn" href="--><?php //echo $this->createUrl('update', array('id' => $v->id)); ?><!--"-->
-                            <!--                               title="编辑"><i class="fa fa-edit"></i></a>-->
+
                             <?php echo $this->edit_btn($v)?>
                             <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                                title="删除"><i class="fa fa-trash-o"></i></a>
@@ -102,16 +100,18 @@
 <!--查看明细-->
 <script>
     function chooseShr(id){
-        var url = '<?php echo $this->createUrl("OpenDialogOrder");?>&Id='+id;
+        var examineType = '<?php echo $examineType?>';
+        var url = '<?php echo $this->createUrl("OpenDialogOrder");?>&Id='+id+'&nowView=index_examine'+'&examineType='+examineType;
         //url=url+'&Id='+id;
         //console.log(url);
+        //console.log(111);
         $.dialog.data('id',0)
         $.dialog.open(url,{
             id: 'chooseShr',
             lock:true,opacity:0.3,
             width:'1000px',
             height:'80%',
-            title:'查看细则',
+            title:'查看明细',
             close: function () {
                 if($.dialog.data('id')>0){
                     s1='<?php echo $this->createUrl('GetOrderDetails')?>'
@@ -120,8 +120,8 @@
                         type: 'get',
                         url: s1,
                         dataType: 'json',
-                        success: function(data){
-                            we.reload()
+                        success: function(){
+                            we.reload();
                         },
 
                     });

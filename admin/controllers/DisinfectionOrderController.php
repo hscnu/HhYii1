@@ -135,7 +135,7 @@ class DisinfectionOrderController extends BaseController {
     }
     /////导航栏
 
-    public function actionIndex_by_condition($next_index,$keywords = '',$w='',$istoday=0) {
+    public function actionIndex_by_condition($next_index,$keywords = '',$w='',$examineType='None',$istoday=0) {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
@@ -150,6 +150,7 @@ class DisinfectionOrderController extends BaseController {
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
         $data = $this->getAppointCountList();
         $data['istoday']=$istoday;
+        $data['examineType']=$examineType;
         parent::_list($model, $criteria, $next_index, $data);
     }
 
@@ -169,7 +170,8 @@ class DisinfectionOrderController extends BaseController {
     //待审核
     public function actionIndex_appoint_finish($keywords = '') {
         $w="state=3";
-        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+        $examineType='I_examine';
+        $this->actionIndex_by_condition('index_examine',$keywords,$w,$examineType);
     }
     //内部审核通过
     public function actionIndex_I_examine($keywords = '') {
@@ -179,7 +181,8 @@ class DisinfectionOrderController extends BaseController {
     //消毒中心审核通过
     public function actionIndex_F_examine($keywords = '') {
         $w="state=4";
-        $this->actionIndex_by_condition('index_examine',$keywords,$w);
+        $examineType='F_examine';
+        $this->actionIndex_by_condition('index_examine',$keywords,$w,$examineType);
     }
     //待签收
     public function actionIndex_wait_sign($keywords = '') {
@@ -238,7 +241,7 @@ class DisinfectionOrderController extends BaseController {
     public function actionGetOrderDetails($oId,$shrId){
         //$shr=User::model()->find('userId='.$shrId);//根据送货人ID找到该用户信息
         $order=DisinfectionOrderDetail::model()->findAll("id in (".$oId.")");//找订单
-        put_msg(11);
+
         if($order){
             /*foreach ($order as $v){
                 $v->deliver_id=$shrId;//填入送货人信息
@@ -257,7 +260,7 @@ class DisinfectionOrderController extends BaseController {
     }
 
 
-    public function actionOpenDialogOrder($keywords='',$Id=0){
+    public function actionOpenDialogOrder($keywords='',$Id=0,$nowView='None',$examineType='None'){
 
         $modelName = $this->model;
         $order_model =$this->loadModel($Id,$modelName);
@@ -267,6 +270,8 @@ class DisinfectionOrderController extends BaseController {
         $criteria -> condition = $this->getOrderKeyWords($Id);
         $data = array();
         $data['order_model']=$order_model;
+        $data['nowView']=$nowView;
+        $data['examineType']=$examineType;
         parent::_list($model, $criteria, 'detail', $data);//渲染detail
     }
     /// 查看明细end
@@ -306,7 +311,6 @@ class DisinfectionOrderController extends BaseController {
 
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);
-
         $a=array(
             '外部审核通过'=>13,
             '签收'=>11,
@@ -315,8 +319,6 @@ class DisinfectionOrderController extends BaseController {
             '送往审核'=>3,
         );
         $tmp->state= $a[$Now_state] ?? $Now_state;
-
-
         $tmp->save();
 
         echo '<script>window.history.back();</script>';
@@ -380,6 +382,7 @@ class DisinfectionOrderController extends BaseController {
 
 
         $data = $this->getAppointCountList();
+        $data['examineType']='None';
 
         parent::_list($model, $criteria, 'index_examine', $data);
     }
