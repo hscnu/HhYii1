@@ -2,7 +2,6 @@
 <div class="box">
     <div class="box-content">
         <div class="box-header">
-            <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>添加</a>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
@@ -15,8 +14,11 @@
                     <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
                     <li<?php if($action=='index_appoint'){?> class="current"<?php }?>>
                         <a href="<?php echo $this->createUrl('Ice/index_appoint');?>">
-                            已保存<?php echo '('.$todayCount.')'?>
+                            已保存<?php echo '('.$savedCount.')'?>
                         </a>
+                    </li>
+                    <li<?php if($action=='index_appoint_wait'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/index_appoint_wait');?>">已提交<?php echo '('.$waitCount.')'?></a>
                     </li>
                     <li<?php if($action=='index_distribution'){?> class="current"<?php }?>>
                         <a href="<?php echo $this->createUrl('Ice/index_distribution');?>">配送中<?php echo '('.$distributionCount.')'?></a>
@@ -49,7 +51,6 @@
 
                     <th width="6%"><?php echo $model->getAttributeLabel('order_name'); ?></th>
                     <th width="8%"><?php echo $model->getAttributeLabel('order_tel'); ?></th>
-                    <th width="5%"><?php echo $model->getAttributeLabel('ice_amount'); ?></th>
                     <th width="22%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
                     <th width="25%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
@@ -65,13 +66,12 @@
 
                         <td style='text-align: center;'><?php echo $v->order_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_tel; ?></td>
-                        <td style='text-align: center;'><?php echo $v->ice_amount; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_destination; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_time; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_remark; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_state; ?></td>
                         <td>
-                            <?php echo $this->chge_state_btn($v,'确认订单','Index_appoint')?>
+                            <?php echo $this->chge_state_btn($v,'提交订单','Index_appoint')?>
                             <?php echo $this->chge_state_btn($v,'确认收货','index_distribution')?>
                             <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
                                title="编辑"><i class="fa fa-edit"></i></a>

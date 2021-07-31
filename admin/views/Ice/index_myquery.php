@@ -12,12 +12,19 @@
             <div class="box-detail-tab box-detail-tab mt15">
                 <ul class="c">
                     <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
-                    <li<?php if($action=='index_examine_wait'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/index_examine_wait');?>">待审核<?php echo '('.$waitCount.')'?></a>
+                    <li<?php if($action=='myquery_saved'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/myquery_saved');?>">已保存<?php echo '('.$savedCount.')'?></a>
                     </li>
-                    <li<?php if($action=='index_examine_finish'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/index_examine_finish');?>">已审核<?php echo '('.$examine_finishCount.')'?></a>
+                    <li<?php if($action=='myquery_submited'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/myquery_submited');?>">已提交<?php echo '('.$waitCount.')'?></a>
                     </li>
+                    <li<?php if($action=='myquery_delivering'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/myquery_delivering');?>">配送中<?php echo '('.$distributionCount.')'?></a>
+                    </li>
+                    <li<?php if($action=='myquery_received'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/myquery_received');?>">已签收<?php echo '('.$finishCount.')'?></a>
+                    </li>
+
                 </ul>
             </div>
 
@@ -40,14 +47,13 @@
                 <thead>
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
-
                     <th width="6%"><?php echo $model->getAttributeLabel('order_name'); ?></th>
                     <th width="8%"><?php echo $model->getAttributeLabel('order_tel'); ?></th>
-                    <th width="20%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
+                    <th width="22%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
                     <th width="25%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
                     <th width="5%"><?php echo $model->getAttributeLabel('order_state'); ?></th>
-                    <th width="16%">操作</th>
+                    <th width="17%">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,9 +69,11 @@
                         <td style='text-align: center;'><?php echo $v->order_remark; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_state; ?></td>
                         <td>
-                            <button class="btn" type="button" onclick="showDetails(<?php echo $v->id;?>);">订单明细</button>
-                            <?php echo $this->chge_state_btn($v,'审核','Index_examine_wait')?>
-                            <?php echo $this->chge_state_btn($v,'退回','Index_examine_wait')?>
+                            <?php echo $this->chge_state_btn($v,'提交','myquery_saved')?>
+                            <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
+                               title="编辑"><i class="fa fa-edit"></i></a>
+                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
+                               title="删除"><i class="fa fa-trash-o"></i></a>
                         </td>
                     </tr>
                 <?php } ?>
@@ -77,18 +85,4 @@
 </div><!--box end-->
 <script>
     var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
-
-    //按键定位
-    function showDetails(id){
-        url = '<?php echo $this->createUrl("ShowDetail");?>'
-        url=url+'&oId='+id
-        $.dialog.data('id',0)
-        $.dialog.open(url,{
-            id: 'showdetails',
-            lock:true,opacity:0.3,
-            width:'100%',
-            height:'100%',
-            title:'订单明细',
-        });
-    };
 </script>

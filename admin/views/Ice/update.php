@@ -34,14 +34,6 @@
                     </tr>
 
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'ice_amount'); ?></td>
-                        <td width="30%">
-                            <?php echo $form->textField($model, 'ice_amount', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'ice_amount', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-                    <tr>
                         <td><?php echo $form->labelEx($model, 'order_time');?></td>
                         <td>
                             <?php echo $form->textField($model, 'order_time', array('class' => 'Wdate','style'=>'width:180px;'));?>
@@ -125,7 +117,20 @@
 
                 <table>
                     <tr class="table-title">
-                        <td colspan="2">冰的类型</td>
+                        <td colspan="4">冰的类型</td>
+                    <tr>
+                        <td><?php echo $form->labelEx($model2, 'strip_ice_amount'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model2, 'strip_ice_amount', array('class' => 'input-text')); ?>条
+                            <?php echo $form->error($model2, 'strip_ice_amount', $htmlOptions = array()); ?>
+                        </td>
+                        <td><?php echo $form->labelEx($model2, 'crushed_ice_amount'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model2, 'crushed_ice_amount', array('class' => 'input-text')); ?>块
+                            <?php echo $form->error($model2, 'crushed_ice_amount', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
                 </table>
 
             </div>

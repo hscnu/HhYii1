@@ -56,7 +56,6 @@
 
                     <th width="6%"><?php echo $model->getAttributeLabel('order_name'); ?></th>
                     <th width="8%"><?php echo $model->getAttributeLabel('order_tel'); ?></th>
-                    <th width="5%"><?php echo $model->getAttributeLabel('ice_amount'); ?></th>
                     <th width="25%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
                     <th width="30%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
@@ -75,10 +74,8 @@
                             <?php }?>
 
                         </td>
-
                         <td style='text-align: center;'><?php echo $v->order_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_tel; ?></td>
-                        <td style='text-align: center;'><?php echo $v->ice_amount; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_destination; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_time; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_remark; ?></td>

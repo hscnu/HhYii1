@@ -2,7 +2,7 @@
 
 class Ice extends BaseModel
 {
-    public $club_list_pic = '';
+    public $check_save=1;
 
     public function tableName()
     {
@@ -14,15 +14,16 @@ class Ice extends BaseModel
      */
     public function rules()
     {
-
-        return array(
-            array('order_name', 'required', 'message' => '{attribute} 不能为空'),
-            array('order_tel', 'required', 'message' => '{attribute} 不能为空'),
-            array('ice_amount', 'required', 'message' => '{attribute} 不能为空'),
-            array('order_destination', 'required', 'message' => '{attribute} 不能为空'),
-            array('order_time', 'required', 'message' => '{attribute} 不能为空'),
-            array($this->safeField(), 'safe',),
-        );
+        if($this->check_save)
+            $a=array(
+                // array('id', 'required', 'message' => '{attribute} 不能为空'),
+                array('order_name', 'required', 'message' => '{attribute} 不能为空'),
+                array('order_tel', 'required', 'message' => '{attribute} 不能为空'),
+                array('order_destination', 'required', 'message' => '{attribute} 不能为空'),
+                array('order_time', 'required', 'message' => '{attribute} 不能为空'),
+            );
+        $a[]= array($this->safeField(), 'safe');
+        return $a;
     }
 
     /**

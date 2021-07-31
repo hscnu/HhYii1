@@ -1,36 +1,40 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <title>添加点标记</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <style>
-        body,
-        html,
-        #container {
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            font-family: "微软雅黑";
-        }
-    </style>
-    <script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=GzZOnHTfDPIqhLHTijaeTkadjBFGNzHR"></script>
-</head>
-<body>
-<div id="container"></div>
-</body>
-</html>
+<div class="box">
+    <div class="box-title c">
+        <h1><i class="fa fa-table"></i>订单明细</h1>
+        <a class="btn btn-blue" href="javascript:;" onclick="examine()">审核通过</a>
+    </div><!--box-title end-->
+        <div class="box-detail">
+                <table>
+                    <tr class="table-title">
+                        <td colspan="6">信息</td>
+                    </tr>
+                    <tr>
+                        <td>联系人姓名</td>
+                        <td>
+                            <?php echo $name; ?>
+                        </td>
+                        <td>联系人电话</td>
+                        <td><?php echo $tel;?></td>
+                        <td>收货时间</td>
+                        <td><?php echo $date;?></td>
+                    </tr>
+                    <tr class="table-title">
+                        <td colspan="6">商品</td>
+                    </tr>
+                </table>
+    </div><!--box-detail end-->
+</div><!--box end-->
 <script>
-    var map = new BMapGL.Map('container');
-    var longitude1=<?php echo $longitude; ?>;
-    var latitude1=<?php echo $latitude; ?>;
-    map.centerAndZoom(new BMapGL.Point(longitude1, latitude1), 15);
-    map.enableScrollWheelZoom(true);
-    // 创建点标记
-    var marker1 = new BMapGL.Marker(new BMapGL.Point(longitude1, latitude1));
-    // 在地图上添加点标记
-    map.addOverlay(marker1);
+    function examine(){
+        url = '<?php echo $this->createUrl("ChangeState",array('id'=>$id,'Now_state'=>'审核通过'));?>'
+        $.ajax(
+            {
+                url:url,
+                type:'post',
+                success:function (data){
+                    we.close();
+                },
+            }
+        )
+    }
 </script>
