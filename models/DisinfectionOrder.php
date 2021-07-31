@@ -103,7 +103,7 @@ class DisinfectionOrder extends BaseModel {
             13=>'待配送',
             //14=>'已配送',
         );
-        return $a[$state] ?? '未知';
+        return $a[$state] ? $a[$state] :'未知';
     }
 
 }

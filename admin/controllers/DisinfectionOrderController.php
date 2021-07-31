@@ -318,7 +318,7 @@ class DisinfectionOrderController extends BaseController {
             '提交'=>2,
             '送往审核'=>3,
         );
-        $tmp->state= $a[$Now_state] ?? $Now_state;
+        $tmp->state= $a[$Now_state] ?$a[$Now_state] : $Now_state;
         $tmp->save();
 
         echo '<script>window.history.back();</script>';
