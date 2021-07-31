@@ -70,4 +70,5 @@ class ProductReport extends BaseModel
     {
         return $this->findAll('1=1');
     }
+    
 }
