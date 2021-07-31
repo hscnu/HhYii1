@@ -22,13 +22,13 @@
                         </td>
                     </tr>
 
-                    <!--                    <tr>-->
-                    <!--                        <td>--><?php //echo $form->labelEx($model, 'tableware_type'); ?><!--</td>-->
-                    <!--                        <td>-->
-                    <!--                            --><?php //echo $form->dropDownList($model, 'tableware_type', Chtml::listData(TableWareType::model()->getAllType(),'type', 'type'), array('prompt'=>'请选择')); ?>
-                    <!--                            --><?php //echo $form->error($model, 'tableware_type', $htmlOptions = array()); ?>
-                    <!--                        </td>-->
-                    <!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td>--><?php //echo $form->labelEx($model, 'tableware_type'); ?><!--</td>-->
+<!--                        <td>-->
+<!--                            --><?php //echo $form->dropDownList($model, 'tableware_type', Chtml::listData(TableWareType::model()->getAllType(),'type', 'type'), array('prompt'=>'请选择')); ?>
+<!--                            --><?php //echo $form->error($model, 'tableware_type', $htmlOptions = array()); ?>
+<!--                        </td>-->
+<!--                    </tr>-->
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'product_name'); ?></td>
@@ -62,29 +62,32 @@
                         </td>
                     </tr>
 
+                    
+
+                    </table>
+                </div>
+            </div><!--box-detail-tab-item end   style="display:block;"-->
+
+        </div><!--box-detail-bd end-->
 
 
-                </table>
-            </div>
-        </div><!--box-detail-tab-item end   style="display:block;"-->
 
-    </div><!--box-detail-bd end-->
+        <div class="box-detail-submit">
+            <button onclick="save()" class="btn btn-blue" type="submit">保存</button>
+            <?php if(empty($model->id)){ ?>
+                <?php  echo " <button onclick=\"submitType='baonext'\" class=\"btn btn-blue\" type=\"submit\">保存继续输入</button>";?>
+            <?php } ;?>
+        </div>
 
-
-
-    <div class="box-detail-submit">
-        <button onclick="save()" class="btn btn-blue" type="submit">保存</button>
-    </div>
-
-    <?php $this->endWidget(); ?>
-</div><!--box-detail end-->
+        <?php $this->endWidget(); ?>
+    </div><!--box-detail end-->
 </div><!--box end-->
 
 <script>
     //后台点击保存按钮后，重定向自身页面（刷新），并转一个参数，通知关闭
     if('<?php echo $isClose==1?>'){
         $.dialog.data('detailId','<?php echo $model->id;?>')
-        $.dialog.close();
+         $.dialog.close();
     }
 
     $(function(){
@@ -94,5 +97,5 @@
                 name: '取消'
             }
         );
-    });
+        });
 </script>

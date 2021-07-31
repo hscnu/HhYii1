@@ -21,7 +21,7 @@ class ReportInfo extends BaseModel
             $a=array(
                 array('report_order', 'required', 'message' => '{attribute} 不能为空'),
                 array('report_date', 'required', 'message' => '{attribute} 不能为空'),
-                array('reporter_id', 'required', 'message' => '{attribute} 不能为空'),
+//                array('reporter_id', 'required', 'message' => '{attribute} 不能为空'),
                 array('reporter_name', 'required', 'message' => '{attribute} 不能为空'),
 
 
@@ -54,6 +54,11 @@ class ReportInfo extends BaseModel
             'state' => '上报状态',
             'operate_time' => '操作时间',
             'checktor' => '审核员',
+            'product_name' => '产品名称',
+            'production_unit' => '产品单位',
+            'production' => '产量',
+            'origin_place' => '产地',
+            'audit_opinion'=>'审核意见',
             'checktor_id' => '审核员ID'
 
         );
