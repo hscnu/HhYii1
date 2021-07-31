@@ -6,7 +6,7 @@
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
-                        class="fa fa-trash-o"></i>删除</a>
+                    class="fa fa-trash-o"></i>删除</a>
 
         </div><!--box-header end-->
 
@@ -15,11 +15,11 @@
                 <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
 
                 <li<?php if($action=='index_appoint_wait'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('ReportInfo/index_appoint_wait');?>">待审核</a>
+                    <a href="<?php echo $this->createUrl('OnShelfInfo/index_appoint_wait');?>">待审核</a>
                 </li>
 
                 <li<?php if($action=='index_appoint_finish'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('ReportInfo/index_appoint_finish');?>">已审核</a>
+                    <a href="<?php echo $this->createUrl('OnShelfInfo/index_appoint_finish');?>">已审核</a>
                 </li>
 
             </ul>
@@ -46,10 +46,10 @@
                 </label>
 
                 <label style="margin-right:10px;">
-                    <span>上报日期：</span>
-                    <input style="width:120px;" class="input-text" type="text" id="start_date_report" name="start_date_report" value="<?php echo Yii::app()->request->getParam('start_date_report');?>">
+                    <span>申请上架日期：</span>
+                    <input style="width:120px;" class="input-text" type="text" id="start_date_apply" name="start_date_apply" value="<?php echo Yii::app()->request->getParam('start_date_apply');?>">
                     <span>-</span>
-                    <input style="width:120px;" class="input-text" type="text" id="end_date_report" name="end_date_report" value="<?php echo Yii::app()->request->getParam('end_date_report');?>">
+                    <input style="width:120px;" class="input-text" type="text" id="end_date_apply" name="end_date_apply" value="<?php echo Yii::app()->request->getParam('end_date_apply');?>">
                 </label>
 
                 <button class="btn btn-blue" type="submit">查询</button>
@@ -61,9 +61,9 @@
                 <thead>
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
-                    <th><?php echo $model->getAttributeLabel('report_order'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('report_date'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('reporter_name'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('apply_order'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('apply_date'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('apply_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('state'); ?></th>
                     <th><?php echo $model->getAttributeLabel('operate_time'); ?></th>
 
@@ -76,9 +76,9 @@
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
 
-                        <td style='text-align: center;'><?php echo $v->report_order; ?></td>
-                        <td style='text-align: center;'><?php echo $v->report_date; ?></td>
-                        <td><?php echo $v->reporter_name; ?></td>
+                        <td style='text-align: center;'><?php echo $v->apply_order; ?></td>
+                        <td style='text-align: center;'><?php echo $v->apply_date; ?></td>
+                        <td><?php echo $v->apply_name; ?></td>
                         <td><?php echo $v->state; ?></td>
                         <td><?php echo $v->operate_time; ?></td>
                         <td>
@@ -110,8 +110,8 @@
     });
 </script>
 <script>
-    var $start_date=$('#start_date_report');
-    var $end_date=$('#end_date_report');
+    var $start_date=$('#start_date_apply');
+    var $end_date=$('#end_date_apply');
     $start_date.on('click', function(){
         WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});
     });
@@ -119,3 +119,4 @@
         WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});
     });
 </script>
+
