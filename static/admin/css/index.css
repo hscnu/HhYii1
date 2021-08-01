@@ -35,13 +35,27 @@ body{
 	background-color:#1b67af;}
 .nav, .nav li, .nav li a{
 	float:left;}
-.nav li a{
-	padding:0 15px;
-	line-height:40px;
-	font-weight:700;
-	color:#fff;}
+
+.nav li a {
+	display: flex;
+	align-items: center;
+	margin: 5px;
+	padding: 0 15px;
+	line-height: 30px;
+	font-weight: 700;
+	font-size: 15px;
+	color: #fff;
+	border-radius: 5px;
+}
+
+.nav-current {
+	background-color: #384566;
+	border-radius: 9px;
+	box-shadow: 0px 0px 1px 1px rgb(14 47 46 / 10%) inset;
+}
+
 .nav li a:hover{
-	background-color:#1b67af;}
+	background-color: #1d66b4;}
 .nav .current a, .nav .current a:hover{
 	color:#2a2a2a;
 	background-color:#fff;}
@@ -100,5 +114,10 @@ body{
 	margin-left:170px;
 	height:100%;}
 .container-right iframe{
+	width:100%;
+	height:100%;}
+.container-right-mobile{
+	height:100%;}
+.container-right-mobile iframe{
 	width:100%;
 	height:100%;}

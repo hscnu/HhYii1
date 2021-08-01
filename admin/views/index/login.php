@@ -43,12 +43,12 @@
             </div><!--item end-->
         <?php }
         ?>
-<!--        <div class="item">-->
-<!--            --><?php //echo '用户身份：'?>
-<!--            --><?php //echo Select2::activeDropDownList($model, 'F_ROLENAME', Chtml::listData(Role::model()->findAll(), 'f_rname', 'f_rname'), array('prompt'=>'请选择','style'=>'width:160px;', 'placeholder'=>'用户角色',"options" => array('系统管理员'=> array('selected' => true)))); ?>
-<!--            --><?php //echo $form->error($model, 'F_ROLENAME', $htmlOptions = array()); ?>
-<!--        </div>-->
-        <!--item end-->
+        <div class="item">
+            <?php echo '用户身份：'?>
+            <?php echo Select2::activeDropDownList($model, 'F_ROLENAME', Chtml::listData(MobileRole::model()->findAll(), 'f_rname', 'f_rname'), array('prompt'=>'请选择','style'=>'width:160px;', 'placeholder'=>'用户角色',"options" => array('系统管理员'=> array('selected' => true)))); ?>
+            <?php echo $form->error($model, 'F_ROLENAME', $htmlOptions = array()); ?>
+        </div>
+
         <div class="item">
             <button class="button "  type="submit"  onclick="login();" style="color: #ff000" >进入系统</button></div><!--item end-->
         <?php $this->endWidget(); ?>
@@ -66,7 +66,7 @@
             type: 'get',
             url: s2,
             data: {USERNAME: s1,PASSWORD:$("#User_TPWD").val(),
-                // ROLE:$("#User_F_ROLENAME").val(),
+                ROLE:$("#User_F_ROLENAME").val(),
                 user_login:$("#user_login").val()
             },
             dataType:'json',

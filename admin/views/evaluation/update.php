@@ -30,13 +30,13 @@
                         <td><?php echo $form->labelEx($model, 'eval_star'); ?>
                         </td>
                         <td>
-                            <ul class="cleanfloat">
-                                   <li>&#9733;</li>
-                                    <li>&#9733;</li>
-                                    <li>&#9733;</li>
-                                    <li>&#9733;</li>
-                                    <li>&#9733;</li>
-                                </ul>
+                            <ul>
+                                    <li class="cleanfloat">&#9733;</li>
+                                    <li class="cleanfloat">&#9733;</li>
+                                    <li class="cleanfloat">&#9733;</li>
+                                    <li class="cleanfloat">&#9733;</li>
+                                    <li class="cleanfloat">&#9733;</li>
+                              </ul>
                         </td>
                     </tr>
                     <tr>

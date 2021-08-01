@@ -62,16 +62,21 @@ class Menu extends BaseModel {
     }
 
     public function getMenu($ptypename="",$ptc="") {
-     
         if(!empty($ptypename)){
-            $role=Role::model()->find("f_rname='".$ptypename."'");
-            $rop="1";         
+//            $role=Role::model()->find("f_rname='".$ptypename."'");
+            $role=Role::model()->find("f_rname='系统管理员'");
+
+            $rop="1";
             if(!empty($role->f_opter)) $rop=$role->f_opter;
-            $tmp=$this->findAll('id in ('.$rop.") and f_no<>' ' and id<>33 order by f_no");
+//            $tmp=$this->findAll(' f_show=1  and id in ('.$rop.") and f_no<>' ' ".$ptc." order by f_no");
+            $tmp=$this->findAll('id in ('.$rop.") and f_no<>' ' ".$ptc." order by f_no");
+
         }
-       else{
-           $tmp=$this->findAll(' 1 order by f_no');
-       }
+        else{
+//            $tmp=$this->findAll(' f_show=1 order by f_no');
+            $tmp=$this->findAll(' 1 order by f_no');
+
+        }
 
         $m1='=';$st1="";
         $menu=array();
@@ -93,7 +98,21 @@ class Menu extends BaseModel {
         return $menu;
     }
 
-    
+    public function getFirst($ptypename=[''],$ptc=''){
+        if(!empty($ptypename)){
+            $role=Role::model()->find("f_rname='".$ptypename."'");
+            $rop="1";
+            if(!empty($role->f_opter)) $rop=$role->f_opter;
+            $tmp=$this->find('id in ('.$rop.") and f_no<>' ' ".$ptc." order by f_no");
+        }
+        if($ptypename=='系统管理员'){
+            $tmp=$this->find(' 1 order by f_no');
+        }
+        if($tmp)
+            return $tmp->f_url;
+        else
+            return 'public/index';
+    }
 
 
 }

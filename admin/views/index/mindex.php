@@ -28,34 +28,40 @@
 <script src="js/ionic.bundle.min.js"></script>
 
 <div class="wrapper">
+    <div class="tabs tabs-positive tabs-icon-top">
+        <div class="tabs tabs-positive tabs-icon-top">
+            <?php
+            $role= Yii::app()->session['F_ROLENAME'];
+            $mrole=MobileRole::model()->find("f_rname='".$role."'");
+            $tmp=MobileMenu::model()->findALL("f_code like '%".$mrole->f_tcode."%'");
+            foreach ($tmp as $v) {
+                $url=$v->url;
+                $typename=$v->typename;
+                $class=$v->class;
+                ?>
+                <a class="tab-item active " target="container-iframe" href="<?php echo $this->createUrl($url);?>">
+                    <i class="<?php echo $class?>"></i><?php echo $typename?></a>
+            <?php }?>
+        </div>
+    </div>
+
     <div class="header c">
         <div class="logo"><a href="<?php echo Yii::app()->homeUrl;?>">
                 <img src="<?php echo SITE_PATH;?>/static/admin/img/logo.png">
             </a></div>
         <a class="btn-menu" href="#"><i class="fa fa-reorder"></i></a>
         <ul class="nav">
-<!--            <li><a href="--><?php //echo SITE_PATH;?><!--/" target="_blank"><i class="fa fa-home"></i> <span>首页</span></a></li>-->
-<!--            <li ><a href="#">后台管理系统</a></li>-->
-<!--            <li><a href="--><?php //echo SITE_PATH;?><!--/" target="_blank"> <span>用户信息--><?php //echo Yii::app()->session['TCNAME']?><!--</span></a></li>-->
+            <!--            <li><a href="--><?php //echo SITE_PATH;?><!--/" target="_blank"><i class="fa fa-home"></i> <span>首页</span></a></li>-->
+            <!--            <li ><a href="#">后台管理系统</a></li>-->
+            <!--            <li><a href="--><?php //echo SITE_PATH;?><!--/" target="_blank"> <span>用户信息--><?php //echo Yii::app()->session['TCNAME']?><!--</span></a></li>-->
         </ul><!--nav end-->
 
-        <ul class="nav" >
-            <?php
-            $tmp=MainMenu::model()->getMenu();
-            foreach($tmp as $v){
-                $b1=($mcode==$v->f_code) ? 'nav-current' :'';
-                ?>
-                <li><a class="<?php echo $b1?>" href="<?php echo $this->createUrl('index',array('mcode'=>$v->f_code));?>" ><span style="font-weight:bold;">
-            <?php echo $v->f_name;?></span></a></li>
-            <?php }?>
+        <ul class="nav">
+            <li><a href="<?php echo SITE_PATH;?>/" target="_blank"> <span>角色:<?php echo Yii::app()->session['F_ROLENAME']?></span></a></li>
         </ul>
-        <!--nav end-->
-
-
         <ul class="tool">
             <li><a href="<?php echo SITE_PATH;?>/" target="_blank"> <span>操作者:<?php echo Yii::app()->session['TCNAME']?></span></a></li>
-
-            <li><a target="_blank" href="<?php echo $this->createUrl('index/index',array('views'=>'mindex'));?>"><i class="fa fa-sign-out"></i> <span>手机版</span></a></li>
+            <li><a target="_blank" href="<?php echo $this->createUrl('index/index',array('views'=>'index'));?>"><i class="fa fa-sign-out"></i> <span>电脑版</span></a></li>
             <li><a href="<?php echo $this->createUrl('index/logout');?>"><i class="fa fa-sign-out"></i> <span>退出</span></a></li>
         </ul><!--tool end-->
     </div><!--header end-->
@@ -63,29 +69,7 @@
 
 
     <div class="container">
-        <div class="container-left">
-            <div class="subnav">
-                <?php
-//                $f_name=Yii::app()->session['F_ROLENAME'];
-//                $roleItem=Menu::model()->getMenu($f_name);
-                foreach($roleItem as $v){?>
-                <div class="subnav-hd"><a href="javascript:;"><i class="fa fa-angle-down"></i><?php echo $v[0];?></a></div>
-                <ul class="subnav-bd">
-                    <?php //dump($v);exit;?>
-                    <?php foreach($v as $v_item){?>
-                        <?php if(is_array($v_item)){?>
-                            <?php foreach($v_item as $v_subitem){?>
-                                <?php if(count($v_subitem)>1){?><li><a href="<?php echo $this->createUrl($v_subitem[1]);?>" target="container-iframe"><?php echo $v_subitem[0];?></a></li><?php }?>
-                            <?php }?>
-                        <?php }?>
-                    <?php }?>
-                </ul><!--subnav-bd end-->
-                <?php }?>
-            </div><!--subnav end-->
-        </div><!--container-left end-->
-
-
-        <div class="container-right">
+        <div class="container-right-mobile">
             <iframe id="container-iframe" name="container-iframe" frameborder="0" scrolling="auto" src="<?php echo $this->createUrl('public/index');?>"></iframe>
         </div><!--container-right end-->
     </div><!--container end-->
@@ -97,6 +81,7 @@
 </body>
 </html>
 
+
 <script type="text/javascript">
     function browserRedirect() {
         var sUserAgent = navigator.userAgent.toLowerCase();
@@ -104,11 +89,11 @@
             //跳转移动端页面
         } else {
             //跳转pc端页面
+
         }
     }
     browserRedirect();
 </script>
-
 
 
 <style>
@@ -120,4 +105,6 @@
                 ,#368EE0,#368EE0 50%,transparent 50%);
         color: #fff;
     }
-    </style>
+
+
+</style>

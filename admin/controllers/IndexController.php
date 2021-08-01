@@ -3,16 +3,43 @@
 class IndexController extends BaseController {
 
     public $layout = false;
-    public function actionIndex() {
+    public function actionIndex($mcode='A',$views='index') {
         $s1='index';
         if(!isset($_SESSION)){ session_start();}
         $s2=$_SESSION['admin_id'];
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+
+        $detect = new Mobile_Detect;
+        if ($detect->isMobile() ) {
+            $views= 'mindex';
+        }
+
         if (empty($s2)) {
             $this->login_form();
+//            $data=$this->addMenuData($mcode);
+//            $this->render($views,$data);
         }
         else {
-            $this->render('index');
+            $data=$this->addMenuData($mcode);
+            $this->render($views,$data);
         }
+    }
+
+
+    public function addMenuData($mcode){
+        $opc=" and f_no like '%".$mcode."%'";
+        $f_name=Yii::app()->session['F_ROLENAME'];
+        if(empty($f_name))$f_name='用户';
+        $roleItem=Menu::model()->getMenu($f_name,$opc);
+        $first=Menu::model()->getFirst($f_name,$opc);
+        $data['f_name']=$f_name;
+        $data['roleItem']=$roleItem;
+        $data['first']=$first;
+        $data ['mcode']=$mcode;
+        $tmp=MainMenu::model()->find("f_code='".$mcode."'");
+        $data ['is_full']=$tmp->is_full;
+        set_session('mcode',$mcode);
+        return $data;
     }
 
     public function actionLogin(){
@@ -42,9 +69,9 @@ class IndexController extends BaseController {
 
     function check_pass($usercode,$pass,$role,&$data,$user_login='0')
     {
-        put_msg(11);
+        Yii::app()->session['F_ROLENAME']=$role;
+
         $model= User::model()->find("TCOD='". $usercode."' or TUNAME='".$usercode."'");
-        put_msg(CJSON::encode($model));
 
         if(!empty($model)){
 //            $pass=md5($pass);
@@ -56,10 +83,9 @@ class IndexController extends BaseController {
                 $data['f_kcszid']=1;
                 Yii::app()->session['TCNAME']=$model->TCNAME;
                 Yii::app()->session['TCOD']=$model->TCOD;
-                Yii::app()->session['F_ROLENAME']=$model->F_ROLENAME;
+                Yii::app()->session['F_ROLENAME']=$role;
                 Yii::app()->session['TUNAME']=$model->TUNAME;
                 Yii::app()->session['userId']=$model->userId;
-
                 $_SESSION['admin_id']=1;
 //                $this->get_powen($role);
             }
@@ -127,6 +153,8 @@ class IndexController extends BaseController {
         }
         Yii::app()->session['power']=$power;
     }
+
+
 
 
 }

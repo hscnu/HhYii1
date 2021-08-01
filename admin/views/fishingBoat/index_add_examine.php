@@ -2,8 +2,7 @@
 <div class="box">
     <div class="box-title c">
         <h2><i class="fa fa-table"></i> 当前界面：社区单位》意向入驻管理》
-            <span style="color:DodgerBlue">添加入驻</span></h2>
-        <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
+            <span style="color:DodgerBlue">添加待审核</span></h2>
     </div><!--box-title end-->
 
         <div class="box-search">
@@ -29,11 +28,12 @@
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
-                    <th><?php echo $model->getAttributeLabel('residence_type'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('account_number'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('apply_unit_or_apply_person'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('location'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('contact_number'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('boat_id'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('boat_type'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('registered_captain_name'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('captain_phone'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('affiliated_company'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('design_drainage'); ?></th>
                     <th><?php echo $model->getAttributeLabel('state'); ?></th>
                     <th><?php echo $model->getAttributeLabel('operation_time'); ?></th>
 
@@ -46,18 +46,18 @@
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
 
-                        <td style='text-align: center;'><?php echo $v->residence_type; ?></td>
-                        <td style='text-align: center;'><?php echo $v->account_number; ?></td>
-                        <td><?php echo $v->apply_unit_or_apply_person; ?></td>
-                        <td><?php echo $v->location; ?></td>
-                        <td><?php echo $v->contact_number; ?></td>
+                        <td style='text-align: center;'><?php echo $v->boat_id; ?></td>
+                        <td><?php echo $v->boat_type; ?></td>
+                        <td style='text-align: center;'><?php echo $v->registered_captain_name; ?></td>
+                        <td style='text-align: center;'><?php echo $v->captain_phone; ?></td>
+                        <td><?php echo $v->affiliated_company; ?></td>
+                        <td><?php echo $v->design_drainage; ?></td>
                         <td><?php echo $v->state; ?></td>
                         <td><?php echo $v->operation_time; ?></td>
+
                         <td>
                             <a class="btn" href="<?php echo $this->createUrl('detail', array('id' => $v->id)); ?>"
                                title="详情"><i class="fa fa-edit"></i></a>
-                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                               title="删除"><i class="fa fa-trash-o"></i></a>
                         </td>
                     </tr>
                 <?php } ?>

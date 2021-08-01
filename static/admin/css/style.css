@@ -478,6 +478,7 @@ tr.itemoff td input{
     display:inline-block;
     margin-right:20px;}
 .box-detail-submit{
+    margin-bottom: 200px;
 	margin-top:15px;
 	text-align:center;}
 .box-detail-submit button{
@@ -806,3 +807,194 @@ tr.itemoff td input{
 	padding-bottom:0.5em;}
 .context-menu-root .context-menu-separator{
 	padding:0;}
+
+.rtn{
+    display:inline-block;
+    padding:4px 12px;
+    font-weight:700;
+    font-size:13px;
+    color:#333;
+    border:1px #dcdcdc solid;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    -ms-border-radius:2px;
+    -o-border-radius:2px;
+    border-radius:2px;
+    background:#eee;}
+.rtn i{
+    font-size:14px;}
+.rtn:hover{
+    color:#333;
+    box-shadow:0 0 5px #eee;
+    border-color:#ccc;}
+
+.ccl{
+    display:inline-block;
+    padding:4px 12px;
+    font-weight:700;
+    font-size:13px;
+    color:#333;
+    border:1px #dcdcdc solid;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    -ms-border-radius:2px;
+    -o-border-radius:2px;
+    border-radius:2px;
+    background:#eee;}
+.ccl i{
+    font-size:14px;}
+.ccl:hover{
+    color:#333;
+    box-shadow:0 0 5px #eee;
+    border-color:#ccc;}
+
+.cfm{
+    display:inline-block;
+    padding:4px 12px;
+    font-weight:700;
+    font-size:13px;
+    color:#333;
+    border:1px #dcdcdc solid;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    -ms-border-radius:2px;
+    -o-border-radius:2px;
+    border-radius:2px;
+    background:#eee;}
+.cfm i{
+    font-size:14px;}
+.cfm:hover{
+    color:#333;
+    box-shadow:0 0 5px #eee;
+    border-color:#ccc;}
+.inputbox{  background-color: rgba(255,255, 255, 1);width:200px;  left: 50%;top:50%;
+    margin-left: -100px;margin-top:-50px;padding:28px; height:100px; border:1px #111 solid; display:none; position: fixed; /* 默认对话框隐藏 */ }
+.inputbox.show{display:block;}
+.inputbox input{position:relative;margin: 0 auto;width:80%; font-size:10px; margin-top:10px;}
+.box-table .list1{
+    width:100%;
+    border:1px #ddd solid;
+    border-radius:10px;
+    border-collapse: separate;
+    border-spacing: 5px;
+    margin-bottom:20px;
+}
+.box-table .list1 .image{
+    width:30%;
+}
+.box-table .list1 th, .list1 td{
+    padding:0px;
+    text-align:center;
+    vertical-align:middle;
+    max-width: 10px;
+    overflow: hidden;
+    white-space:nowrap;
+}
+.box-table .list2{
+    width:100%;
+    border:1px #ddd solid;
+    border-radius:10px;
+    border-collapse: separate;
+    border-spacing: 5px;
+    margin-bottom:20px;
+}
+.box-table .list2 .image{
+    width:30%;
+}
+.box-table .list2 th, .list2 td{
+    padding:0px;
+    text-align:center;
+    vertical-align:middle;
+    max-width: 10px;
+    overflow: hidden;
+    white-space:nowrap;
+}
+.box-table .list1:hover
+{
+    cursor:pointer;
+}
+.navigator:hover{
+    transition: all .4s;
+}
+
+.like{ font-size:30px;  color:#ccc;margin:20px;cursor:pointer; display: inline-block;} /*原始样式*/
+.yes{font-size:30px;  color:orangered;margin:20px;cursor:pointer; display: inline-block}
+.cleanfloat::after{clear: both; content:""; visibility: hidden;}/*清浮动*/
+.cleanfloat{ float:left; font-size:28px; margin:3px; color:#ccc; cursor:pointer;}/*五角星样式*/
+.hs,.cs{
+     font-size:28px; margin:3px; cursor:pointer;
+    color:orangered;
+}/*五角星点击后样式*/
+.up{
+    height: auto;
+    padding: 5px;
+    margin-right: 10px;
+    cursor:pointer;
+    left: 100px;
+    bottom: -5px;
+    position: absolute;
+}
+.down{
+    height: auto;
+    padding: 5px;
+    margin-right: 10px;
+    cursor:pointer;
+    left:   120px;
+    bottom: -5px;
+    position: absolute;
+}
+.up-clicked{
+    height: auto;
+    padding: 5px;
+    margin-right: 10px;
+    position: absolute;
+    cursor:pointer;
+    color:orangered;
+    left: 100px;
+    bottom: -5px;
+}
+.down-clicked{
+    height: auto;
+    padding: 5px;
+    margin-right: 10px;
+    position: absolute;
+    left: 120px;
+    bottom: -5px;
+    cursor:pointer;
+    color:orangered;
+}
+.eval_dish
+{
+    height: auto;
+    width: 20%;
+    padding:3px;
+    position: relative;
+}
+.eval_dish .dish
+{
+    width: auto;
+    border:1px #ddd solid;
+    padding: 3px;
+    background: #F8F8FF;
+}
+.eval_dish .dish:hover
+{
+    cursor: default;
+}
+.box-detail .eval{
+    width: 60%;
+    border:1px grey solid;
+    border-radius:2px;
+    border-collapse: separate;
+    border-spacing: 0px;
+    margin:0 auto;
+}
+
+.box-detail .eval td tr{
+    background-color:snow;
+    border: none;
+}
+.box-detail .eval .eval_label
+{
+    width: 80px;
+}

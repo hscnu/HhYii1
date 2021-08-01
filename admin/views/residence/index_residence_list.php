@@ -3,6 +3,7 @@
     <div class="box-title c">
         <h2><i class="fa fa-table"></i> 当前界面：社区单位》意向入驻管理》
             <span style="color:DodgerBlue">意向入驻列表</span></h2>
+        <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
     </div><!--box-title end-->
     <div class="box-search">
         <form action="<?php echo Yii::app()->request->url; ?>" method="get">
@@ -12,6 +13,11 @@
                 <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
                 <span>-</span>
                 <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
+            </label>
+            <label style="margin-right:20px;">
+                <span>单位所在地：</span>
+                <select name="province"></select><select name="city"></select><select name="area"></select>
+                <script>new PCAS("province","city","area","<?php echo Yii::app()->request->getParam('province');?>","<?php echo Yii::app()->request->getParam('city');?>","<?php echo Yii::app()->request->getParam('area');?>");</script>
             </label>
             <label style="margin-right:10px;">
                 <span>关键字：</span>
@@ -58,6 +64,7 @@
                            title="编辑"><i class="fa fa-edit"></i></a>
                         <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                            title="删除"><i class="fa fa-trash-o"></i></a>
+
                     </td>
                 </tr>
             <?php } ?>

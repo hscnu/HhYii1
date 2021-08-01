@@ -3,11 +3,12 @@
     <div class="box-title c">
         <h2><i class="fa fa-table"></i> 当前界面：社区单位》意向入驻管理》
             <span style="color:DodgerBlue">添加入驻</span></h2>
+            <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
     </div><!--box-title end-->
     <div class="box-content">
         <div class="box-header">
             <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>添加</a>
-            <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
+
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i

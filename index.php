@@ -33,4 +33,6 @@ if (isset($_GET['debug']) && $_GET['debug'] == 1) {
 require_once($yii);
 //导入Select2
 require_once(ROOT_PATH .'/admin/extensions/yiiSelect2/Select2.php');
+require_once(ROOT_PATH .'/admin/extensions/MobileDetect-master/MobileDetect/MobileDetect.php');
+
 Yii::createWebApplication($config)->run();

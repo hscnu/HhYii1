@@ -1,6 +1,6 @@
 <?php
 
-class ResidenceController extends BaseController {
+class FishingBoatController extends BaseController {
 
     protected $model = '';
 
@@ -41,18 +41,6 @@ class ResidenceController extends BaseController {
         }
     }
 
-    public function actionDetail($id) {
-        $modelName = $this->model;
-        $model = $this->loadModel($id, $modelName);
-        if (!Yii::app()->request->isPostRequest) {
-            $data = array();
-            $data['model'] = $model;
-            $this->render('detail', $data);
-        } else {
-            $this->saveData($model, $_POST[$modelName]);
-        }
-    }
-
     public function actionExamine($id) {
         $modelName = $this->model;
         $model = $this->loadModel($id, $modelName);
@@ -65,13 +53,17 @@ class ResidenceController extends BaseController {
         }
     }
 
-    public function actionqrdsh($id,$keywords=''){
-        $tmp = Residence::model()->find('id='.$id);
-        $tmp->state = '待审核';
-        $tmp->save();
-        $this->actionIndex_Residence_Examine($keywords);
+    public function actionDetail($id) {
+        $modelName = $this->model;
+        $model = $this->loadModel($id, $modelName);
+        if (!Yii::app()->request->isPostRequest) {
+            $data = array();
+            $data['model'] = $model;
+            $this->render('detail', $data);
+        } else {
+            $this->saveData($model, $_POST[$modelName]);
+        }
     }
-
 
     function saveData($model, $post) {
         $modelName = $this->model;
@@ -82,8 +74,8 @@ class ResidenceController extends BaseController {
             $no = '保存失败';
         }elseif($_POST['submitType'] == 'tijiaoshenhe'){
             $model->state = '待审核';
-            $yes = '已提交审核';
-            $no = '提交审核失败';
+            $yes = '保存成功';
+            $no = '保存失败';
         }elseif($_POST['submitType'] == 'shenhetongguo'){
             $model->state = '审核通过';
             $yes = '审核完成，已通过';
@@ -97,7 +89,7 @@ class ResidenceController extends BaseController {
     }
 
     //列表搜索
-    public function actionIndex_Add_Residence($keywords = '',$start_date='',$end_date='') {
+    public function actionIndex_Add_Ship($keywords = '',$start_date='',$end_date='') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
@@ -107,7 +99,7 @@ class ResidenceController extends BaseController {
         $criteria->condition=get_where($criteria->condition,($start_date!=""),'uDate>=operation_time',$start_date,'"');
         $criteria->condition=get_where($criteria->condition,($end_date!=""),'uDate<=residence_time',$end_date,'"');
         $data = array();
-        parent::_list($model, $criteria, 'index_add_residence', $data);
+        parent::_list($model, $criteria, 'index_add_ship', $data);
     }
 
     public function actionIndex_Add_Examine($keywords = '',$start_date='',$end_date='') {
@@ -123,49 +115,30 @@ class ResidenceController extends BaseController {
         parent::_list($model, $criteria, 'index_add_examine', $data);
     }
 
-    public function actionIndex_Residence_Examine($keywords = '',$start_date='',$end_date='') {
+    public function actionIndex_Ship_Examine($keywords = '',$start_date='',$end_date='') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
         $criteria = new CDbCriteria;
-        $criteria -> condition = get_like("state='待审核'",'state',$keywords);
+        $criteria -> condition = get_like("state='待审核'",'apply_unit_or_apply_person,account_number',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'apply_unit_or_apply_person,account_number',$keywords);
         $criteria->condition=get_where($criteria->condition,($start_date!=""),'uDate>=operation_time',$start_date,'"');
         $criteria->condition=get_where($criteria->condition,($end_date!=""),'uDate<=residence_time',$end_date,'"');
         $data = array();
-        parent::_list($model, $criteria, 'index_residence_examine', $data);
+        parent::_list($model, $criteria, 'index_ship_examine', $data);
     }
 
-    public function actionIndex_Residence_List($keywords = '',$start_date='',$end_date='',$province='',$city='',$area='') {
+    public function actionIndex_Ship_List($keywords = '',$start_date='',$end_date='') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
         $criteria = new CDbCriteria;
-        $criteria->condition = 'club_type=8 and if_del=510 and unit_state=648';
         $criteria -> condition = get_like("state='审核通过'",'apply_unit_or_apply_person,account_number',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'apply_unit_or_apply_person,account_number',$keywords);
         $criteria->condition=get_where($criteria->condition,($start_date!=""),'uDate>=operation_time',$start_date,'"');
         $criteria->condition=get_where($criteria->condition,($end_date!=""),'uDate<=residence_time',$end_date,'"');
-        if($province !== ''){
-            $criteria->condition.=' AND club_area_province like "%' . $province . '%"';
-        }
-
-        if ($city == '市辖区' || $city == '市辖县' || $city == '省直辖县级行政区划') {
-            $city = '';
-        }
-        if ($area == '市辖区' || $area == '市辖县' || $area == '省直辖县级行政区划') {
-            $area = '';
-        }
-
-        if ($city != '') {
-            $criteria->condition.=' AND (club_area_city like "%' . $city . '%" or club_area_district like "%' . $city . '%" or club_area_township like "%' . $city . '%")';
-        }
-
-        if ($area != '') {
-            $criteria->condition.=' AND ( club_area_city like "%' . $area . '%" or club_area_district like "%' . $area . '%" or club_area_township like "%' . $area . '%")';
-        }
         $data = array();
-        parent::_list($model, $criteria, 'index_residence_list', $data);
+        parent::_list($model, $criteria, 'index_ship_list', $data);
     }
 
     public function actionIndex_Examine_Fail_List($keywords = '') {
@@ -179,11 +152,7 @@ class ResidenceController extends BaseController {
         $data = array();
         parent::_list($model, $criteria, 'index_examine_fail_list', $data);
     }
-
 }
-
-
-
 
 
 

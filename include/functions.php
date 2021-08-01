@@ -1323,6 +1323,20 @@ function show_pic($flie='',$id=''){
     return $html;
 }
 
+function show_picture($flie='',$id=''){
+    $html='';
+    if($flie){
+        $html=empty($id)?'<div style="max-width:150px; max-height:80px;overflow:hidden;">':
+            '<div style="float: left; margin-right:50px" id="upload_pic_'.$id.'">';
+        $html.= '<a href="'.$flie.'" target="_blank" title="点击查看">';
+        $html.= substr($flie,-3,3)=='pdf'?
+            '<img src="'.'/scnursps/uploads/temp/image/pdf_icon.jpg'.'" style="height:80px; width:150px;">':
+            '<img src="'.$flie.'" style="height:80px; width:150px;">';
+        $html.='</a></div>';
+    }
+    return $html;
+}
+
 
 function fget_fieldstr($model) {
     $dm= $model::model()->attributeLabels();

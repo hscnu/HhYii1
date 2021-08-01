@@ -50,9 +50,13 @@ class Residence extends BaseModel {
             'remark'=>'备注',
             'residence_time'=>'入驻时间',
             'job'=>'职业',
-            'IDcard_photo'=>'身份证照',
+            'IDcard_photo_front'=>'身份证照正面',
+            'IDcard_photo_back'=>'身份证照反面',
             'business_license'=>'营业执照',
             'unit_name'=>'单位名称',
+            'examine_person'=>'审核人',
+            'examine_time'=>'审核时间',
+            'examine_explain'=>'审核说明',
         );
     }
 
@@ -86,5 +90,9 @@ class Residence extends BaseModel {
 
         parent::beforeSave();
         return true;
+    }
+
+    public function picLabels(){
+        return 'IDcard_photo_front';
     }
 }
