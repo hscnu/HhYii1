@@ -9,8 +9,8 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
-        $navData[]=array('index_appoint_finish','待审核','('.$finishCount.')');
-        //$navData[]=array('Index_F_examine','外部审核','('.$FExamineCount.')');
+        //$navData[]=array('index_appoint_finish','待审核','('.$finishCount.')');
+        $navData[]=array('Index_F_examine','待审核','('.$FExamineCount.')');
         echo $this->getNav($navData);
         ;?>
 
@@ -70,8 +70,8 @@
 
 
                             <!--  状态改变                             >提交</a>-->
-                            <!--                            --><?php //echo $this->chge_state_btn($v,'内部审核通过','index_appoint_finish')?>
-                            <!--                            --><?php //echo $this->chge_state_btn($v,'外部审核通过','Index_F_examine')?>
+<!--                            --><?php //echo $this->chge_state_btn($v,'内部审核通过','index_appoint_finish')?>
+<!--                            --><?php //echo $this->chge_state_btn($v,'外部审核通过','Index_F_examine')?>
                             <!-- 状态改变end                           -->
 
                             <?php echo $this->edit_btn($v)?>
@@ -104,7 +104,6 @@
         var url = '<?php echo $this->createUrl("OpenDialogOrder");?>&Id='+id+'&nowView=index_examine'+'&examineType='+examineType;
         //url=url+'&Id='+id;
         //console.log(url);
-        //console.log(111);
         $.dialog.data('id',0)
         $.dialog.open(url,{
             id: 'chooseShr',
@@ -114,6 +113,7 @@
             title:'查看明细',
             close: function () {
                 we.reload();
+
                 if($.dialog.data('id')>0){
                     s1='<?php echo $this->createUrl('GetOrderDetails')?>'
                     s1=s1+'&shrId='+$.dialog.data('id')+'&oId='+id

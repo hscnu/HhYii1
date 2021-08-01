@@ -182,7 +182,7 @@ class DisinfectionOrderController extends BaseController {
     public function actionIndex_F_examine($keywords = '') {
         $w="state=4";
         $examineType='F_examine';
-        $this->actionIndex_by_condition('index_examine',$keywords,$w,$examineType);
+        $this->actionIndex_by_condition('index_examine2',$keywords,$w,$examineType);
     }
     //待签收
     public function actionIndex_wait_sign($keywords = '') {
@@ -386,6 +386,26 @@ class DisinfectionOrderController extends BaseController {
 
         parent::_list($model, $criteria, 'index_examine', $data);
     }
+    public function actionIndex_examine2($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+
+
+        $model->deleteAll('state'.' in (' . 0 . ')');
+
+
+        $data = $this->getAppointCountList();
+        $data['examineType']='None';
+
+        parent::_list($model, $criteria, 'index_examine2', $data);
+    }
+
 
     /// 订单审核end
     ///配送订单
@@ -419,4 +439,8 @@ class DisinfectionOrderController extends BaseController {
         parent::_list($model, $criteria, 'index_appointed', $data);
     }
     ///申请订单end
+    public function actionGetDetailUnit($name){
+        $tem = TableWare::model()->find("name='".$name."'");
+        echo CJSON::encode($tem->unit);
+    }
 }

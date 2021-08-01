@@ -105,7 +105,13 @@
     ptype.on('change',function (){
         select(this)
     })
-
+    var ptype2=$('#<?php echo get_class($model)?>_tableware_name');
+    ptype2.on('change',function (){
+        $.get('<?php echo $this->createUrl('GetDetailUnit')?>',{'name':$(this).val()},(res)=>{
+            console.log(res)
+            $('#<?php echo get_class($model)?>_unit').val(res);
+        },'json')
+    })
     select(ptype);
     function select(obj){
         var show_id=$(obj).val();//选中的种类

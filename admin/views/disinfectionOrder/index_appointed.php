@@ -1,7 +1,7 @@
 <div class="box">
     <div class="box-content">
         <div class="box-header">
-            <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>申请订单</a>
+            <a class="btn btn-green" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>申请订单</a>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
