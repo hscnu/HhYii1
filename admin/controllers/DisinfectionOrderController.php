@@ -29,17 +29,23 @@ class DisinfectionOrderController extends BaseController {
         $modelName = $this->model;
         $model = $this->loadModel($id, $modelName);
         $detailList=DisinfectionOrderDetail::model()->findAll('order_id='.$id);
+        $uid=get_session('userId');
         if (!Yii::app()->request->isPostRequest) {
             $data = array();
             $data['model'] = $model;
             $data['detailList'] = $detailList;
 
+            $temp=DisinfectionOrder::model()->find("appionter_id = '".$uid."' order by date desc");
+            if($temp){
+                $model->disinfection_name=$temp->disinfection_name;
+            }
+
             $resId=$this->getUserUnit();
             $data['restaurant_name']=Restaurant::model()->getNameFromId($resId);
-
+            $data['code']=$id;
             $this->render('update', $data);
         } else {
-
+            $model->appionter_id=$uid;
             $this->saveData($model, $_POST[$modelName]);
         }
     }
@@ -66,7 +72,7 @@ class DisinfectionOrderController extends BaseController {
         }
 
         $model['disinfection_id']=DisinfectionCenter::model()->getIdFromName($model['disinfection_name']);
-
+        $model['appoint_time']=date('Y-m-d');
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
 
@@ -121,6 +127,8 @@ class DisinfectionOrderController extends BaseController {
 
     public function Save_detail($model, $post) {
         $model->attributes = $post;
+        $tmp = TableWare::model()->find("name='".$model->tableware_name."'");
+        $model->tableware_code=$tmp->code;
         $url=Yii::app()->request->getUrl().'&isClose=1';
         show_status($model->save(), '保存成功',$url, '保存失败');
     }

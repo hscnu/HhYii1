@@ -14,7 +14,10 @@ class DisinfectionOrderDetail extends BaseModel {
      */
     public function rules() {
         return array(
-//            array('order_id', 'required', 'message' => '{attribute} 不能为空'),
+            array('tableware_type', 'required', 'message' => '{attribute} 不能为空'),
+            array('tableware_name', 'required', 'message' => '{attribute} 不能为空'),
+            array('unit', 'required', 'message' => '{attribute} 不能为空'),
+            array('number', 'required', 'message' => '{attribute} 不能为空'),
 
             array($this->safeField(), 'safe',),
         );
@@ -36,10 +39,12 @@ class DisinfectionOrderDetail extends BaseModel {
             'order_id' => '订单ID',
             'tableware_type' => '餐具类型',
             'tableware_name' =>'餐具名称',
-            'unit' => '消毒单位',
+            'unit' => '单位',
             'cost' => '消毒单价',
             'number' => '数量',
-            'total_cost' => '总价'
+            'total_cost' => '总价',
+            'tableware_code'=>'餐具编号',
+            'notes'=>'备注',
 
 
         );

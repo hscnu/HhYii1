@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="box-title c"><h1><i class="fa fa-table"></i>单位信息</h1><span class="back"></span></div><!--box-title end-->
+    <div class="box-title c"><h1><i class="fa fa-table"></i>消毒订单明细</h1><span class="back"></span></div><!--box-title end-->
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
         <div class="box-detail-tab">
@@ -11,16 +11,10 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr class="table-title">
-                        <td colspan="2">申请信息</td>
+                        <td colspan="4">申请信息</td>
                     </tr>
 
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'order_id'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'order_id', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'order_id', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
+                    <?php echo $form->hiddenField($model, 'order_id', array('class' => 'input-text')); ?>
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'tableware_type'); ?></td>
@@ -28,9 +22,7 @@
                             <?php echo $form->dropDownList($model, 'tableware_type', Chtml::listData(TableWareType::model()->getAllType(),'type', 'type'), array('prompt'=>'请选择')); ?>
                             <?php echo $form->error($model, 'tableware_type', $htmlOptions = array()); ?>
                         </td>
-                    </tr>
 
-                    <tr>
                         <td><?php echo $form->labelEx($model, 'tableware_name'); ?></td>
                         <td>
                             <?php echo $form->dropDownList($model, 'tableware_name', Chtml::listData(TableWareType::model()->getAllType(),'type', 'type'), array('prompt'=>'请选择')); ?>
@@ -44,15 +36,19 @@
                             <?php echo $form->textField($model, 'unit', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'unit', $htmlOptions = array()); ?>
                         </td>
-                    </tr>
 
-
-
-                    <tr>
                         <td><?php echo $form->labelEx($model, 'number'); ?></td>
                         <td>
                             <?php echo $form->textField($model, 'number', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'number', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="1"> <?php echo $form->labelEx($model, 'notes');?></td>
+                        <td colspan="3"> <?php echo $form->textArea($model, 'notes',
+                                array('class' => 'input-text', 'style'=>'width:97%;height:100px','maxlength' => '100','placeholder'=>"本栏目限填100字"));?>
+                            <?php echo $form->error($model, 'notes', $htmlOptions = array());?>
                         </td>
                     </tr>
 
@@ -105,13 +101,14 @@
     ptype.on('change',function (){
         select(this)
     })
+
     var ptype2=$('#<?php echo get_class($model)?>_tableware_name');
     ptype2.on('change',function (){
         $.get('<?php echo $this->createUrl('GetDetailUnit')?>',{'name':$(this).val()},(res)=>{
-            console.log(res)
             $('#<?php echo get_class($model)?>_unit').val(res);
         },'json')
     })
+
     select(ptype);
     function select(obj){
         var show_id=$(obj).val();//选中的种类

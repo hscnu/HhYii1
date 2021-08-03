@@ -20,6 +20,8 @@ class DisinfectionOrder extends BaseModel {
                 //array('restaurant_id', 'required', 'message' => '{attribute} 不能为空'),
                 array('disinfection_name', 'required', 'message' => '{attribute} 不能为空'),
                 array('date', 'required', 'message' => '{attribute} 不能为空'),
+                array('title', 'required', 'message' => '{attribute} 不能为空'),
+                array('code', 'required', 'message' => '{attribute} 不能为空'),
                 //array('complete_time', 'required', 'message' => '{attribute} 不能为空'),
 
             );
@@ -45,14 +47,15 @@ class DisinfectionOrder extends BaseModel {
             'restaurant_id' => '酒楼ID',
             'disinfection_id' => '消毒中心ID',
             'date' => '预约日期',
-
+            'code' => '订单编号',
             'restaurant_name' => '酒楼名称',
             'state' => '订单状态',
             'disinfection_name' => '消毒中心名称',
             'complete_time' => '完成时间',
             'notes' => '备注',
             'title'=>'订单标题',
-
+            'appionter_id'=>'申请人id',
+            'appoint_time'=>'申请时间',
         );
     }
 
@@ -103,7 +106,7 @@ class DisinfectionOrder extends BaseModel {
             13=>'待配送',
             //14=>'已配送',
         );
-        return $a[$state] ? $a[$state] :'未知';
+        return $a[$state] ?? '未知';
     }
 
 }

@@ -14,17 +14,24 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr class="table-title">
-                        <td colspan="6">填写订单信息</td>
+                        <td colspan="4">填写订单信息</td>
                     </tr>
 
                     <tr>
+                        <td><?php echo $form->labelEx($model, 'code'); ?></td>
+                        <td>
+                            <?php $code_value=Date('Y-m-d');$code_value.='-';$code_value.=$code;?>
+                            <?php echo $form->textField($model, 'code', array('class' => 'input-text','value'=>$code_value)); ?>
+                            <?php echo $form->error($model, 'code', $htmlOptions = array()); ?>
+                        </td>
                         <td><?php echo $form->labelEx($model, 'title'); ?></td>
                         <td>
                             <?php $title_value=Date('Y-m-d');$title_value.=' ';$title_value.=$restaurant_name;$title_value.='消毒订单'?>
                             <?php echo $form->textField($model, 'title', array('class' => 'input-text','value'=>$title_value)); ?>
                             <?php echo $form->error($model, 'title', $htmlOptions = array()); ?>
                         </td>
-
+                    </tr>
+                    <tr>
                         <td><?php echo $form->labelEx($model, 'disinfection_name');?></td>
                         <td><?php echo Select2::activeDropDownList($model, 'disinfection_name',Chtml::listData(DisinfectionCenter::model()->getAllName(), 'name', 'name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
                             <?php echo $form->error($model, 'disinfection_name', $htmlOptions = array());?>
@@ -32,15 +39,14 @@
 
                         <td><?php echo $form->labelEx($model, 'date');?></td>
                         <td>
-                            <?php echo $form->textField($model, 'date', array('class' => 'Wdate','style'=>'width:180px;'));?>
+                            <?php echo $form->textField($model, 'date', array('class' => 'Wdate','style'=>'width:180px;','value'=>Date('Y-m-d H:m:s')));?>
                             <?php echo $form->error($model, 'date', $htmlOptions = array());?>
                         </td>
                     </tr>
                     <tr>
-
                         <td colspan="1"> <?php echo $form->labelEx($model, 'notes');?></td>
-                        <td colspan="5"> <?php echo $form->textArea($model, 'notes',
-                                array('class' => 'input-text', 'style'=>'width:97%;height:100px','maxlength' => '2000','placeholder'=>"本栏目限填2000字"));?>
+                        <td colspan="3"> <?php echo $form->textArea($model, 'notes',
+                                array('class' => 'input-text', 'style'=>'width:97%;height:100px','maxlength' => '200','placeholder'=>"本栏目限填200字"));?>
                             <?php echo $form->error($model, 'notes', $htmlOptions = array());?>
                         </td>
                     </tr>
@@ -58,7 +64,7 @@
                     <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
                     <?php $model2 = DisinfectionOrderDetail::model();?>
                     <?php
-                    $str='tableware_type,tableware_name,unit,cost,number,total_cost';
+                    $str='tableware_code,tableware_type,tableware_name,unit,number';
                     echo $model2->gridHead($str); ?>
                     <th>操作</th>
                 </tr>
@@ -154,6 +160,8 @@
             dataType: 'json',
         })
     }
+
+
 </script>
 
 
