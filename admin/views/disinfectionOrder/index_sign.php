@@ -10,8 +10,8 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
-        $navData[]=array('Index_wait_sign','待签收','('.$waitSignCount.')');
-        $navData[]=array('Index_signed','已签收','('.$signedCount.')');
+        $navData[]=array('Index_wait_sign','待签收','('.$waitCenterSignCount.')');
+        //        $navData[]=array('Index_signed','已签收','('.$signedCount.')');
         echo $this->getNav($navData);
         ;?>
 
@@ -65,13 +65,13 @@
 
                         <td>
                             <?php {?>
-                                <button class="btn" type="button" onclick="chooseShr(<?php echo $v->id;?>);">查看细则</button>
+                                <button class="btn" type="button" onclick="chooseShr(<?php echo $v->id;?>);">查看明细</button>
                             <?php }?>
 
                             <!--                            <a class="btn btn-blue" href="--><?php //echo $this->createUrl('ChangeState', array('id' => $v->id)); ?><!--"-->
                             <!--  状态改变                             >提交</a>-->
 
-                            <?php echo $this->chge_state_btn($v,'签收','Index_wait_sign')?>
+                            <!--                            --><?php //echo $this->chge_state_btn($v,'签收','Index_wait_sign')?>
                             <!-- 状态改变end                           -->
                             <!--                            <a class="btn" href="--><?php //echo $this->createUrl('update', array('id' => $v->id)); ?><!--"-->
                             <!--                               title="编辑"><i class="fa fa-edit"></i></a>-->
@@ -101,7 +101,8 @@
 <!--查看明细-->
 <script>
     function chooseShr(id){
-        var url = '<?php echo $this->createUrl("OpenDialogOrder");?>&Id='+id;
+        var examineType = '<?php echo $examineType?>';
+        var url = '<?php echo $this->createUrl("OpenDialogOrder");?>&Id='+id+'&nowView=index_sign2'+'&examineType='+examineType;
         //url=url+'&Id='+id;
         //console.log(url);
         $.dialog.data('id',0)
@@ -110,8 +111,10 @@
             lock:true,opacity:0.3,
             width:'1000px',
             height:'80%',
-            title:'查看细则',
+            title:'查看明细',
             close: function () {
+                we.reload();
+
                 if($.dialog.data('id')>0){
                     s1='<?php echo $this->createUrl('GetOrderDetails')?>'
                     s1=s1+'&shrId='+$.dialog.data('id')+'&oId='+id
@@ -119,8 +122,8 @@
                         type: 'get',
                         url: s1,
                         dataType: 'json',
-                        success: function(data){
-                            we.reload()
+                        success: function(){
+                            we.reload();
                         },
 
                     });

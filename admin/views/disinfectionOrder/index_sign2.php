@@ -10,8 +10,8 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
-        $navData[]=array('Index_deliver_wait','待配送','('.$deliverwaitCount.')');
-        //        $navData[]=array('Index_deliver_finish','已配送','('.$waitRestSignCount.')');
+        $navData[]=array('Index_waitRestSign','待签收','('.$waitRestSignCount.')');
+        $navData[]=array('Index_signed','已签收','('.$signedCount.')');
         echo $this->getNav($navData);
         ;?>
 
@@ -38,7 +38,7 @@
                 <thead>
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
-
+                    <th><?php echo $model->getAttributeLabel('title'); ?></th>
                     <th><?php echo $model->getAttributeLabel('restaurant_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('disinfection_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('date'); ?></th>
@@ -55,10 +55,11 @@
                     <tr>
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
-
+                        <td style='text-align: center;'><?php echo $v->title; ?></td>
                         <td style='text-align: center;'><?php echo $v->restaurant_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->disinfection_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->date; ?></td>
+
                         <td style='text-align: center;'><?php echo $model->getCHName($v->state); ?></td>
                         <td style='text-align: center;'><?php echo $v->complete_time; ?></td>
 
@@ -66,14 +67,11 @@
                             <?php {?>
                                 <button class="btn" type="button" onclick="chooseShr(<?php echo $v->id;?>);">查看明细</button>
                             <?php }?>
-                            <?php if ($model->getCHName($v->state)=='待配送'){?>
-                                <button class="btn btn-blue" type="button" onclick="choose_order_delivered(<?php echo $v->id;?>,'<?php echo $v->state;?>');">指派配送人</button>
-                            <?php }?>
+
                             <!--                            <a class="btn btn-blue" href="--><?php //echo $this->createUrl('ChangeState', array('id' => $v->id)); ?><!--"-->
                             <!--  状态改变                             >提交</a>-->
-                            <!--                            --><?php //echo $this->chge_state_btn($v,'提交','Index_appoint')?>
-                            <!--                            --><?php //echo $this->chge_state_btn($v,'审核通过','index_appoint_finish')?>
-                            <!--                            --><?php //echo $this->chge_state_btn($v,'签收','Index_wait_sign')?>
+
+                            <?php echo $this->chge_state_btn($v,'签收','Index_wait_sign')?>
                             <!-- 状态改变end                           -->
                             <!--                            <a class="btn" href="--><?php //echo $this->createUrl('update', array('id' => $v->id)); ?><!--"-->
                             <!--                               title="编辑"><i class="fa fa-edit"></i></a>-->
@@ -103,7 +101,8 @@
 <!--查看明细-->
 <script>
     function chooseShr(id){
-        var url = '<?php echo $this->createUrl("OpenDialogOrder");?>&Id='+id;
+        var examineType = '<?php echo $examineType?>';
+        var url = '<?php echo $this->createUrl("OpenDialogOrder");?>&Id='+id+'&nowView=index_sign2'+'&examineType='+examineType;
         //url=url+'&Id='+id;
         //console.log(url);
         $.dialog.data('id',0)
@@ -114,6 +113,7 @@
             height:'80%',
             title:'查看明细',
             close: function () {
+                we.reload();
                 if($.dialog.data('id')>0){
                     s1='<?php echo $this->createUrl('GetOrderDetails')?>'
                     s1=s1+'&shrId='+$.dialog.data('id')+'&oId='+id
@@ -121,8 +121,8 @@
                         type: 'get',
                         url: s1,
                         dataType: 'json',
-                        success: function(data){
-                            we.reload()
+                        success: function(){
+                            we.reload();
                         },
 
                     });
@@ -132,37 +132,5 @@
         });
     };
 </script>
+
 <!--查看明细end-->
-<script>
-    <!--指定配送员-->
-    function choose_order_delivered(id){
-        var url = '<?php echo $this->createUrl("OpenDialogShr");?>';
-        $.dialog.data('id',0)
-        $.dialog.open(url,{
-            id: 'choose_order_delivered',
-            lock:true,opacity:0.3,
-            width:'1000px',
-            height:'80%',
-            title:'选择配送员',
-            close: function () {
-                // if(state==13)
-                if($.dialog.data('id')>0)
-                {
-                    s1='<?php echo $this->createUrl('SetShrIdAndName')?>'
-                    s1=s1+'&shrId='+$.dialog.data('id')+'&oId='+id
-                    $.ajax({
-                        type: 'get',
-                        url: s1,
-                        dataType: 'json',
-                        success: function(data){
-                            we.reload()
-                        },
-
-                    });
-                }
-            }
-
-        });
-    };
-</script>
-<!--指定配送员end-->

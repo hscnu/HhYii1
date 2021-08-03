@@ -54,7 +54,7 @@ class DisinfectionOrder extends BaseModel {
             'complete_time' => '完成时间',
             'notes' => '备注',
             'title'=>'订单标题',
-            'appionter_id'=>'申请人id',
+            'appointer_id'=>'申请人id',
             'appoint_time'=>'申请时间',
         );
     }
@@ -103,10 +103,12 @@ class DisinfectionOrder extends BaseModel {
             9=>'待归还',
             10=>'待签收',
             11=>'已签收',
-            13=>'待配送',
+            13=>'待配送',//酒楼送往中心
             //14=>'已配送',
+            14=>'待消毒中心配送',//中心送往酒楼
+            15=>'待消毒中心签收',
         );
-        return $a[$state] ?? '未知';
+        return $a[$state] ?$a[$state]: '未知';
     }
 
 }

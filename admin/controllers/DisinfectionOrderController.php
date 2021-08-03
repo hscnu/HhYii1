@@ -35,7 +35,7 @@ class DisinfectionOrderController extends BaseController {
             $data['model'] = $model;
             $data['detailList'] = $detailList;
 
-            $temp=DisinfectionOrder::model()->find("appionter_id = '".$uid."' order by date desc");
+            $temp=DisinfectionOrder::model()->find("appointer_id = '".$uid."' order by date desc");
             if($temp){
                 $model->disinfection_name=$temp->disinfection_name;
             }
@@ -45,7 +45,7 @@ class DisinfectionOrderController extends BaseController {
             $data['code']=$id;
             $this->render('update', $data);
         } else {
-            $model->appionter_id=$uid;
+            $model->appointer_id=$uid;
             $this->saveData($model, $_POST[$modelName]);
         }
     }
@@ -192,28 +192,35 @@ class DisinfectionOrderController extends BaseController {
         $examineType='F_examine';
         $this->actionIndex_by_condition('index_examine2',$keywords,$w,$examineType);
     }
-    //待签收
+    //待消毒中心签收
     public function actionIndex_wait_sign($keywords = '') {
-        $w="state=10";
-        $this->actionIndex_by_condition('index_sign',$keywords,$w);
+        $w="state=15";
+        $examineType='Center_Sign';
+        $this->actionIndex_by_condition('index_sign',$keywords,$w,$examineType);
     }
-    //已签收
+    //待酒楼签收
+    public function actionIndex_waitRestSign($keywords = '')
+    {
+        $w = "state=10";
+        $examineType='Rest_Sign';
+        $this->actionIndex_by_condition('index_sign2', $keywords, $w,$examineType);
+    }
+    //酒楼已签收
     public function actionIndex_signed($keywords = '') {
         $w="state=11";
-        $this->actionIndex_by_condition('index_sign',$keywords,$w);
+        $this->actionIndex_by_condition('index_sign2',$keywords,$w);
     }
-    //待配送
+    //待酒楼配送
     public function actionIndex_deliver_wait($keywords = '')
     {
         $w = "state=13";
         $this->actionIndex_by_condition('index_get_delivered', $keywords, $w);
     }
-
-    //已配送
-    public function actionIndex_deliver_finish($keywords = '')
+    //待消毒中心配送
+    public function actionIndex_deliver_wait2($keywords = '')
     {
-        $w = "state=10";
-        $this->actionIndex_by_condition('index_get_delivered', $keywords, $w);
+        $w = "state=14";
+        $this->actionIndex_by_condition('index_get_delivered2', $keywords, $w);
     }
     public function getAppointCountList(){
         $modelName = $this->model;
@@ -221,22 +228,24 @@ class DisinfectionOrderController extends BaseController {
         $todayCount = count($modelName::model()->findAll('state=1'));
         $waitCount = count($modelName::model()->findAll('state=2'));
         $finishCount = count($modelName::model()->findAll('state=3'));
-        $waitSignCount = count($modelName::model()->findAll('state=10'));
+        $waitCenterSign = count($modelName::model()->findAll('state=15'));
         $signedCount = count($modelName::model()->findAll('state=11'));
         $IExamine = count($modelName::model()->findAll('state=12'));
         $FExamine = count($modelName::model()->findAll('state=4'));
         $deliver_wait = count($modelName::model()->findAll('state=13'));
-        $deliver_finish = count($modelName::model()->findAll('state=10'));
+        $waitRestSign = count($modelName::model()->findAll('state=10'));
+        $deliver_wait2 = count($modelName::model()->findAll('state=14'));
         return array(
             'todayCount'=>$todayCount,
             'waitCount'=>$waitCount,
             'finishCount'=>$finishCount,
-            'waitSignCount'=>$waitSignCount,
+            'waitCenterSignCount'=>$waitCenterSign,
             'signedCount'=>$signedCount,
             'IExamineCount'=>$IExamine,
             'FExamineCount'=>$FExamine,
             'deliverwaitCount' => $deliver_wait,
-            'deliverfinishCount' => $deliver_finish,
+            'waitRestSignCount'=>$waitRestSign,
+            'deliverwait2Count'=>$deliver_wait2,
         );
     }
     public function getDisinfectionKeyWords($keywords = ''){
@@ -286,6 +295,7 @@ class DisinfectionOrderController extends BaseController {
     /// 配送订单
     public function actionSetShrIdAndName($oId, $shrId)
     {
+        put_msg(11);
         $shr = DistributorCen::model()->find('user_id=' . $shrId);//根据送货人ID找到该用户信息
         $order = DisinfectionOrder::model()->findAll("id in (" . $oId . ")");//找订单
         if ($order) {
@@ -293,7 +303,7 @@ class DisinfectionOrderController extends BaseController {
                 $v->deliver_id = $shrId;//填入送货人信息
                 $v->deliver_name = $shr->user_name;
                 $v->deliver_tel = $shr->user_tel;
-                $v->state = 10;//修改状态
+                $v->state =(($v->state==13)?15:10);//修改状态 13=>待酒楼配送 10=>待酒楼签收 15=>待消毒中心签收
                 $v->save();
             }
         }
@@ -320,8 +330,9 @@ class DisinfectionOrderController extends BaseController {
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);
         $a=array(
-            '外部审核通过'=>13,
             '签收'=>11,
+            '外部审核通过'=>13,
+            '消毒中心签收'=>14,
             '内部审核通过'=>4,
             '提交'=>2,
             '送往审核'=>3,
@@ -335,11 +346,11 @@ class DisinfectionOrderController extends BaseController {
     public function chge_state_btn($v,$titleName,$action_chosed=''){
         $action=strtolower(Yii::app()->controller->getAction()->id);
         $judgeAction=strtolower($action_chosed);
-        $htlm='<a class="btn btn-blue" href="';
+        $html='<a class="btn btn-blue" href="';
         $url=$this->createUrl('ChangeState',array('id' => $v->id,'Now_state'=>$titleName));
-        $htlm.=$url.'">'.$titleName.'</a>';
+        $html.=$url.'">'.$titleName.'</a>';
         if($action==$judgeAction){
-            return $htlm;
+            return $html;
         }
     }
     public function edit_btn($v){
@@ -372,6 +383,24 @@ class DisinfectionOrderController extends BaseController {
         $data = $this->getAppointCountList();
 
         parent::_list($model, $criteria, 'index_sign', $data);
+    }
+    public function actionIndex_sign2($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+
+
+        $model->deleteAll('state'.' in (' . 0 . ')');
+
+
+        $data = $this->getAppointCountList();
+
+        parent::_list($model, $criteria, 'index_sign2', $data);
     }
     /// 订单签收end
     /// 订单审核
@@ -430,6 +459,20 @@ class DisinfectionOrderController extends BaseController {
         $model->deleteAll('state'.' in (' . 0 . ')');
         $data = $this->getAppointCountList();
         parent::_list($model, $criteria, 'index_get_delivered', $data);
+    }
+    public function actionIndex_get_delivered2($keywords='')
+    {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+        $model->deleteAll('state'.' in (' . 0 . ')');
+        $data = $this->getAppointCountList();
+        parent::_list($model, $criteria, 'index_get_delivered2', $data);
     }
     ///配送订单end
     ///申请订单
