@@ -11,54 +11,66 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr class="table-title">
-                        <td colspan="2">申请信息</td>
                     </tr>
-
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'order_id'); ?></td>
+                    <!--<tr>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'order_id'); ?></td>
                         <td>
                             <?php echo $form->textField($model, 'order_id', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'order_id', $htmlOptions = array()); ?>
                         </td>
                     </tr>
-
+                    -->
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'species'); ?></td>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'code'); ?></td>
                         <td>
-                            <?php echo $form->textField($model, 'species', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'species', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'code', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'code', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'weight'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'weight', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'weight', $htmlOptions = array()); ?>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'species');?></td>
+                        <td><?php echo Select2::activeDropDownList($model, 'species',Chtml::listData(BaseCodefish::model()->getByType('type'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
+                            <?php echo $form->error($model, 'species', $htmlOptions = array());?>
                         </td>
                     </tr>
-          
-                    </table>
-                </div>
-            </div><!--box-detail-tab-item end   style="display:block;"-->
 
-        </div><!--box-detail-bd end-->
+                    <tr>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'unit');?></td>
+                        <td><?php echo Select2::activeDropDownList($model, 'unit',Chtml::listData(BaseCodefish::model()->getByType('unit'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
+                            <?php echo $form->error($model, 'unit', $htmlOptions = array());?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'number'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'number', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'number', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div><!--box-detail-tab-item end   style="display:block;"-->
+
+    </div><!--box-detail-bd end-->
 
 
 
-        <div class="box-detail-submit">
-            <button onclick="save()" class="btn btn-blue" type="submit">保存</button>
-        </div>
+    <div class="box-detail-submit">
+        <button onclick="save()" class="btn btn-blue" type="submit">保存</button>
+    </div>
 
-        <?php $this->endWidget(); ?>
-    </div><!--box-detail end-->
+    <?php $this->endWidget(); ?>
+</div><!--box-detail end-->
 </div><!--box end-->
 
 <script>
     //后台点击保存按钮后，重定向自身页面（刷新），并转一个参数，通知关闭
     if('<?php echo $isClose==1?>'){
         $.dialog.data('detailId','<?php echo $model->id;?>')
-         $.dialog.close();
+        $.dialog.close();
     }
 
     $(function(){
@@ -68,7 +80,7 @@
                 name: '取消'
             }
         );
-        });
+    });
 </script>
 
 

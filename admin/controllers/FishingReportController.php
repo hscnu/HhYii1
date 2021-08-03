@@ -22,21 +22,24 @@ class FishingReportController extends BaseController {
         $this->actionUpdate($model->id);//跳转到修改动作
     }
 
-
-
-
-
 //列表搜索
-    public function actionIndex($views='',$keywords = '',$w='',$state='',$start_date='') {
+    public function actionIndex($views='',$keywords = '',$w='',$state='',$start_date='',$end_date='') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
+        //$model->deleteAll('state=0');
         //$criteria = new CDbCriteria;
         //$criteria -> condition = get_like('1','name,number',$keywords);
         //$criteria -> condition = get_like( $criteria -> condition,'name,number',$keywords);
         //$criteria-> condition = get_like( $criteria -> condition,'state',$state);
         //模型筛选条件
         $criteria = $this->addcondition($model,$views,$keywords,$w,$state);
+        //只显示登录用户的数据
+        if($views=='捕鱼上报'){
+
+            $criteria ->addCondition('userId='.get_session('userId'));
+
+        }
         //判断按钮操作
         if(DecodeAsk('oper','')=='checkall'){
             $this->checkall();
@@ -50,10 +53,19 @@ class FishingReportController extends BaseController {
     }
     public function addcondition($model,$views,$keywords,$w,$state){
         $criteria = new CDbCriteria;
+
         $start_date=DecodeAsk('start_date',Date('Y-m-d'));
+        $end_date=DecodeAsk('end_date',Date('Y-m-d'));
+
         $state=DecodeAsk('state',$state);
-        $criteria -> condition = get_like( '1' ,'id,name,fishingtime,reporttime,count,state,boatname,company',$keywords);
-        $criteria-> condition = get_like( $criteria -> condition,'reporttime',$start_date);
+        $criteria -> condition = get_like( '1' ,'id,name,fishingtime,reporttime,state,boatname,company',$keywords);
+
+        // $criteria-> condition = get_like( $criteria -> condition,'reporttime',$start_date);
+        // $criteria-> condition = get_like( $criteria -> condition,'reporttime',$end_date);
+
+        $criteria->condition=get_where($criteria->condition,($start_date!=""),'reporttime>=',$start_date,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date!=""),'reporttime<=',$end_date,'"');
+
         //附加条件
         $p_condition=$model::model()->getInfoFromMenu($views,'p_condition');
         if(!empty($p_condition))
@@ -64,6 +76,7 @@ class FishingReportController extends BaseController {
         if(!empty($w)){
             $criteria->addCondition($w);
         }
+
         put_msg(CJSON::encode($criteria));
         return $criteria;
     }
@@ -150,6 +163,8 @@ class FishingReportController extends BaseController {
         $model=$this->loadModel($id,$this->model);
         $model->check_save=0;
         $model->attributes = $_REQUEST[$this->model];
+        $start_date_search=Yii::app()->request->getParam('reporttime');
+        $model->reporttime=$start_date_search?$start_date_search:Date('Y-m-d');
         $model->save();
     }
 
@@ -174,8 +189,9 @@ class FishingReportController extends BaseController {
         }
     }
 
-
-
-
+    public function actionGetDetailUnit($name){
+        $tem = TableWare::model()->find("name='".$name."'");
+        echo CJSON::encode($tem->unit);
+    }
 
 }

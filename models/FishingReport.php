@@ -44,9 +44,8 @@ class FishingReport extends BaseModel
             'count'=>'记录数',
             'fishingtime' => '捕鱼时间',
             'reporttime'=>'上报时间',
-
-
-
+            'userId'=>'用户',
+            'remark'=>'备注',
         );
     }
 
@@ -82,6 +81,14 @@ class FishingReport extends BaseModel
 
         );
         return isset($a[$state])?$a[$state]:'未知状态';
+    }
+
+    protected function beforeSave() {
+
+        $this->userId=get_session('userId');
+
+        parent::beforeSave();
+        return true;
     }
 
 }

@@ -15,11 +15,12 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr>
-                        <td style='text-align: center;',width="20%"><?php echo $form->labelEx($model, 'name'); ?></td>
-                        <td width="30%">
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'name'); ?></td>
+                        <td >
                             <?php echo $form->textField($model, 'name', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'name', $htmlOptions = array()); ?>
                         </td>
+
                         <td style='text-align: center;'> <?php echo $form->labelEx($model, 'company'); ?></td>
                         <td >
                             <?php echo $form->textField($model, 'company', array('class' => 'input-text')); ?>
@@ -33,47 +34,36 @@
                             <?php echo $form->textField($model, 'boatname', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'boatname', $htmlOptions = array()); ?>
                         </td>
-
-                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'count'); ?></td>
-                        <td >
-                            <?php echo $form->textField($model, 'count', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'count', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-                    <tr>
                         <td style='text-align: center;'><?php echo $form->labelEx($model, 'fishingtime');?></td>
                         <td>
                             <?php echo $form->textField($model, 'fishingtime', array('class' => 'Wdate','style'=>'width:180px;'));?>
                             <?php echo $form->error($model, 'fishingtime', $htmlOptions = array());?>
                         </td>
-
-                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'reporttime');?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'reporttime', array('class' => 'Wdate','style'=>'width:180px;'));?>
-                            <?php echo $form->error($model, 'reporttime', $htmlOptions = array());?>
-                        </td>
                     </tr>
 
-
-
+                    <tr>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'remark');?></td>
+                        <td colspan="3" > <?php echo $form->textArea($model, 'remark',  array('class' => 'input-text', 'style'=>'width:97%;height:50px','maxlength' => '200','placeholder'=>"本栏目限填200字"));?>
+                            <?php echo $form->error($model, 'remark', $htmlOptions = array());?>
+                        </td>
+                    </tr>
 
                 </table>
 
             </div><!--box-detail-tab-item end   style="display:block;"-->
         </div><!--box-detail-bd end-->
-
+        <?php $index=1; ?>
         <div class="box-table">
             <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+上报明细</button>
             <table class="list">
                 <thead>
                 <tr>
-                    <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
+                    <th style='text-align: center;'>序号</th>
                     <?php $model2 =ReportDetail::model();?>
                     <?php
-                    $str='order_id,species,weight';
+                    $str='code,species,unit,number';
                     echo $model2->gridHead($str); ?>
-                    <th>操作</th>
+                    <th style='text-align: center;'>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,20 +71,18 @@
                 if(isset($detailList))
                     foreach ($detailList as $v) { ?>
                         <tr>
-                            <!--                        <td class="check check-item"><input class="input-check" type="checkbox"-->
-                            <!--                                                            value="--><?php //echo CHtml::encode($v->id); ?><!--"></td>-->
+                            <td style='text-align: center;'><?php echo $index++; ?></td>
                             <?php echo $v->gridRow($str); ?>
-
-                            <td>
+                            <td style='text-align: center;'>
                                 <button class="btn" type="button" onclick="updateDetail(<?php echo $v->id;?>);">编辑</button>
                                 <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                                   title="删除"><i class="fa fa-trash-o"></i></a>
+                                   title="删除"><i class="fa fa-trash-o"></i>删除</a>
                             </td>
                         </tr>
                     <?php } ?>
+
                 </tbody>
             </table>
-
         </div><!--box-table end-->
     </div><!--box-detail-bd end-->
 
@@ -124,6 +112,7 @@
         }
     );
 </script>
+
 <script>
     $(function() {
             var $date=$('#<?php echo get_class($model);?>_reporttime');
@@ -172,5 +161,6 @@
         })
     }
 </script>
+
 
 

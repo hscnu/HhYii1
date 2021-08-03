@@ -12,12 +12,12 @@ class ReportDetail extends BaseModel
     /**
      * 模型验证规则
      */
-      public function rules() {
+    public function rules() {
         if($this->check_save)
-        $a=array(
-            // array('id', 'required', 'message' => '{attribute} 不能为空'),
-        
-        );
+            $a=array(
+                // array('id', 'required', 'message' => '{attribute} 不能为空'),
+
+            );
         $a[]= array($this->safeField(), 'safe');
         return $a;
     }
@@ -37,10 +37,11 @@ class ReportDetail extends BaseModel
     {
         return array(
             'id' => 'ID',
-            'order_id'=>'订单号',
-            'species' => '种类',
-            'weight' => '重量',
-
+            'order_id'=>'表单号',
+            'species' => '名称',
+            'number' => '数量',
+            'code'=>'商品编码',
+            'unit'=>'单位',
         );
     }
 
@@ -57,4 +58,5 @@ class ReportDetail extends BaseModel
     {
         return $this->findAll('1=1');
     }
+
 }
