@@ -22,7 +22,7 @@
                         <td>
                             <?php echo $form->dropDownList($model, 'type', Chtml::listData(TableWareType::model()->getAllType(),'type', 'type'), array('prompt'=>'请选择')); ?>
                             <?php echo $form->error($model, 'type', $htmlOptions = array()); ?>
-                        </td>>
+                        </td>
                     </tr>
 
                     <tr>
@@ -73,6 +73,13 @@
         <?php $this->endWidget(); ?>
     </div><!--box-detail end-->
 </div><!--box end-->
-
+<script>
+    var ptype2=$('#<?php echo get_class($model)?>_type');
+    ptype2.on('change',function (){
+        $.get('<?php echo $this->createUrl('GetTypecode')?>',{'name':$(this).val()},(code)=>{
+            $('#<?php echo get_class($model)?>_code').val(code);
+        },'json')
+    })
+</script>
 
 

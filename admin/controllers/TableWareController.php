@@ -62,4 +62,8 @@ class TableWareController extends BaseController {
         $data = array();
         parent::_list($model, $criteria, 'index', $data);
     }
+    public function actionGetTypecode($name){
+        $tem = TableWareType::model()->find("type='".$name."'");
+        echo CJSON::encode($tem->code);
+    }
 }

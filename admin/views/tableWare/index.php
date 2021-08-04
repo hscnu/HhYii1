@@ -39,8 +39,8 @@
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
-                    <th><?php echo $model->getAttributeLabel('type'); ?></th>
                     <th><?php echo $model->getAttributeLabel('code'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('type'); ?></th>
                     <th><?php echo $model->getAttributeLabel('name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('unit'); ?></th>
                     <th><?php echo $model->getAttributeLabel('cost'); ?></th>
@@ -53,9 +53,8 @@
                     <tr>
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
-
-                        <td style='text-align: center;'><?php echo $v->type; ?></td>
                         <td style='text-align: center;'><?php echo $v->code; ?></td>
+                        <td style='text-align: center;'><?php echo $v->type; ?></td>
                         <td style='text-align: center;'><?php echo $v->name; ?></td>
                         <td style='text-align: center;'><?php echo $v->unit; ?></td>
                         <td style='text-align: center;'><?php echo $v->cost; ?></td>
