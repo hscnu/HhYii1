@@ -381,7 +381,7 @@ class DisinfectionOrderController extends BaseController {
 
 
         $data = $this->getAppointCountList();
-
+        $data['examineType']='None';
         parent::_list($model, $criteria, 'index_sign', $data);
     }
     public function actionIndex_sign2($keywords = '') {
@@ -397,9 +397,8 @@ class DisinfectionOrderController extends BaseController {
 
         $model->deleteAll('state'.' in (' . 0 . ')');
 
-
         $data = $this->getAppointCountList();
-
+        $data['examineType']='None';
         parent::_list($model, $criteria, 'index_sign2', $data);
     }
     /// 订单签收end
