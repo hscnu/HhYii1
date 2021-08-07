@@ -77,18 +77,24 @@
                         <td style='text-align: center;'><?php echo $v->evaluator; ?></td>
                         <?php if ($v->eval_ispass == 1){?>
                         <td>通过</td>
+                            <td>
+                            <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
+                               title="编辑"><i class="fa fa-edit"></i></a>
+                            <a class="btn" onClick="return confirm('确定退回?');" href="<?php echo $this->createUrl('return', array('id' => $v->id)); ?>"
+                               title="退回"><i class="fa fa-times"></i></a>
+                            </td>
                         <?php }
                         else{?>
                         <td>未通过</td>
-                        <?php } ?>
-                        <td>
+                            <td>
                             <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
                                title="编辑"><i class="fa fa-edit"></i></a>
                             <a class="btn" onClick="return confirm('确定通过?');" href="<?php echo $this->createUrl('pass', array('id' => $v->id)); ?>"
                                title="通过"><i class="fa fa-check"></i></a>
                             <a class="btn" onClick="return confirm('确定退回?');" href="<?php echo $this->createUrl('return', array('id' => $v->id)); ?>"
                                title="退回"><i class="fa fa-times"></i></a>
-                        </td>
+                            </td>
+                        <?php } ?>
                     </tr>
                 <?php
                         } ?>

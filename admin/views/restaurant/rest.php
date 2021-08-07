@@ -89,6 +89,11 @@
                                    title=<?php echo $a->d_name?>><?php echo $a->d_name;?>, </a>
                                 <?php
                             }
+                            if($dishes == null)
+                            {?>
+                                <a href="<?php echo $this->createUrl('station', array('rest'=>$v->r_name)); ?>">无</a>
+                                <?php
+                            }
                             ?>
                         </td>
                         <td>

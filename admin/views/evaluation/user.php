@@ -1,16 +1,15 @@
 <div class="box">
-
+    <?php $a = Restaurant::model()->find(array(
+        'select'=>array('r_image,r_name,r_address,r_phone,r_service,r_rank,r_like'),
+        'condition' => 'r_name=:r_name',
+        'params' => array('r_name'=>$_SESSION['rest']),
+    ));
+    ?>
     <div class="box-content">
         <div class="box-header">
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
             <a class="btn" href="<?php echo $this->createUrl('restaurant/user');?>"><i class="fa fa-undo"></i>返回</a>
         </div><!--box-header end-->
-        <?php $a = Restaurant::model()->find(array(
-            'select'=>array('r_image,r_name,r_address,r_phone,r_service,r_rank,r_like'),
-            'condition' => 'r_name=:r_name',
-            'params' => array('r_name'=>$_SESSION['rest']),
-        ));
-        ?>
         <div class="box-table">
             <table class="list2" >
                 <tbody>
@@ -75,7 +74,7 @@
                     <tr>
                         <p hidden id = 'star'><?php echo $v->eval_star; ?></p>
                         <td>
-                            <ul class="cleanfloat">
+                            <ul>
                                 <?php for($i=0;$i<$v->eval_star;$i++)
                                     { ?>
                                 <li class="hs">&#9733;</li>
@@ -83,7 +82,7 @@
                                     }
                                  for($i=0;$i<(5-$v->eval_star);$i++)
                                 { ?>
-                                <li>&#9733;</li>
+                                <li class="cleanfloat">&#9733;</li>
                                     <?php } ?>
                             </ul>
                         </td>
@@ -128,7 +127,7 @@
             isLike =  $(this).hasClass('yes');
             isLike  = + isLike;
             $.ajax({
-                url: '<?php echo $this->createUrl('savelike')?>',
+                url: '<?php echo $this->createUrl('Savelike')?>',
                 data: {'isLike': isLike},//传输的数据
                 type: 'post',//数据传送的方式get/post
                 dataType: 'text',//数据传输的格式是text
