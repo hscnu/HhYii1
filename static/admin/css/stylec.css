@@ -1,0 +1,361 @@
+@charset "utf-8";
+
+.btn-light-green{
+    color:#fff;
+    border-color: rgba(95, 170, 166, 0.49);
+    background-color:#5FAAA6;
+}
+
+.btn-light-green:hover{
+    color: #fff;
+    box-shadow:0 0 5px #eee;
+    border-color:rgba(95, 170, 166, 0.49);
+}
+
+.article-list{
+    /*border: 2px solid red;*/
+}
+
+
+
+.article-item{
+    Box-shadow:0 0 10px 0 rgba(160, 205, 198, 0.17);
+    display: flex;
+    /*flex-direction: row;*/
+    /*justify-content: center;*/
+    /*align-content: center;*/
+    font-size: 14px;
+    margin: 10px 10px 40px 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius:10px;
+    /*border: 0.1px solid #006666;*/
+}
+
+
+.article-title a{
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+}
+
+.article-content{
+    width: 100%;
+    margin: 10px;
+}
+
+.article-note{
+    color: grey;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.article-info{
+    margin-top: 10px;
+    color: #939393;
+    font-size: 12px;
+}
+
+.icon2{
+    margin-right: 6px;
+
+}
+
+.muted{
+    margin-right: 15px;
+}
+
+.muted [class*=" icon-"], .muted [class^=icon-] {
+    opacity: .5;
+    filter: alpha(opacity=40);
+}
+
+[class*=" icon-"], [class^=icon-] {
+    display: inline-block;
+    margin-top: 1px;
+    width: 14px;
+    height: 14px;
+    background-image: url('../img/icon/glyphicons-halflings.png');
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+    vertical-align: text-top;
+    line-height: 14px;
+}
+
+.icon-author {
+    background-position: -168px 0;
+}
+
+.icon-time {
+    background-position: -48px -24px;
+}
+
+.icon-eye-open {
+    background-position: -96px -120px;
+}
+
+
+.list td{
+    max-width: 200px;
+}
+
+.tool-bar-collect{
+    margin-right: 20px;
+    float: right;
+}
+
+
+.article-text{
+    /*width: 80%;*/
+}
+
+.article-text-header{
+    width: 100%;
+    padding: 20px;
+    margin: 20px 10px 40px 20px;
+    background-color: #fff;
+    Box-shadow:0 0 10px 0 rgba(160, 205, 198, 0.17);
+    height: 100px;
+    border-radius:5px;
+}
+
+.box-left{
+    margin: 10px 20px 120px 20px;
+    width: 75%;
+    float: left;
+    Box-shadow:0 0 10px 0 rgba(160, 205, 198, 0.17);
+}
+
+.box-right{
+    width: 20%;
+    float: right;
+}
+
+
+.article-right-cards{
+    font-size: 14px;
+    width: 80%;
+    padding: 20px;
+    margin: 10px 0px 40px 0px;
+    background-color: #fff;
+    Box-shadow:0 0 10px 0 rgba(160, 205, 198, 0.17);
+
+}
+
+
+.content{
+    padding: 5px 20px;
+    background-color: #fff;
+    border: 1px solid #EAEAEA;
+    border-radius: 4px;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow: auto;
+    /*background-color: #f7fcfc;*/
+    margin: 10px 10px 40px 20px;
+    Box-shadow:0 0 10px 0 rgba(160, 205, 198, 0.17);
+}
+
+.article-header {
+    margin-bottom: 20px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.article-title {
+    border-bottom: 1px dashed lightseagreen;
+    font-size: 26px;
+    line-height: 36px;
+}
+
+.md-edit{
+    padding-bottom: 0px;
+    padding-top: 10px;
+}
+
+
+.article-title .input-text{
+    height:36px;
+    font-size: 26px;
+    border: none;
+    font-weight: bold;
+    text-align: center;
+
+}
+
+.edit-property{
+    margin-right: 40px;display: inline;
+}
+
+input[type="radio" i] {
+    background-color: green;
+    cursor: default;
+    appearance: auto;
+    box-sizing: border-box;
+    margin: 3px 3px 0px 5px;
+    padding: initial;
+    border: initial;
+}
+
+.article-tags {
+    font-size: 14px;
+    margin: 30px 0;
+    text-align: center;
+    cursor: default;
+}
+
+.article-tags a {
+    display: inline-block;
+    padding: 4px 7px 3px;
+    margin: 0 4px 4px 0;
+    color: #FFF;
+    font-size: 12px;
+    background-color: #3399CC;
+    opacity: 0.85;
+    filter: alpha(opacity=85);
+}
+
+.title{
+    font-size: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-bottom: 1px solid #EAEAEA;
+    padding-bottom: 10px;
+}
+
+.relates a {
+    font-size: 15px;
+    padding: 10px;
+    color: #777;
+}
+
+.relates{
+    margin: 20px;
+}
+
+
+
+.relates li {
+    margin: 10px;
+}
+
+.article-comment{
+    width: 90%;
+    margin: 20px;
+}
+
+.comment-single-area{
+
+    width: 100%;
+}
+
+.comment-single-area textarea{
+    width: 100%;
+    margin: 10px 0px;
+    padding: 10px;
+    height: 100px;
+    resize:none;
+    border: 1px solid #ccc;
+}
+
+.comment-single-area button{
+    float: right;
+    margin-bottom: 10px;
+}
+
+.prompt_login{
+    font-size: 20px;
+}
+
+.comment-list{
+    width: 100%;
+    overflow: hidden;
+    margin: 15px 0 35px;
+    border: 1px solid #ccc;
+}
+
+.comment-list-top{
+    padding: 0 12px;
+    height: 30px;
+    background: #fbfbfb;
+    color: #555;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 30px;
+}
+
+.comment-list-body{
+
+}
+
+.user-pic{
+    float: left;
+}
+
+.comment-list-body ul {
+    padding: 0 12px;
+}
+
+.comment-list-body ul li {
+    overflow: hidden;
+    padding: 10px 0;
+    border-bottom: 1px dotted #ddd;
+}
+
+.comm-right{
+    margin-left: 50px;
+}
+
+.comm-right p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5em;
+}
+
+.comm-time {
+    color: #999;
+    font-size: 12px;
+}
+
+
+
+input {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(#ffffff, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(255, 255, 255));
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+}
+
+.user_info p{
+    margin: 20px;
+}
+
+.info-item{
+    margin-top: 20px;;
+    margin-bottom: 20px;;
+}
+
+.headimg img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
