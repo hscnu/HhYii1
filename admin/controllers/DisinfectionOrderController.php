@@ -295,7 +295,6 @@ class DisinfectionOrderController extends BaseController {
     /// 配送订单
     public function actionSetShrIdAndName($oId, $shrId)
     {
-        put_msg(11);
         $shr = DistributorCen::model()->find('user_id=' . $shrId);//根据送货人ID找到该用户信息
         $order = DisinfectionOrder::model()->findAll("id in (" . $oId . ")");//找订单
         if ($order) {
@@ -326,7 +325,6 @@ class DisinfectionOrderController extends BaseController {
     //配送订单end
     /// 状态改变按钮
     public function actionChangeState($id,$Now_state,$keywords=''){
-
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);
         $a=array(
