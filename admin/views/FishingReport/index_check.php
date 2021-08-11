@@ -1,21 +1,25 @@
 <div class="box">
     <div class="box-content">
         <div class="box-header">
-            <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>捕鱼上报</a>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
         </div><!--box-header end-->
 
         <div class="box-detail-tab box-detail-tab mt15">
             <ul class="c">
                 <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
-                <li<?php if($action=='index_register'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('Fishingreport/index_register');?>">待提交<?php echo "(".$waitCount.")";?></a>
+
+                <li<?php if($action=='index_check'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('Fishingreport/index_check');?>">待审核<?php echo "(".$historyCount.")";?></a>
                 </li>
-                <li<?php if($action=='index_history'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('Fishingreport/index_history');?>">已提交<?php echo "(".$appointCount.")";?></a>
+
+                <li<?php if($action=='index_check_today'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('Fishingreport/index_check_today');?>">今日审核</a>
+                </li>
+                <li<?php if($action=='index_check_all'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('Fishingreport/index_check_all');?>">已审核<?php echo "(".$finishCount.")";?></a>
                 </li>
             </ul>
-        </div><!--box-detail-tab end-->
+        </div>
 
         <div class="box-search">
             <form action="<?php echo Yii::app()->request->url; ?>" method="get">
@@ -26,18 +30,18 @@
                            value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
                 </label>
 
-                <?php if($action=='index_history'){ ?>
+                <?php if($action=='index_check_all'){ ?>
                     <label style="margin-right:10px;">
-                        <span>提交日期：</span>
-                        <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
+                        <span>审核日期：</span>
+                        <input style="width:120px;" class="input-text" type="text" id="start_date_report" name="start_date_report" value="<?php echo Yii::app()->request->getParam('start_date_report');?>">
                         <span>-</span>
-                        <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
+                        <input style="width:120px;" class="input-text" type="text" id="end_date_report" name="end_date_report" value="<?php echo Yii::app()->request->getParam('end_date_report');?>">
                     </label>
                 <?php }?>
 
                 <?php
                 $list=BaseCodefish::model()->getByType('statename');
-                if ($action=='index_history'){?>
+                if ($action!='index_check'){?>
                     <label style="margin-right:20px;">
                         <span>状态：</span>
                         <select  class="singleSelect" style="width: 130px;" name="statename">
@@ -48,10 +52,8 @@
                         </select>
                     </label>
                 <?php }?>
-
                 <button class="btn btn-blue" type="submit">查询</button>
                 <br>
-
             </form>
             </form>
             </form>
@@ -70,7 +72,7 @@
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('count'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('remark'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('state'); ?></th>
-                    <?php if($action=='index_history'){ ?>
+                    <?php if($action!='index_check'){ ?>
                         <th style='text-align: center;'><?php echo $model->getAttributeLabel('opinion'); ?></th>
                     <?php }?>
                     <th style='text-align: center;'>操作</th>
@@ -90,17 +92,12 @@
                         <td style='text-align: center;'><?php echo $v->count; ?></td>
                         <td style='text-align: center;'><?php echo $v->remark; ?></td>
                         <td style='text-align: center;'><?php echo $model->getStateName($v->state); ?></td>
-                        <?php if($action=='index_history'){ ?>
+                        <?php if($action!='index_check'){ ?>
                             <td style='text-align: center;'><?php echo $v->opinion; ?></td>
                         <?php }?>
                         <td style='text-align: center;'>
-                            <?php if($action=='index_register'){ ?>
-                                <button class="btn" type="button" onclick="AuditDetail(<?php echo $v->id;?>);">提交</button>
-                                <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
-                                   title="编辑"><i class="fa fa-edit"></i>编辑</a>
-                                <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                                   title="删除"><i class="fa fa-trash-o"></i>删除</a>
-
+                            <?php if($action=='index_check'){ ?>
+                                <button class="btn" type="button" onclick="AuditDetail2(<?php echo $v->id;?>);">审核</button>
                             <?php }?>
                             <button class="btn" type="button" onclick="AuditDetail3(<?php echo $v->id;?>);">查看</button>
                         </td>
@@ -117,8 +114,14 @@
     var plshUrl = '<?php echo $this->createUrl('plsh', array('id' => 'ID')); ?>';
 </script>
 <script>
-    var $start_date=$('#start_date');
-    var $end_date=$('#end_date');
+    var $check_time=$('#check_time');
+    $check_time.on('click', function(){
+        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'})
+    });
+</script>
+<script>
+    var $start_date=$('#start_date_report');
+    var $end_date=$('#end_date_report');
     $start_date.on('click', function(){
         WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});
     });
@@ -129,6 +132,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
 <script type="text/javascript">
+
     $(document).ready(function() {
         $('.singleSelect').select2();
 
@@ -160,7 +164,6 @@
     };
 
 </script>
-
 <style>
     .singleSelect{
         width: 130px;
@@ -169,8 +172,8 @@
 
 <script>
     var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
-    function AuditDetail(id=0){
-        url = '<?php echo $this->createUrl("UpdateVerify");?>'
+    function AuditDetail2(id=0){
+        url = '<?php echo $this->createUrl("UpdateVerify2");?>'
         url +='&id='+id
         $.dialog.data('id',0)
         $.dialog.open(url,{
@@ -178,7 +181,7 @@
             lock:true,opacity:0.3,
             width:'1000px',
             height:'80%',
-            title:"捕鱼上报提交确认界面",
+            title:"捕鱼上报审核界面",
             close: function () {
                 redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
                 redirect+='&id='+'<?php echo $model->id;?>'
@@ -207,10 +210,3 @@
         });
     };
 </script>
-
-
-
-
-
-
-
