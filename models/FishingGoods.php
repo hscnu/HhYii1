@@ -1,9 +1,9 @@
 <?php
 
-class BaseCodefish extends BaseModel {
+class FishingGoods extends BaseModel {
 
     public function tableName() {
-        return '{{base_code_fish}}';
+        return '{{FishingGoods}}';
     }
 
     /**
@@ -13,7 +13,7 @@ class BaseCodefish extends BaseModel {
         return array(
             array('f_name', 'required', 'message' => '{attribute} 不能为空'),
             array('f_type', 'required', 'message' => '{attribute} 不能为空'),
-            array('f_type_CN', 'required', 'message' => '{attribute} 不能为空'),
+            array('f_code', 'required', 'message' => '{attribute} 不能为空'),
             array('f_code,f_name,f_group,f_type,f_type_CN,f_order', 'safe',),
         );
     }
@@ -81,7 +81,6 @@ class BaseCodefish extends BaseModel {
     public function getCode($fater_id) {
         return $this->findAll('fater_id=' . $fater_id);
     }
-
 
 
     public function getByType($f_type,$f_order='') {

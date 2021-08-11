@@ -1,18 +1,14 @@
 <div class="box">
     <div class="box-content">
         <div class="box-header">
-            <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>捕鱼上报</a>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
         </div><!--box-header end-->
 
         <div class="box-detail-tab box-detail-tab mt15">
             <ul class="c">
                 <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
-                <li<?php if($action=='index_register'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('Fishingreport/index_register');?>">待提交<?php echo "(".$waitCount.")";?></a>
-                </li>
-                <li<?php if($action=='index_history'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('Fishingreport/index_history');?>">已提交<?php echo "(".$appointCount.")";?></a>
+                <li<?php if($action=='index_all'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('Fishingreport/index_all');?>">所有上报<?php echo "(".$finishCount.")";?></a>
                 </li>
             </ul>
         </div><!--box-detail-tab end-->
@@ -26,18 +22,16 @@
                            value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
                 </label>
 
-                <?php if($action=='index_history'){ ?>
-                    <label style="margin-right:10px;">
-                        <span>提交日期：</span>
-                        <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
-                        <span>-</span>
-                        <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
-                    </label>
-                <?php }?>
+                <label style="margin-right:10px;">
+                    <span>上报日期：</span>
+                    <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
+                    <span>-</span>
+                    <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
+                </label>
 
                 <?php
                 $list=BaseCodefish::model()->getByType('statename');
-                if ($action=='index_history'){?>
+                {?>
                     <label style="margin-right:20px;">
                         <span>状态：</span>
                         <select  class="singleSelect" style="width: 130px;" name="statename">
@@ -48,7 +42,6 @@
                         </select>
                     </label>
                 <?php }?>
-
                 <button class="btn btn-blue" type="submit">查询</button>
                 <br>
 
@@ -70,9 +63,7 @@
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('count'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('remark'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('state'); ?></th>
-                    <?php if($action=='index_history'){ ?>
-                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('opinion'); ?></th>
-                    <?php }?>
+                    <th style='text-align: center;'><?php echo $model->getAttributeLabel('opinion'); ?></th>
                     <th style='text-align: center;'>操作</th>
                 </tr>
                 </thead>
@@ -90,18 +81,8 @@
                         <td style='text-align: center;'><?php echo $v->count; ?></td>
                         <td style='text-align: center;'><?php echo $v->remark; ?></td>
                         <td style='text-align: center;'><?php echo $model->getStateName($v->state); ?></td>
-                        <?php if($action=='index_history'){ ?>
-                            <td style='text-align: center;'><?php echo $v->opinion; ?></td>
-                        <?php }?>
+                        <td style='text-align: center;'><?php echo $v->opinion; ?></td>
                         <td style='text-align: center;'>
-                            <?php if($action=='index_register'){ ?>
-                                <button class="btn" type="button" onclick="AuditDetail(<?php echo $v->id;?>);">提交</button>
-                                <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
-                                   title="编辑"><i class="fa fa-edit"></i>编辑</a>
-                                <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                                   title="删除"><i class="fa fa-trash-o"></i>删除</a>
-
-                            <?php }?>
                             <button class="btn" type="button" onclick="AuditDetail3(<?php echo $v->id;?>);">查看</button>
                         </td>
                     </tr>
@@ -166,27 +147,6 @@
         width: 130px;
     }
 </style>
-
-<script>
-    var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
-    function AuditDetail(id=0){
-        url = '<?php echo $this->createUrl("UpdateVerify");?>'
-        url +='&id='+id
-        $.dialog.data('id',0)
-        $.dialog.open(url,{
-            id: 'updateDetail',
-            lock:true,opacity:0.3,
-            width:'1000px',
-            height:'80%',
-            title:"捕鱼上报提交确认界面",
-            close: function () {
-                redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
-                redirect+='&id='+'<?php echo $model->id;?>'
-                window.location.href = redirect;
-            }
-        });
-    };
-</script>
 <script>
     var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
     function AuditDetail3(id=0){
@@ -207,10 +167,3 @@
         });
     };
 </script>
-
-
-
-
-
-
-
