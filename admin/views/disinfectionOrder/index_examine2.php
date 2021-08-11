@@ -44,7 +44,7 @@
                     <th><?php echo $model->getAttributeLabel('date'); ?></th>
 
                     <th><?php echo $model->getAttributeLabel('state'); ?></th>
-
+                    <th><?php echo $model->getAttributeLabel('notes'); ?></th>
 
 
                     <th>操作</th>
@@ -61,6 +61,7 @@
                         <td style='text-align: center;'><?php echo $v->date; ?></td>
 
                         <td style='text-align: center;'><?php echo $model->getCHName($v->state); ?></td>
+                        <td style='text-align: center;'><?php echo $v->notes; ?></td>
 
 
                         <td>
@@ -75,8 +76,6 @@
                             <!-- 状态改变end                           -->
 
                             <?php echo $this->edit_btn($v)?>
-                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                               title="删除"><i class="fa fa-trash-o"></i></a>
                         </td>
                     </tr>
                 <?php } ?>
