@@ -24,14 +24,11 @@
                     <li<?php if($action=='query_logistics_examined'){?> class="current"<?php }?>>
                         <a href="<?php echo $this->createUrl('Ice/query_logistics_examined');?>">物流已审核<?php echo '('.$examine_logisticsCount.')'?></a>
                     </li>
-                    <li<?php if($action=='query_assigned'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_assigned');?>">已指派<?php echo '('.$wait_deliver_Count.')'?></a>
-                    </li>
                     <li<?php if($action=='query_confirmed'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_confirmed');?>">已确认<?php echo '('.$delivering_Count.')'?></a>
+                        <a href="<?php echo $this->createUrl('Ice/query_confirmed');?>">送货已确认<?php echo '('.$wait_deliver_Count.')'?></a>
                     </li>
                     <li<?php if($action=='query_delivering'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_delivering');?>">配送中<?php echo '('.$distributionCount.')'?></a>
+                        <a href="<?php echo $this->createUrl('Ice/query_delivering');?>">配送中<?php echo '('.$delivering_Count.')'?></a>
                     </li>
                     <li<?php if($action=='query_received'){?> class="current"<?php }?>>
                         <a href="<?php echo $this->createUrl('Ice/query_received');?>">已签收<?php echo '('.$finishCount.')'?></a>
@@ -59,13 +56,13 @@
                 <thead>
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
-                    <th width="6%"><?php echo $model->getAttributeLabel('order_name'); ?></th>
-                    <th width="8%"><?php echo $model->getAttributeLabel('order_tel'); ?></th>
-                    <th width="22%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
+                    <th width="6%"><?php echo $model->getAttributeLabel('order_id'); ?></th>
+                    <th width="15%"><?php echo $model->getAttributeLabel('title'); ?></th>
+                    <th width="8%"><?php echo $model->getAttributeLabel('fishing_boat'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
-                    <th width="25%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
-                    <th width="5%"><?php echo $model->getAttributeLabel('order_state'); ?></th>
-                    <th width="17%">操作</th>
+                    <th width="5%"><?php echo $model->getAttributeLabel('take_type'); ?></th>
+                    <th width="30%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -74,18 +71,13 @@
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
 
-                        <td style='text-align: center;'><?php echo $v->order_name; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_tel; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_destination; ?></td>
+                        <td style='text-align: center;'><?php echo $v->order_id; ?></td>
+                        <td style='text-align: center;'><?php echo $v->title; ?></td>
+                        <td style='text-align: center;'><?php echo $v->fishing_boat; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_time; ?></td>
+                        <td style='text-align: center;'><?php echo $v->take_type; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_remark; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_state; ?></td>
-                        <td>
-                            <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
-                               title="编辑"><i class="fa fa-edit"></i></a>
-                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                               title="删除"><i class="fa fa-trash-o"></i></a>
-                        </td>
+                        <td><button class="btn" type="button" onclick="showDetails(<?php echo $v->id;?>);">订单明细</button></td>
                     </tr>
                 <?php } ?>
                 </tbody>
@@ -96,4 +88,19 @@
 </div><!--box end-->
 <script>
     var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
+    function showDetails(id){
+        url = '<?php echo $this->createUrl("ShowDetail");?>'
+        url=url+'&oId='+id+'&condition=0'
+        $.dialog.data('id',0)
+        $.dialog.open(url,{
+            id: 'showdetails',
+            lock:true,opacity:0.3,
+            width:'100%',
+            height:'100%',
+            title:'订单明细',
+            close: function () {
+                we.reload();
+            }
+        });
+    };
 </script>

@@ -15,130 +15,138 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr class="table-title">
-                        <td colspan="2">申请信息</td>
+                        <td colspan="6">申请信息</td>
                     </tr>
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'order_name'); ?></td>
-                        <td width="30%">
-                            <?php echo $form->textField($model, 'order_name', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'order_name', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'order_tel'); ?></td>
+                        <td><?php echo $form->labelEx($model, 'order_id'); ?></td>
                         <td>
-                            <?php echo $form->textField($model, 'order_tel', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'order_tel', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'order_id', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'order_id', $htmlOptions = array()); ?>
                         </td>
-                    </tr>
-
-                    <tr>
                         <td><?php echo $form->labelEx($model, 'order_time');?></td>
                         <td>
                             <?php echo $form->textField($model, 'order_time', array('class' => 'Wdate','style'=>'width:180px;'));?>
                             <?php echo $form->error($model, 'order_time', $htmlOptions = array());?>
                         </td>
-                    </tr>
-
-
-
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'order_destination'); ?></td>
-                        <td>
-                            <html>
-                            <head>
-                                <title>attestation</title>
-                                <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-                                <!--百度地图获取地址-->
-                            </head>
-                            <body>
-                            <div class="container_address" id="container_address_man"></div>
-                            <div class="container_address_right">
-                                <a id="curCityText" href="javascript:void(0)" onClick="curCityText()"></strong></a>
-
-                                <div>
-                                    <strong>纬度：</strong>
-                                    <br/>
-                                    <?php echo $form->textField($model, 'latitude', array('class' => 'input-text','id'=>'txtlatitude'));?>
-                                    <?php echo $form->error($model, 'latitude', $htmlOptions = array());?>
-                                </div>
-                                <div>
-                                    <strong>经度：</strong>
-                                    <br/>
-                                    <?php echo $form->textField($model, 'longitude', array('class' => 'input-text','id'=>'txtLongitude'));?>
-                                    <?php echo $form->error($model, 'longitude', $htmlOptions = array());?>
-                                </div>
-                                <div>
-                                    <strong>标注点所在区域：</strong>
-                                    <br/>
-                                    <?php echo $form->textField($model, 'order_destination', array('class' => 'input-text','id'=>'txtAreaCode'));?>
-                                    <?php echo $form->error($model, 'order_destination', $htmlOptions = array());?>
-                                </div>
-
-                                <!--div class="sel_container">
-                                  <strong id="curCity" class="curCity">北京市</strong>
-                                  <button id="curCityText" href="javascript:void(0)" class="container_address_right_change">更换成市</button>
-                                </div-->
-                                <div class="map_popup" id="cityList" style="display: none;">
-                                    <div class="popup_main">
-
-                                        <div class="cityList" id="citylist_container"></div>
-                                        <button id="popup_close"> </button>
-                                    </div>
-                                </div>
-                            </body>
-                            <style>
-                                .container_address{width: 420px; height: 340px; border: 1px solid gray; float: left;z-index:200;}
-                                .container_address_right{float:left;margin-left:15px;width:350px;height:340px;}
-                                .container_address_right input{width:340px;height:30px;line-height:30px;border:1px solid #ccc;text-indent:5px;border-radius:2px;}
-                                .curCity{border-radius:2px;border:1px solid #ccc;width:80px;height:33px;line-height:33px;top:5px;float:left;text-indent:5px;}
-                                .container_address_right_seek{width:60px;height:35px;line-height:35px;border:1px solid #ccc;float:right;}
-                                .container_address_right_change{width:80px;float:left;margin-left:5px;height:30px;}
-                                .container_address_right div{margin:5px;}
-                                .container_address_right div strong{height:30px;line-height:30px;}
-                                .map_popup{background:#FFF;margin-top:50px;border:1px solid #ccc;float:left;COLOR:#000;height:300px;overflow-x:hidden;overflow-y:scroll;width:340px;}
-                                .popup_main_title{width:100%;font-weight:bold;font-size:16px/20px 黑体;border-bottom:1px solid #f60;line-height:40px;}
-
-                            </style>
-                            </html>
+                        <td><?php echo $form->labelEx($model, 'take_type');?></td>
+                        <td><?php echo $form->radioButtonList($model, 'take_type', Chtml::listData(BaseCodeIce::model()->getByType('yes_no'), 'f_name', 'f_name'), array('template' => '<li style="display:inline-block;">{input} {label}</li>','separator' => ' '));?>
+                            <?php echo $form->error($model, 'take_type', $htmlOptions = array());?>
                         </td>
                     </tr>
-
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'order_remark'); ?></td>
-                        <td>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'title'); ?></td>
+                        <td colspan="5">
+                            <?php echo $form->textField($model, 'title', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'title', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'company'); ?></td>
+                        <td colspan="1">
+                            <?php echo $form->textField($model, 'company', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'company', $htmlOptions = array()); ?>
+                        </td>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'order_name'); ?></td>
+                        <td colspan="1">
+                            <?php echo $form->textField($model, 'order_name', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'order_name', $htmlOptions = array()); ?>
+                        </td>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'order_tel'); ?></td>
+                        <td colspan="1">
+                            <?php echo $form->textField($model, 'order_tel', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'order_tel', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'fishing_boat'); ?></td>
+                        <td colspan="1">
+                            <?php echo $form->textField($model, 'fishing_boat', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'fishing_boat', $htmlOptions = array()); ?>
+                        </td>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'order_destination'); ?></td>
+                        <td colspan="3">
+                            <?php echo $form->textField($model, 'order_destination', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'order_destination', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'longitude'); ?></td>
+                        <td colspan="2">
+                            <?php echo $form->textField($model, 'longitude', array('class' => 'input-text','id'=>'txtlongitude'));?>
+                            <?php echo $form->error($model, 'longitude', $htmlOptions = array());?>
+                        </td>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'latitude'); ?></td>
+                        <td colspan="2">
+                            <?php echo $form->textField($model, 'latitude', array('class' => 'input-text','id'=>'txtlatitude'));?>
+                            <?php echo $form->error($model, 'latitude', $htmlOptions = array());?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <!DOCTYPE html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>Title</title>
+                                <script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=GzZOnHTfDPIqhLHTijaeTkadjBFGNzHR"></script>
+                            </head>
+                            <body>
+
+            </div>
+
+            <br />
+
+            <div style="width:90%;height:340px;border:1px solid gray" id="container"></div>
+            </body>
+            </html>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'order_remark'); ?></td>
+                        <td colspan="5">
                             <?php echo $form->textField($model, 'order_remark', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'order_remark', $htmlOptions = array()); ?>
                         </td>
-
                     </tr>
                 </table>
+            </div><!--box-detail-tab-item end   style="display:block;"-->
 
-                <table>
-                    <tr class="table-title">
-                        <td colspan="4">冰的类型</td>
+            <div class="box-table">
+                <table class="list">
+                    <thead>
                     <tr>
-                        <td><?php echo $form->labelEx($model2, 'strip_ice_amount'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model2, 'strip_ice_amount', array('class' => 'input-text')); ?>条
-                            <?php echo $form->error($model2, 'strip_ice_amount', $htmlOptions = array()); ?>
-                        </td>
-                        <td><?php echo $form->labelEx($model2, 'crushed_ice_amount'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model2, 'crushed_ice_amount', array('class' => 'input-text')); ?>块
-                            <?php echo $form->error($model2, 'crushed_ice_amount', $htmlOptions = array()); ?>
-                        </td>
+                        <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
+                        <?php $model2 = IceDetail::model();?>
+                        <?php
+                        $str='ice_number,ice_type,specification,unit_price';
+                        echo $model2->gridHead($str); ?>
+                        <th>数量</th>
+                        <th>备注</th>
                     </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    if(isset($detailList)){
+                        $index1=0;
+                        $index2=0;
+                        foreach ($detailList as $v) { ?>
+                            <tr>
+                                <?php echo $v->gridRow($str); ?>
+                                <td>
+                                    <?php echo $form->textField($v, 'amount', array('class' => 'input-text','name'=>'amount_'.$index1++)); ?>
+                                    <?php echo $form->error($v, 'amount', $htmlOptions = array()); ?>
+                                </td>
+                                <td>
+                                    <?php echo $form->textField($v, 'remark', array('class' => 'input-text','name'=>'remark_'.$index2++)); ?>
+                                    <?php echo $form->error($v, 'remark', $htmlOptions = array()); ?>
+                                </td>
+                            </tr>
+                        <?php } }?>
 
+                    </tbody>
                 </table>
-
-            </div>
-        </div><!--box-detail-tab-item end   style="display:block;"-->
-
-    </div><!--box-detail-bd end-->
-
-
+            </div><!--box-table end-->
+        </div><!--box-detail-bd end-->
 
         <div class="box-detail-submit">
             <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
@@ -149,7 +157,7 @@
     </div><!--box-detail end-->
 </div><!--box end-->
 
-<script>
+<script>//时间框脚本
     $(function() {
             var $date=$('#<?php echo get_class($model);?>_order_time');
             $date.on('click', function() {
@@ -163,56 +171,78 @@
     );
 </script>
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script> <!--百度地图的文件 -->
-<script type="text/javascript" src="http://api.map.baidu.com/library/CityList/1.2/src/CityList_min.js"></script> <!--城市选择的-->
+
 
 <script>
-    var map = new BMap.Map("container_address_man");
-    map.centerAndZoom(new BMap.Point(111.988489, 21.86434), 15);
-    map.addControl(new BMap.NavigationControl());
-
-
-    map.addEventListener("click", function (e) {
-        document.getElementById("txtlatitude").value = e.point.lat;
-        document.getElementById("txtLongitude").value = e.point.lng;
-        map.clearOverlays();
-        var pointMarker = new BMap.Point(e.point.lng, e.point.lat); // 创建标注的坐标
-        addMarker(pointMarker);
-        geocodeSearch(pointMarker);
-    });
-
-    function addMarker(point) {
-        var myIcon = new BMap.Icon("mk_icon2.png", new BMap.Size(21, 25),
-            { offset: new BMap.Size(21, 21),
-                imageOffset: new BMap.Size(0, -21)
-            });
-        var marker = new BMap.Marker(point, { icon: myIcon });
-        map.addOverlay(marker);
-    }
-    function geocodeSearch(pt) {
-        var myGeo = new BMap.Geocoder();
-        myGeo.getLocation(pt, function (rs) {
-            var addComp = rs.addressComponents;
-            document.getElementById("txtAreaCode").value = addComp.province + ", " + addComp.city + ", " + addComp.district+ ", " + addComp.street + ", " + addComp.streetNumber;
+    var deleteUrl = '<?php echo $this->createUrl('IceDetail/delete', array('id' => 'ID')); ?>';
+    function updateDetail(id=0){
+        saveFormDate()
+        url = '<?php echo $this->createUrl("OpenDialog");?>'
+        url += '&order_id=<?php echo $model->id;?>'//订单的id
+        url +='&detail_id='+id//明细的id
+        tl= id===0?'添加明细':'修改明细'
+        $.dialog.data('id',0)
+        $.dialog.open(url,{
+            id: 'updateDetail',
+            lock:true,opacity:0.3,
+            width:'1000px',
+            height:'80%',
+            title:tl,
+            close: function () {
+                redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
+                redirect+='&id='+'<?php echo $model->id;?>'
+                window.location.href = redirect;
+            }
         });
-    }
+    };
 
-    ///Luchec 2015-9-22
-    function get_point(){
-        var get_lngitude=document.getElementById("txtLongitude").value; //经
-        var get_latitude =document.getElementById("txtlatitude").value;//纬
-        //alert(get_latitude+","+get_lngitude);
-        return get_latitude+","+get_lngitude;
-
-    }
-    function get_point_address(){
-        var get_address=document.getElementById("txtAreaCode").value; //
-
-        return get_address;
-
+    //打开弹窗前先保存订单一次
+    function saveFormDate() {
+        let form=$('#active-form').serialize();
+        let s1='<?php echo $this->createUrl('SaveFormDate');?>'
+        s1=s1+'&'+form+'&id='+'<?php echo $model->id;?>'
+        $.ajax({
+            url: s1,
+            type: 'get',
+            dataType: 'json',
+        })
     }
 </script>
 
+<script>
+    var is_empty =0
+    lng = 111.988489;
+    lat = 21.86434;
+    var map = new BMapGL.Map("container");//在指定的容器内创建地图实例
+    map.setDefaultCursor("crosshair");//设置地图默认的鼠标指针样式
+    map.enableScrollWheelZoom();//启用滚轮放大缩小，默认禁用。
+    var locationControl = new BMapGL.LocationControl({
+        // 控件的停靠位置（可选，默认右上角）
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        // 控件基于停靠位置的偏移量（可选）
+        offset: new BMapGL.Size(10, 10)
+    });
+    map.addControl(locationControl);
+
+    var point =new BMapGL.Point(lng,lat)
+    map.centerAndZoom(point, 15);
+    map.addControl(new BMapGL.NavigationControl());
+    var marker = new BMapGL.Marker(point);        // 创建标注
+    this.map.addOverlay(marker);
 
 
+    map.addEventListener("click", function(e){//地图单击事件
+        map.clearOverlays();
+        // 创建点标记
+        var marker = new BMapGL.Marker(new BMapGL.Point(e.latlng.lng, e.latlng.lat));
+        // 在地图上添加点标记
+        map.addOverlay(marker);
+        document.getElementById("txtlongitude").value = e.latlng.lng;
+        document.getElementById("txtlatitude").value = e.latlng.lat;
+    });
+
+
+
+
+</script>
 

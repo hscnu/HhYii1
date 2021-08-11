@@ -2,6 +2,7 @@
 <div class="box">
     <div class="box-content">
         <div class="box-header">
+            <a class="btn" href="<?php echo $this->createUrl('createice'); ?>"><i class="fa fa-plus"></i>添加</a>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
@@ -28,13 +29,11 @@
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
-                    <th width="6%"><?php echo $model->getAttributeLabel('order_id'); ?></th>
-                    <th width="15%"><?php echo $model->getAttributeLabel('title'); ?></th>
-                    <th width="8%"><?php echo $model->getAttributeLabel('fishing_boat'); ?></th>
-                    <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
-                    <th width="5%"><?php echo $model->getAttributeLabel('take_type'); ?></th>
-                    <th width="30%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
-                    <th>操作</th>
+                    <th width="10%"><?php echo $model->getAttributeLabel('ice_id'); ?></th>
+                    <th width="10%"><?php echo $model->getAttributeLabel('ice_type'); ?></th>
+                    <th width="10%"><?php echo $model->getAttributeLabel('specification'); ?></th>
+                    <th width="10%"><?php echo $model->getAttributeLabel('unit_price'); ?></th>
+                    <th width="55%">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,15 +42,12 @@
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
 
-                        <td style='text-align: center;'><?php echo $v->order_id; ?></td>
-                        <td style='text-align: center;'><?php echo $v->title; ?></td>
-                        <td style='text-align: center;'><?php echo $v->fishing_boat; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_time; ?></td>
-                        <td style='text-align: center;'><?php echo $v->take_type; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_remark; ?></td>
+                        <td style='text-align: center;'><?php echo $v->ice_id; ?></td>
+                        <td style='text-align: center;'><?php echo $v->ice_type; ?></td>
+                        <td style='text-align: center;'><?php echo $v->specification; ?></td>
+                        <td style='text-align: center;'><?php echo $v->unit_price; ?></td>
                         <td>
-                            <?php echo $this->chge_state_btn($v,'确认收货','index_myconfirm_receipt')?>
-                            <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
+                            <a class="btn" href="<?php echo $this->createUrl('updateice', array('id' => $v->id)); ?>"
                                title="编辑"><i class="fa fa-edit"></i></a>
                             <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                                title="删除"><i class="fa fa-trash-o"></i></a>
@@ -65,5 +61,5 @@
     </div><!--box-content end-->
 </div><!--box end-->
 <script>
-    var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
+    var deleteUrl = '<?php echo $this->createUrl('IceType/delete', array('id' => 'ID')); ?>';
 </script>
