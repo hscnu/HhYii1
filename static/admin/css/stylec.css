@@ -19,13 +19,13 @@
 
 
 .article-item{
-    Box-shadow:0 0 10px 0 rgba(160, 205, 198, 0.17);
+    Box-shadow:0 0 10px 0 rgba(152, 177, 248, 0.53);
     display: flex;
     /*flex-direction: row;*/
     /*justify-content: center;*/
     /*align-content: center;*/
     font-size: 14px;
-    margin: 10px 10px 40px 10px;
+    margin: 5px 5px 10px 5px;
     padding: 10px;
     background-color: #fff;
     border-radius:10px;

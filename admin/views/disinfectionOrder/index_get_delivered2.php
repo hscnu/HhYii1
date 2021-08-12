@@ -1,6 +1,7 @@
 <div class="box">
     <div class="box-content">
         <div class="box-header">
+            <h3 style="text-align:center;">所属单位：<?php echo $usersUnit; ?></h3>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"

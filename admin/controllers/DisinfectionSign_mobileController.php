@@ -146,6 +146,7 @@ class DisinfectionSign_mobileController extends BaseController {
             $order_model['state']=11;
             $order_model->save();
         }
-        $this->actionindex();
+        echo CJSON::encode(array('yes'=>'yes'));
+        //$this->actionindex();
     }
 }

@@ -10,14 +10,7 @@
 
         </div><!--box-header end-->
         <!--  导航栏-->
-        <?php
-        $navData[]=array('Index_appoint','申请中','('.$todayCount.')');
-        $navData[]=array('index_appoint_wait','已提交','('.$waitCount.')');
-        $navData[]=array('index_appoint_finish','待审核','('.$finishCount.')');
-        $navData[]=array('Index_wait_sign','待签收','('.$waitSignCount.')');
-        $navData[]=array('Index_signed','已签收','('.$signedCount.')');
-        echo $this->getNav($navData);
-        ;?>
+
 
         <!--  导航栏end-->
         <div class="box-search">

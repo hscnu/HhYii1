@@ -35,8 +35,8 @@
             </div>
         <?php }?>
         <div style="text-align: center">
-            <a id="sign" class="btn btn-green" href="<?php echo $this->createUrl('sign',array('id'=>$order_model->id));?>">签收</a>
-            <a class="btn btn-blue" href="<?php echo $this->createUrl('index');?>">取消</a>
+            <a id="sign" class="btn btn-green" href="javascript:;" style="display: none">签收</a>
+            <a class="btn btn-blue" type="button" onclick="we.back();">返回</a>
         </div>
         <div class="box-page c"><?php $this->page($pages); ?></div>
     </div><!--box-content end-->
@@ -47,13 +47,24 @@
 <!--日期搜索-->
 <script>
     $(document).ready(function (){
-        var $stateIsWait_to_sign=<?php echo $order_model->state==10?true:false;?>
-        console.log($stateIsWait_to_sign);
+        var $stateIsWait_to_sign='<?php echo $order_model->state==10?true:false;?>'
         if($stateIsWait_to_sign){
+            $('#sign').show();
         }
         else{
             $('#sign').hide();
         }
+        $('#sign').on('click',function (){
+            var url= '<?php echo $this->createUrl('sign',array('id'=>$order_model->id));?>';
+            let res= confirm('确认签收？')
+            if(res){
+                $.get(url,function (data){
+                    alert('签收成功');
+                    //we.back();
+                    $('#sign').hide();
+                })
+            }
+        });
     });
 </script>
 
