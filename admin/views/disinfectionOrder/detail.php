@@ -97,7 +97,7 @@
             $("#qsbt").hide();
         }
         if(nowView==='index_examine') {
-            $("a.btn").click(function () {
+            $("#csbt").click(function () {
                 if (op) {
                     alert('审核已通过');
                     $("#csbt").hide(100, "linear", function () {
@@ -106,7 +106,7 @@
             });
         }
         if(nowView=='index_sign2'){
-            $("a.btn").click(function(){
+            $("#qsbt").click(function(){
                 if(op){
                     alert('签收成功');
                     $("#qsbt").hide(100,"linear",function() {

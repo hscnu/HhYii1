@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="box-title c"><h1><i class="fa fa-table"></i>单位信息</h1><span class="back"></span></div><!--box-title end-->
+    <div class="box-title c"><h1><i class="fa fa-table"></i>单位信息</h1><span class="back"></span></div>
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
         <div class="box-detail-tab">
@@ -9,35 +9,28 @@
         </div><!--box-detail-tab end-->
         <div class="box-detail-bd">
             <div style="display:block;" class="box-detail-tab-item">
+
                 <table>
                     <tr class="table-title">
                     </tr>
-                    <!--<tr>
-                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'order_id'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'order_id', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'order_id', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-                    -->
+
                     <tr>
-                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'code'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'code', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'code', $htmlOptions = array()); ?>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'code');?></td>
+                        <td><?php echo Select2::activeDropDownList($model, 'code',Chtml::listData(FishingGoods::model()->getByType('type'), 'f_code', 'f_code'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
+                            <?php echo $form->error($model, 'code', $htmlOptions = array());?>
                         </td>
                     </tr>
 
                     <tr>
                         <td style='text-align: center;'><?php echo $form->labelEx($model, 'species');?></td>
-                        <td><?php echo Select2::activeDropDownList($model, 'species',Chtml::listData(BaseCodefish::model()->getByType('type'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
+                        <td><?php echo Select2::activeDropDownList($model, 'species',Chtml::listData(FishingGoods::model()->getByType('type'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
                             <?php echo $form->error($model, 'species', $htmlOptions = array());?>
                         </td>
                     </tr>
 
                     <tr>
                         <td style='text-align: center;'><?php echo $form->labelEx($model, 'unit');?></td>
-                        <td><?php echo Select2::activeDropDownList($model, 'unit',Chtml::listData(BaseCodefish::model()->getByType('unit'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
+                        <td><?php echo Select2::activeDropDownList($model, 'unit',Chtml::listData(FishingGoods::model()->getByType('unit'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
                             <?php echo $form->error($model, 'unit', $htmlOptions = array());?>
                         </td>
                     </tr>
@@ -60,6 +53,9 @@
 
     <div class="box-detail-submit">
         <button onclick="save()" class="btn btn-blue" type="submit">保存</button>
+        <?php if(empty($model->id)){ ?>
+            <?php  echo " <button onclick=\"submitType='baonext'\" class=\"btn btn-blue\" type=\"submit\">保存继续输入</button>";?>
+        <?php } ;?>
     </div>
 
     <?php $this->endWidget(); ?>
@@ -82,8 +78,6 @@
         );
     });
 </script>
-
-
 
 
 

@@ -41,13 +41,13 @@
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
-                    <th width="6%"><?php echo $model->getAttributeLabel('order_name'); ?></th>
-                    <th width="8%"><?php echo $model->getAttributeLabel('order_tel'); ?></th>
-                    <th width="20%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
+                    <th width="6%"><?php echo $model->getAttributeLabel('order_id'); ?></th>
+                    <th width="15%"><?php echo $model->getAttributeLabel('title'); ?></th>
+                    <th width="8%"><?php echo $model->getAttributeLabel('fishing_boat'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
-                    <th width="25%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
-                    <th width="5%"><?php echo $model->getAttributeLabel('order_state'); ?></th>
-                    <th width="16%">操作</th>
+                    <th width="5%"><?php echo $model->getAttributeLabel('take_type'); ?></th>
+                    <th width="30%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,16 +56,20 @@
                         <td class="check check-item"><input class="input-check" type="checkbox"
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
 
-                        <td style='text-align: center;'><?php echo $v->order_name; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_tel; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_destination; ?></td>
+                        <td style='text-align: center;'><?php echo $v->order_id; ?></td>
+                        <td style='text-align: center;'><?php echo $v->title; ?></td>
+                        <td style='text-align: center;'><?php echo $v->fishing_boat; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_time; ?></td>
+                        <td style='text-align: center;'><?php echo $v->take_type; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_remark; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_state; ?></td>
                         <td>
+                            <?php if($action=='index_examine_wait'){?>
                             <button class="btn" type="button" onclick="showDetails(<?php echo $v->id;?>);">订单明细</button>
-                            <?php echo $this->chge_state_btn($v,'审核','Index_examine_wait')?>
                             <?php echo $this->chge_state_btn($v,'退回','Index_examine_wait')?>
+                            <?php }?>
+                            <?php if($action=='index_examine_finish'){?>
+                                <button class="btn" type="button" onclick="showDetails_uncontrolled(<?php echo $v->id;?>);">订单明细</button>
+                            <?php }?>
                         </td>
                     </tr>
                 <?php } ?>
@@ -81,7 +85,23 @@
     //按键定位
     function showDetails(id){
         url = '<?php echo $this->createUrl("ShowDetail");?>'
-        url=url+'&oId='+id
+        url=url+'&oId='+id+'&condition=1'
+        $.dialog.data('id',0,0)
+        $.dialog.open(url,{
+            id: 'showdetails',
+            lock:true,opacity:0.3,
+            width:'100%',
+            height:'100%',
+            title:'订单明细',
+            close: function () {
+                we.reload();
+            }
+        });
+    };
+    //无操作的明细表
+    function showDetails_uncontrolled(id){
+        url = '<?php echo $this->createUrl("ShowDetail");?>'
+        url=url+'&oId='+id+'&condition=0'
         $.dialog.data('id',0)
         $.dialog.open(url,{
             id: 'showdetails',
@@ -89,6 +109,9 @@
             width:'100%',
             height:'100%',
             title:'订单明细',
+            close: function () {
+                we.reload();
+            }
         });
     };
 </script>

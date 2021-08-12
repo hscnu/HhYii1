@@ -3,11 +3,31 @@
         <div class="box-header">
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
-            <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
-               onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
-                    class="fa fa-trash-o"></i>删除</a>
+<!--            <a style="display:none;" id="j-delete" class="btn" href="javascript:;"-->
+<!--               onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i-->
+<!--                    class="fa fa-trash-o"></i>删除</a>-->
 
         </div><!--box-header end-->
+        <div class="box-detail-tab box-detail-tab mt15">
+            <ul class="c">
+                <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
+                <li<?php if($action=='user'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('user');?>" class="navigator">按酒楼名升序</a>
+                </li>
+                <li<?php if($action=='user_rank'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('user_rank');?>" class="navigator">按排名降序</a>
+                </li>
+                <li<?php if($action=='user_star'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('user_star');?>" class="navigator">按星级降序</a>
+                </li>
+                <li<?php if($action=='user_priceasc'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('user_priceasc');?>" class="navigator">按价格升序</a>
+                </li>
+                <li<?php if($action=='user_pricedesc'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('user_pricedesc');?>" class="navigator">按价格降序</a>
+                </li>
+            </ul>
+        </div><!--box-detail-tab end-->
         <div class="box-search">
             <form action="<?php echo Yii::app()->request->url; ?>" method="get">
                 <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
@@ -36,7 +56,7 @@
                     </tr>
                     <tr>
                         <td style='text-align: left;font-size: medium;width: 100px;'>&#9733;<?php echo $v->r_service; ?></td>
-                        <td style='text-align: left;font-size: medium;width: 100px;' >地区排名：<?php echo $v->r_rank; ?>/<?php echo Restaurant::model()->count();?></td>
+                        <td style='text-align: left;font-size: medium;width: 100px;' >地区排名：<?php echo $v->r_rank; ?></td>
                         <td style='text-align: left;font-size: medium;width: 100px;'>人均价格：￥<?php echo $v->r_price; ?></td>
                     </tr>
                     <td style='text-align: left;color: #F00;font-size:medium' colspan="3"><b>热卖:

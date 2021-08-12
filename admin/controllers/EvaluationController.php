@@ -23,7 +23,6 @@ class EvaluationController extends BaseController
         if (!Yii::app()->request->isPostRequest) {
             $data['model'] = $model;
             $data['model']['eval_time'] = date('Y-m-d', time());
-//            $data['model']['eval_star'] = $_SESSION['star'];
             $this->render('update', $data);
         } else {
             $this->saveData($model, $_POST[$modelName]);
@@ -53,17 +52,6 @@ class EvaluationController extends BaseController
             $this->saveData($model, $_POST[$modelName]);
         }
     }
-
-    function saveData($model, $post) {
-        $post['eval_time'] = date('Y-m-d', time());
-        $post['eval_star'] = $_SESSION['star'];
-        $model->attributes = $post;
-        show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
-    }
-    public function actionSaveStar() {
-        $_SESSION['star']=$_POST['star'];
-        echo CJSON::encode('msg');
-    }
     public function actionSaveLike() {
         $tmp = Restaurant::model()->find(array(
             'select'=>array('id,r_name'),
@@ -75,6 +63,64 @@ class EvaluationController extends BaseController
         $tmp->r_like = $_POST['isLike'];
         $tmp->save();
     }
+        function saveData($model, $post) {
+            $post['eval_time'] = date('Y-m-d', time());
+            $post['eval_star'] = $_SESSION['star'];
+            $model->attributes = $post;
+            $s1 = $model->save();
+            $evals = $_SESSION['evals'];
+            $dishes = $_SESSION['dishes'];
+            for($i=0;$i<(count($dishes));$i++){
+                $table = new EvaluationTable();
+                $table->dish = $dishes[$i];
+                $table->nice = $evals[$i];
+                $table->eval_id = $model->id;
+                $table->save();
+            }
+            $d = Dish::model()->findAll(array(
+                'select'=>array('d_name,d_rate,id'),
+                'order' => 'd_name ASC',
+                'distinct' => true,
+            ));
+            foreach ($d as $key => $obj){
+                if(in_array($obj->d_name,$evals)){
+                    $counter = EvaluationTable::model()->findAll(array(
+                        'select' => array('dish,id,nice'),
+                        'order' => 'dish asc',
+                        'condition' => 'nice=:nice,dish=:dish',
+                        'params' => array('nice' => 1, 'dish' => $obj->d_name),
+                    ))->count();
+                    $sum = EvaluationTable::model()->findAll(array(
+                        'select' => array('dish,id,nice'),
+                        'order' => 'dish asc',
+                        'condition' => 'nice=:nice,dish=:dish',
+                        'params' => array('nice' => 1, 'dish' => $obj->d_name),
+                    ))->count();
+                    $rate = ceil($counter / $sum);
+                    $d[$key]->d_rate = $rate;
+                    $d[$key]->save();
+                }
+            }
+            show_status($s1, '评价成功', get_cookie('_currentUrl_'), '评价失败');
+            $this->redirect(array('/restaurant/user'));
+        }
+        public function actionSaveStar() {
+            $_SESSION['star']=$_POST['star'];
+            echo CJSON::encode('msg');
+        }
+    public function actionSaveRest() {
+        $_SESSION['eval_rest']=$_POST['opt'];
+        header("Refresh:0");
+    }
+    public  function actionSaveNice()
+    {
+        $_SESSION['evals'] = $_POST['eval'];
+        $_SESSION['dishes'] = $_POST['dish'];
+    }
+    public  function actionCancel()
+    {
+        unset($_SESSION['eval_rest']);
+    }
     //列表搜索
     public function actionIndex($keywords = '') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
@@ -85,7 +131,6 @@ class EvaluationController extends BaseController
         $criteria -> condition = get_like('1','eval_rest',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'eval_rest',$keywords);
         $criteria -> condition= get_like( $criteria -> condition,'eval_time',$start_date);
-
         $data = array();
         parent::_list($model, $criteria, 'index', $data);
     }
@@ -96,9 +141,8 @@ class EvaluationController extends BaseController
         $criteria = new CDbCriteria;
         $criteria -> condition = get_like('1','eval_star',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'eval_star',$keywords);
-
+        $criteria->order = 'eval_time asc';
         $data = array();
         parent::_list($model, $criteria, 'user', $data);
     }
-
 }

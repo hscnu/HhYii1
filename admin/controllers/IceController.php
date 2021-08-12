@@ -18,45 +18,104 @@ class IceController extends BaseController {
 
     function saveData($model, $post) {
         $model->attributes = $post;
-        put_msg($model->attributes);
+        $detail=IceDetail::model()->findAll('order_id='.$model->id);
+        $k=1;
+        for($i=0;$i<count($detail);$i++){
+            put_msg($k++);
+            $detail[$i]->amount=  $_POST['amount_'.$i];
+            $detail[$i]->remark=  $_POST['remark_'.$i];
+            $detail[$i]->total_price=$detail[$i]->amount*$detail[$i]->unit_price;
+            $detail[$i]->save();
+        }
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
 
 
-    //明细操作相关结束
+    //明细操作相关开始
 
     //添加订单
     public function actionCreate() {
+        put_msg('进入create');
         $modelName = $this->model;
         $model = new $modelName('create');
-        $model->check_save=0;
-        $model->save();//先保存一个订单，生成id
-        $this->actionUpdate($model->id,1);//调用Update修改
+        $model->check_save=0;//跳过必填（required）检验
+        $model->save();
+        //$this->actionUpdate($model->id);//会产生BUG的旧方法
+        $this->redirect(array('Update','id'=>$model->id,'isAdd'=>1));//跳转到修改动作，新方法解决
     }
     //编辑订单
-    public function actionUpdate($id='0',$isAdd='0') {
+    public function actionUpdate($id='0',$isAdd=0) {
+        put_msg("进入update");
         $modelName = $this->model;
-        $model = $this->loadModel($id, $modelName);
-        $modelName2='IceDetail';
-        if($isAdd==1){
-            $model['order_state']=1;
-            $model2=new $modelName2();
-            $model2['order_id']=$id;
+        $modelName3='IceDetail';
+        $model = $this->loadModel($id, $modelName);//加载对应添加id的订单
+        if($isAdd==1) {
+            $model['order_state'] = 1;
+            $detailList2 = IceType::model()->findAll();
+            if(count(IceType::model()->findAll())!=count(IceDetail::model()->findAll('order_id='.$id))) {
+                foreach ($detailList2 as $v) {
+                    $model3 = new $modelName3();
+                    $model3['order_id'] = $id;
+                    $model3['ice_id'] = $v->id;
+                    $model3['ice_number'] = $v->ice_id;
+                    $model3['ice_type'] = $v->ice_type;
+                    $model3['specification'] = $v->specification;
+                    $model3['unit_price'] = $v->unit_price;
+                    $model3->save();
+                }
+            }
+            $detailList=IceDetail::model()->findAll('order_id='.$id);
         }
-        else{
-            $detailList=IceDetail::model()->find('order_id='.$id);
-            $id2=$detailList->id;
-            $model2 = $this->loadModel($id2,$modelName2);
+        else {
+            $model3 = new $modelName3();
+            $detailList = IceDetail::model()->findAll('order_id=' . $id);
         }
+
         if (!Yii::app()->request->isPostRequest) {
             $data = array();
             $data['model'] = $model;
-            $data['model2']=$model2;
+            $data['detailList'] = $detailList;
             $this->render('update', $data);
         } else {
-            $this->saveData2($model,$model2, $_POST[$modelName],$_POST[$modelName2]);
+            $this->saveData($model, $_POST[$modelName]);
         }
     }
+
+    public function actionOpenDialog(){
+        $modelName='IceDetail';
+        $detail_id=DecodeAsk('detail_id');
+        if($detail_id){
+            $model=$this->loadModel($detail_id,$modelName);
+        }
+        else{
+            $model = new IceDetail();
+            $model->order_id=DecodeAsk('order_id');
+        }
+
+        if (!Yii::app()->request->isPostRequest) {
+            $data = array();
+            $data['model'] = $model;
+            $data['isClose'] = DecodeAsk('isClose');
+            $this->render('update_detail', $data);
+        }else {
+            $this->Save_detail($model, $_POST['IceDetail']);
+        }
+    }
+
+    public function Save_detail($model, $post) {
+        $model->attributes = $post;
+        $url=Yii::app()->request->getUrl().'&isClose=1';//刷新并传递参数通知弹窗关闭
+        show_status($model->save(), '保存成功',$url, '保存失败');
+    }
+
+    public function actionSaveFormDate($id){//打开弹窗前先保存一次
+        $model=$this->loadModel($id,$this->model);
+        $model->check_save=0;
+        $model->attributes = $_REQUEST[$this->model];
+        $model->save();
+    }
+
+
     //保存函数
     function saveData2($model1,$model2, $post1,$post2) {
         $model1->attributes = $post1;
@@ -64,27 +123,62 @@ class IceController extends BaseController {
         show_status($model1->save()&&$model2->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
     //订单明细弹窗
-    public function actionShowDetail($keywords='',$oId){
-        $tmp=Ice::model()->find('id='.$oId);
+    public function actionShowDetail($keywords='',$oId,$condition){
+        $Ice_order=Ice::model()->find('id='.$oId);
+        $Ice_detail=IceDetail::model()->findAll('order_id='.$oId);
         $model = Ice::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getUserKeyWords($keywords);
         $data = array();
-        $data["id"]=$tmp->id;
-        $data["name"]=$tmp->order_name;
-        $data["tel"]=$tmp->order_tel;
-        $data["date"]=$tmp->order_time;
-        $data["longitude"]=$tmp->longitude;
-        $data["latitude"]=$tmp->latitude;
-        parent::_list($model, $criteria, 'map', $data);
+        $data["ice_detail"]=$Ice_detail;
+        $data["id"]=$Ice_order->id;
+        $data["order_id"]=$Ice_order->order_id;
+        $data["name"]=$Ice_order->order_name;
+        $data["tel"]=$Ice_order->order_tel;
+        $data["date"]=$Ice_order->order_time;
+        $data["take_type"]=$Ice_order->take_type;
+        $data["company"]=$Ice_order->company;
+        $data["title"]=$Ice_order->title;
+        $data["fishing_boat"]=$Ice_order->fishing_boat;
+        $data["order_destination"]=$Ice_order->order_destination;
+        $data["order_remark"]=$Ice_order->order_remark;
+        $data["longitude"]=$Ice_order->longitude;
+        $data["latitude"]=$Ice_order->latitude;
+        $data["deliver_name"]=$Ice_order->deliver_name;
+        $user_name=get_session('TCNAME');
+        $data["receiver_name"]=$Ice_order->receiver_name;
+        $data["checker_name"]=$Ice_order->checker_name;
+        $data["condition"]=$condition;
+        parent::_list($model, $criteria, 'detail', $data);
     }
-    //审核通过
-    public function actionExaminepass($keywords='',$id){
-        $modelname=$this->model;
-        $tmp=$modelname::model()->find('id='.$id);//找出对应id的那条记录
-        $tmp->order_state=8;
-        $tmp->save();
-        echo '<script>window.history.back();</script>';
+    //添加冰类型
+    public function actionCreateice() {
+        $modelName = 'IceType';
+        $model = new $modelName('createice');
+        $data = array();
+        if (!Yii::app()->request->isPostRequest) {
+            $data['model'] = $model;
+            $this->render('updateice', $data);
+        } else {
+            $this->icesaveData($model, $_POST[$modelName]);
+        }
+    }
+    //编辑冰类型
+    public function actionUpdateice($id) {
+        $modelName = 'IceType';
+        $model = $this->loadModel($id, $modelName);
+        if (!Yii::app()->request->isPostRequest) {
+            $data = array();
+            $data['model'] = $model;
+            $this->render('updateice', $data);
+        } else {
+            $this->icesaveData($model, $_POST[$modelName]);
+        }
+    }
+    //保存冰明细
+    function icesaveData($model1, $post1) {
+        $model1->attributes = $post1;
+        show_status($model1->save(),'保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
     //明细相关操作结束
 
@@ -110,8 +204,8 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
-        if("order_state=7"){
-            $criteria -> addCondition("order_state=7");
+        if("order_state=6"){
+            $criteria -> addCondition("order_state=6");
         }
         $data = $this->getAppointCountList();
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
@@ -218,13 +312,22 @@ class IceController extends BaseController {
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
         parent::_list($model, $criteria, 'index_deliveryquery', $data);
     }
-
+    //添加商品页面
+    public function actionIndex_ice_type($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = 'IceType';
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = $this->getIceKeyWords($keywords);
+        parent::_list($model, $criteria, 'index_ice_type');
+    }
 
     //点击功能切换页面函数（尾）
 
 
+    //查询关键字
     public function getIceKeyWords($keywords){
-        return  get_like('1','id,order_name,order_tel,order_time,order_remark,order_time',$keywords);
+        return  get_like('1','order_id,title,fishing_boat,order_time,take_type,order_remark',$keywords);
     }
     //选择派送人员
     public function actionSetShrIdAndName($oId,$shrId){
@@ -235,7 +338,6 @@ class IceController extends BaseController {
                 $v->deliver_id=$shrId;
                 $v->deliver_name=$shr->TCNAME;
                 $v->deliver_tel=$shr->PHONE;
-                $v->order_state=5;
                 $v->save();
             }
         }
@@ -267,13 +369,13 @@ class IceController extends BaseController {
     }
     //配送中（渔民）
     public function actionIndex_distribution($keywords = '') {
-        $w="order_state=7";
+        $w="order_state=6";
         $views='index';
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
     //已完成(渔民)
     public function actionIndex_finish($keywords = '') {
-        $w="order_state=8";
+        $w="order_state=7";
         $views='index';
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
@@ -291,25 +393,25 @@ class IceController extends BaseController {
     }
     //待确认(派送员)
     public function actionIndex_confirm_deliver($keywords = '') {
-        $w="order_state=5";
+        $w="order_state=4";
         $views='index_logistic';
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
     //待派送(派送员)
     public function actionIndex_wait_deliver($keywords = '') {
-        $w="order_state=6";
+        $w="order_state=5";
         $views='index_logistic';
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
     //派送中(派送员)
     public function actionIndex_delivering($keywords = '') {
-        $w="order_state=7";
+        $w="order_state=6";
         $views='index_logistic';
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
     //已完成(派送员)
     public function actionIndex_finish_deliver($keywords = '') {
-        $w="order_state=8";
+        $w="order_state=7";
         $views='index_logistic';
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
@@ -333,52 +435,34 @@ class IceController extends BaseController {
         $w="order_state=3";
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
-    //4，物流已审核待指派人员
+    //4，物流已审核待配送员确认
     public function actionQuery_logistics_examined($keywords = '') {
         $views='index_query';
         $w="order_state=4";
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
-    //5，已指派人员待配送员确认
-    public function actionQuery_assigned($keywords = '') {
+    //5，配送员已确认待配送
+    public function actionQuery_confirmed($keywords = '') {
         $views='index_query';
         $w="order_state=5";
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
-    //6，配送员已确认待配送
-    public function actionQuery_confirmed($keywords = '') {
+    //6，配送员正在配送待签收
+    public function actionQuery_delivering($keywords = '') {
         $views='index_query';
         $w="order_state=6";
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
-    //7，配送员正在配送待签收
-    public function actionQuery_delivering($keywords = '') {
+    //7，已签收
+    public function actionQuery_received($keywords = '') {
         $views='index_query';
         $w="order_state=7";
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
-    //8，已签收
-    public function actionQuery_received($keywords = '') {
-        $views='index_query';
-        $w="order_state=8";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
 
-    //今日预约
-    public function actionIndex_dealOrder_today($keywords = '') {
-        $w=get_like(1,'order_time',Date('Y-m-d'));
-        $this->actionIndex_dealOrder_by_condition($keywords,$w,1);
-    }
-    //待确认订单
-    public function actionIndex_dealOrder_wait($keywords = '') {
-        $w="order_state=3";
-        $this->actionIndex_dealOrder_by_condition($keywords,$w);
-    }
-    //已确认订单
-    public function actionIndex_dealOrder_finish($keywords = '') {
-        $w="order_state=4";
-        $this->actionIndex_dealOrder_by_condition($keywords,$w);
-    }
+
+
+
 
 
     //渔船查询页面
@@ -406,59 +490,6 @@ class IceController extends BaseController {
         $w="order_state=8";
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
-
-    //渔业公司查询页面
-    //2，已提交待渔业公司审核
-    public function actionFisheryquery_submited($keywords = '') {
-        $views='index_fisheryquery';
-        $w="order_state=2";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
-    //3，渔业公司已审核待物流审核
-    public function actionFisheryquery_fishery_examined($keywords = '') {
-        $views='index_fisheryquery';
-        $w="order_state=3";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
-    //8，已签收
-    public function actionFisheryquery_received($keywords = '') {
-        $views='index_fisheryquery';
-        $w="order_state=8";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
-
-    //物流公司查询页面
-    //3，渔业公司已审核待物流审核
-    public function actionlogisticsquery_fishery_examined($keywords = '') {
-        $views='index_logisticsquery';
-        $w="order_state=3";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
-    //4，物流已审核待指派人员
-    public function actionlogisticsquery_logistics_examined($keywords = '') {
-        $views='index_logisticsquery';
-        $w="order_state=4";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
-    //5，已指派人员待配送员确认
-    public function actionlogisticsquery_assigned($keywords = '') {
-        $views='index_logisticsquery';
-        $w="order_state=5";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
-    //6，配送员已确认待配送
-    public function actionlogisticsquery_confirmed($keywords = '') {
-        $views='index_logisticsquery';
-        $w="order_state=6";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
-    //8，已签收
-    public function actionlogisticsquery_received($keywords = '') {
-        $views='index_logisticsquery';
-        $w="order_state=8";
-        $this->actionIndex_by_condition($keywords,$views,$w);
-    }
-
     //送货员查询页面
     //5，已指派人员待配送员确认
     public function actiondeliveryquery_assigned($keywords = '') {
@@ -486,6 +517,11 @@ class IceController extends BaseController {
     }
 
 
+
+
+
+
+
     //根据订单状态调用对应的函数
     public function actionIndex_by_condition($keywords = '',$views='index',$w='') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
@@ -507,11 +543,10 @@ class IceController extends BaseController {
         $date['savedCount']= $model->count("order_state=1");//状态1，已保存待提交
         $date['waitCount']= $model->count("order_state=2");//2，已提交待渔业公司审核
         $date['examine_finishCount']= $model->count("order_state=3");//3，渔业公司已审核待物流审核
-        $date['examine_logisticsCount']= $model->count("order_state=4");//4，物流已审核待指派人员
-        $date['wait_deliver_Count']= $model->count("order_state=5");//5，已指派人员待配送员确认
-        $date['delivering_Count']= $model->count("order_state=6");//6，配送员已确认待配送
-        $date['distributionCount']= $model->count("order_state=7");//7，配送员正在配送待签收
-        $date['finishCount']= $model->count("order_state=8");//8，已签收
+        $date['examine_logisticsCount']= $model->count("order_state=4");//4，物流已审核待配送员确认
+        $date['wait_deliver_Count']= $model->count("order_state=5");//5，配送员已确认待配送
+        $date['delivering_Count']= $model->count("order_state=6");//6，配送员正在配送待签收
+        $date['finishCount']= $model->count("order_state=7");//7，已签收
         return $date;
     }
 
@@ -565,15 +600,23 @@ class IceController extends BaseController {
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);//找出对应id的那条记录
         $a=array(
-            '审核通过'=>4,
-            '提交'=>2,
-            '审核'=>3,
-            '退回'=>1,
-            '确认'=>6,
-            '配送'=>7,
-            '确认收货'=>8
+            '渔业审核通过'=>3,
+            '提交订单'=>2,
+            '渔业退回订单'=>1,
+            '物流配送审核通过'=>4,
+            '物流自取审核通过'=>6,
+            '物流退回订单'=>1,
+            '确认'=>5,
+            '开始配送'=>6,
+            '确认收货'=>7
         );
         $tmp->order_state=isset($a[$Now_state])?$a[$Now_state]:0;
+        if($Now_state=='物流配送审核通过'||$Now_state=='物流自取审核通过'){
+            $tmp->checker_name=get_session('TCNAME');
+        }
+        if($Now_state=='确认收货'){
+            $tmp->receiver_name=get_session('TCNAME');
+        }
         $tmp->save();
         echo '<script>window.history.back();</script>';
     }
@@ -611,6 +654,23 @@ class IceController extends BaseController {
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'order_time',$start_date);
         return $criteria;
+    }
+
+
+    //今日预约
+    public function actionIndex_dealOrder_today($keywords = '') {
+        $w=get_like(1,'order_time',Date('Y-m-d'));
+        $this->actionIndex_dealOrder_by_condition($keywords,$w,1);
+    }
+    //待确认订单
+    public function actionIndex_dealOrder_wait($keywords = '') {
+        $w="order_state=3";
+        $this->actionIndex_dealOrder_by_condition($keywords,$w);
+    }
+    //已确认订单
+    public function actionIndex_dealOrder_finish($keywords = '') {
+        $w="order_state=4";
+        $this->actionIndex_dealOrder_by_condition($keywords,$w);
     }
 
     public function setCookieAndGetModel(){

@@ -18,10 +18,10 @@
                     <a href="<?php echo $this->createUrl('Ice/index_dealOrder_today');?>">今日新订单<?php echo '('.$todayDoCount.')'?></a>
                 </li>
                 <li<?php if($action=='index_dealorder_wait'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('Ice/index_dealOrder_wait');?>">待确认订单<?php echo '('.$waitDoCount.')'?></a>
+                    <a href="<?php echo $this->createUrl('Ice/index_dealOrder_wait');?>">待审核订单<?php echo '('.$waitDoCount.')'?></a>
                 </li>
                 <li<?php if($action=='index_dealorder_finish'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('Ice/index_dealOrder_finish');?>">已确认订单<?php echo '('.$finishDoCount.')'?></a>
+                    <a href="<?php echo $this->createUrl('Ice/index_dealOrder_finish');?>">已审核订单<?php echo '('.$finishDoCount.')'?></a>
                 </li>
             </ul>
         </div><!--box-detail-tab end-->
@@ -54,13 +54,13 @@
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
-                    <th width="6%"><?php echo $model->getAttributeLabel('order_name'); ?></th>
-                    <th width="8%"><?php echo $model->getAttributeLabel('order_tel'); ?></th>
-                    <th width="25%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
+                    <th width="6%"><?php echo $model->getAttributeLabel('order_id'); ?></th>
+                    <th width="15%"><?php echo $model->getAttributeLabel('title'); ?></th>
+                    <th width="8%"><?php echo $model->getAttributeLabel('fishing_boat'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
+                    <th width="5%"><?php echo $model->getAttributeLabel('take_type'); ?></th>
                     <th width="30%"><?php echo $model->getAttributeLabel('order_remark'); ?></th>
-                    <th width="5%"><?php echo $model->getAttributeLabel('order_state'); ?></th>
-                    <th width="7%">操作</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -74,17 +74,19 @@
                             <?php }?>
 
                         </td>
-                        <td style='text-align: center;'><?php echo $v->order_name; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_tel; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_destination; ?></td>
+                        <td style='text-align: center;'><?php echo $v->order_id; ?></td>
+                        <td style='text-align: center;'><?php echo $v->title; ?></td>
+                        <td style='text-align: center;'><?php echo $v->fishing_boat; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_time; ?></td>
+                        <td style='text-align: center;'><?php echo $v->take_type; ?></td>
                         <td style='text-align: center;'><?php echo $v->order_remark; ?></td>
-                        <td style='text-align: center;'><?php echo $v->order_state; ?></td>
                         <td>
-                            <?php if ($v->order_state==3){?>
-                                <a class="btn" href="<?php echo $this->createUrl('ConfirmOrder',array('id'=>$v->id))?>">订单确认</a>
-
-                            <?php }?>
+                            <?php if($action=='index_dealorder_today'||$action=='index_dealorder_wait'){?>
+                                <button class="btn" type="button" onclick="showDetails(<?php echo $v->id;?>);">订单明细</button>
+                            <?php } ?>
+                            <?php if($action=='index_dealorder_finish'){?>
+                                <button class="btn" type="button" onclick="showDetails_uncontrolled(<?php echo $v->id;?>);">订单明细</button>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>
@@ -109,34 +111,37 @@
         }
     })
 
-    function confirmOrder(id){
-        url = '<?php echo $this->createUrl("OpenDialogShr");?>'
+    function showDetails(id){
+        url = '<?php echo $this->createUrl("ShowDetail");?>'
+        url=url+'&oId='+id+'&condition=2'
         $.dialog.data('id',0)
         $.dialog.open(url,{
-            id: 'chooseShr',
+            id: 'showdetails',
             lock:true,opacity:0.3,
-            width:'1000px',
-            height:'80%',
-            title:'选择送冰员',
+            width:'100%',
+            height:'100%',
+            title:'订单明细',
             close: function () {
-                if($.dialog.data('id')>0){
-                    s1='<?php echo $this->createUrl('SetShrIdAndName')?>'
-                    s1=s1+'&shrId='+$.dialog.data('id')+'&oId='+id
-                    $.ajax({
-                        type: 'get',
-                        url: s1,
-                        dataType: 'json',
-                        success: function(data){
-                            we.reload()
-                        },
-
-                    });
-                }
+                we.reload();
             }
-
         });
     };
 
+    function showDetails_uncontrolled(id){
+        url = '<?php echo $this->createUrl("ShowDetail");?>'
+        url=url+'&oId='+id+'&condition=0'
+        $.dialog.data('id',0)
+        $.dialog.open(url,{
+            id: 'showdetails',
+            lock:true,opacity:0.3,
+            width:'100%',
+            height:'100%',
+            title:'订单明细',
+            close: function () {
+                we.reload();
+            }
+        });
+    };
 
 
 </script>

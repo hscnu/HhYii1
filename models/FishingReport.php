@@ -36,9 +36,10 @@ class FishingReport extends BaseModel
     public function attributeLabels()
     {
         return array(
-            'id' => '表单号',
+            'id' => 'ID',
+            'report_id'=>'上报单号',
             'state'=>'状态',
-            'boatname'=>'船名',
+            'boat_id'=>'渔船编码',
             'name' => '上报人姓名',
             'company'=>'公司名称',
             'count'=>'记录数',
@@ -46,6 +47,10 @@ class FishingReport extends BaseModel
             'reporttime'=>'上报时间',
             'userId'=>'用户',
             'remark'=>'备注',
+            'title'=>'标题',
+            'check_time'=>'审核时间',
+            'checktor_id'=>'审核人ID',
+            'opinion'=>'审核意见',
         );
     }
 
@@ -76,8 +81,11 @@ class FishingReport extends BaseModel
 
         $a=array(
             '1'=>'待审核',
-            '2'=>'审核通过',
-            '3'=>'审核不通过',
+            '2'=>'通过',
+            '3'=>'不通过',
+            '4'=>'已保存',
+            '5'=>'通过',
+            '6'=>'不通过',
 
         );
         return isset($a[$state])?$a[$state]:'未知状态';
@@ -86,7 +94,6 @@ class FishingReport extends BaseModel
     protected function beforeSave() {
 
         $this->userId=get_session('userId');
-
         parent::beforeSave();
         return true;
     }

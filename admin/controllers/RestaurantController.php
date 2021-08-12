@@ -116,18 +116,61 @@ class RestaurantController extends BaseController {
     }
 
 
-    public function actionUser($keywords = '') {
+    public function actionUser($keywords = '') {//酒楼名升序
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = get_like('1','r_name,r_address',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'r_name,r_address',$keywords);
-
+        $criteria->order = 'r_name asc';
         $data = array();
         parent::_list($model, $criteria, 'user', $data);
     }
-
+    public function actionUser_rank($keywords = '') {//排名升序
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','r_name,r_address',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'r_name,r_address',$keywords);
+        $criteria->order = 'r_rank asc';
+        $data = array();
+        parent::_list($model, $criteria, 'user', $data);
+    }
+    public function actionUser_star($keywords = '') {//星级降序
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','r_name,r_address',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'r_name,r_address',$keywords);
+        $criteria->order = 'r_service desc';
+        $data = array();
+        parent::_list($model, $criteria, 'user', $data);
+    }
+    public function actionUser_priceasc($keywords = '') {//价格升序
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','r_name,r_address',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'r_name,r_address',$keywords);
+        $criteria->order = 'r_price asc';
+        $data = array();
+        parent::_list($model, $criteria, 'user', $data);
+    }
+    public function actionUser_pricedesc($keywords = '') {//价格降序
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','r_name,r_address',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'r_name,r_address',$keywords);
+        $criteria->order = 'r_price desc';
+        $data = array();
+        parent::_list($model, $criteria, 'user', $data);
+    }
     public function actionRest($keywords = '') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
@@ -135,7 +178,7 @@ class RestaurantController extends BaseController {
         $criteria = new CDbCriteria;
         $criteria -> condition = get_like('1','r_name,r_address',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'r_name,r_address',$keywords);
-
+        $criteria->order = 'r_name asc';
         $data = array();
         parent::_list($model, $criteria, 'rest', $data);
     }

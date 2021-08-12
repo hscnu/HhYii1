@@ -44,7 +44,7 @@
                     <th><?php echo $model->getAttributeLabel('date'); ?></th>
 
                     <th><?php echo $model->getAttributeLabel('state'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('complete_time'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('notes'); ?></th>
 
 
                     <th>操作</th>
@@ -61,7 +61,7 @@
                         <td style='text-align: center;'><?php echo $v->date; ?></td>
 
                         <td style='text-align: center;'><?php echo $model->getCHName($v->state); ?></td>
-                        <td style='text-align: center;'><?php echo $v->complete_time; ?></td>
+                        <td style='text-align: center;'><?php echo $v->notes; ?></td>
 
                         <td>
                             <?php {?>

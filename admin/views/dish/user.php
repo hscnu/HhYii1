@@ -60,7 +60,8 @@
                 <button class="btn btn-blue" type="submit">查询</button>
             </form>
         </div><!--box-search end-->
-        <?php foreach ($arclist as $v) {
+        <?php
+        foreach ($arclist as $v) {
                 if($v->d_rest == $_SESSION['rest']){?>
             <div class="box-table">
                 <table class="list2">

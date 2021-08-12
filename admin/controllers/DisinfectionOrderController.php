@@ -295,7 +295,6 @@ class DisinfectionOrderController extends BaseController {
     /// 配送订单
     public function actionSetShrIdAndName($oId, $shrId)
     {
-        put_msg(11);
         $shr = DistributorCen::model()->find('user_id=' . $shrId);//根据送货人ID找到该用户信息
         $order = DisinfectionOrder::model()->findAll("id in (" . $oId . ")");//找订单
         if ($order) {
@@ -326,7 +325,6 @@ class DisinfectionOrderController extends BaseController {
     //配送订单end
     /// 状态改变按钮
     public function actionChangeState($id,$Now_state,$keywords=''){
-
         $modelname=$this->model;
         $tmp=$modelname::model()->find('id='.$id);
         $a=array(
@@ -338,6 +336,9 @@ class DisinfectionOrderController extends BaseController {
             '送往审核'=>3,
         );
         $tmp->state= $a[$Now_state] ?$a[$Now_state] : $Now_state;
+        if($Now_state=='签收'){
+            $tmp->complete_time=Date('Y-m-d');
+        }
         $tmp->save();
 
         echo '<script>window.history.back();</script>';
@@ -393,7 +394,8 @@ class DisinfectionOrderController extends BaseController {
         $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
-
+        $criteria->addCondition("state>=10");
+        $criteria->addCondition("state<=11");
 
         $model->deleteAll('state'.' in (' . 0 . ')');
 
@@ -412,7 +414,7 @@ class DisinfectionOrderController extends BaseController {
         $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
-
+        $criteria->addCondition("state=3");
 
         $model->deleteAll('state'.' in (' . 0 . ')');
 
@@ -431,7 +433,7 @@ class DisinfectionOrderController extends BaseController {
         $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
-
+        $criteria->addCondition("state=4");
 
         $model->deleteAll('state'.' in (' . 0 . ')');
 

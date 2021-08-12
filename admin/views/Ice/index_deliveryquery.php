@@ -13,13 +13,13 @@
                 <ul class="c">
                     <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
                     <li<?php if($action=='deliveryquery_assigned'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/deliveryquery_assigned');?>">待确认<?php echo '('.$wait_deliver_Count.')'?></a>
+                        <a href="<?php echo $this->createUrl('Ice/deliveryquery_assigned');?>">待确认<?php echo '('.$examine_logisticsCount.')'?></a>
                     </li>
                     <li<?php if($action=='deliveryquery_confirmed'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/deliveryquery_confirmed');?>">待派送<?php echo '('.$delivering_Count.')'?></a>
+                        <a href="<?php echo $this->createUrl('Ice/deliveryquery_confirmed');?>">待配送<?php echo '('.$wait_deliver_Count.')'?></a>
                     </li>
                     <li<?php if($action=='deliveryquery_delivering'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/deliveryquery_delivering');?>">配送中<?php echo '('.$distributionCount.')'?></a>
+                        <a href="<?php echo $this->createUrl('Ice/deliveryquery_delivering');?>">配送中<?php echo '('.$delivering_Count.')'?></a>
                     </li>
                     <li<?php if($action=='deliveryquery_received'){?> class="current"<?php }?>>
                         <a href="<?php echo $this->createUrl('Ice/deliveryquery_received');?>">已收货<?php echo '('.$finishCount.')'?></a>

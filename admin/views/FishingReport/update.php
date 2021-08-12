@@ -15,24 +15,29 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'title');?></td>
+                        <td colspan="3" > <?php echo $form->textArea($model, 'title',  array('class' => 'input-text', 'style'=>'width:97%;height:25px','maxlength' => '50'));?>
+                            <?php echo $form->error($model, 'title', $htmlOptions = array());?>
+                        </td>
+                    </tr>
+                    <tr>
                         <td style='text-align: center;'><?php echo $form->labelEx($model, 'name'); ?></td>
                         <td >
                             <?php echo $form->textField($model, 'name', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'name', $htmlOptions = array()); ?>
                         </td>
-
-                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'company'); ?></td>
+                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'boat_id'); ?></td>
                         <td >
-                            <?php echo $form->textField($model, 'company', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'company', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'boat_id', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'boat_id', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <td style='text-align: center;'> <?php echo $form->labelEx($model, 'boatname'); ?></td>
-                        <td >
-                            <?php echo $form->textField($model, 'boatname', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'boatname', $htmlOptions = array()); ?>
+                        <td style='text-align: center;'><?php echo $form->labelEx($model, 'reporttime'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'reporttime', array('class' => 'input-text','value'=>Date('Y-m-d'))); ?>
+                            <?php echo $form->error($model, 'reporttime', $htmlOptions = array()); ?>
                         </td>
                         <td style='text-align: center;'><?php echo $form->labelEx($model, 'fishingtime');?></td>
                         <td>
@@ -43,7 +48,7 @@
 
                     <tr>
                         <td style='text-align: center;'><?php echo $form->labelEx($model, 'remark');?></td>
-                        <td colspan="3" > <?php echo $form->textArea($model, 'remark',  array('class' => 'input-text', 'style'=>'width:97%;height:50px','maxlength' => '200','placeholder'=>"本栏目限填200字"));?>
+                        <td colspan="3" > <?php echo $form->textArea($model, 'remark',  array('class' => 'input-text', 'style'=>'width:97%;height:25px','maxlength' => '100','placeholder'=>"本栏目限填100字"));?>
                             <?php echo $form->error($model, 'remark', $htmlOptions = array());?>
                         </td>
                     </tr>
@@ -80,14 +85,10 @@
                             </td>
                         </tr>
                     <?php } ?>
-
                 </tbody>
             </table>
         </div><!--box-table end-->
     </div><!--box-detail-bd end-->
-
-
-
 
 
     <div class="box-detail-submit">
@@ -161,6 +162,7 @@
         })
     }
 </script>
+
 
 
 

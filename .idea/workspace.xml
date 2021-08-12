@@ -20,7 +20,71 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71bd1a4f-83a7-4342-aa2f-601b770caf70" name="Default Changelist" comment="Default Changelist">
+      <change afterPath="$PROJECT_DIR$/admin/views/Ice/eveluation.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/autocomplete/indicator.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/autocomplete/jquery.autocomplete.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.ajaxqueue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.autocomplete.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.ba-bbq.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.ba-bbq.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.bgiframe.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.cookie.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.history.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.maskedinput.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.maskedinput.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.metadata.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.multifile.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.rating.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.treeview.async.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.treeview.edit.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.treeview.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.yii.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.yiiactiveform.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jquery.yiitab.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-bg_flat_0_aaaaaa_40x100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-bg_flat_75_ffffff_40x100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-bg_glass_55_fbf9ee_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-bg_glass_65_ffffff_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-bg_glass_75_dadada_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-bg_glass_75_e6e6e6_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-bg_glass_95_fef1ec_1x400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-icons_222222_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-icons_2e83ff_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-icons_454545_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-icons_888888_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/images/ui-icons_cd0a0a_256x240.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/css/base/jquery-ui.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/js/jquery-ui-i18n.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/jui/js/jquery-ui.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/punycode.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/punycode.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/rating/delete.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/rating/jquery.rating.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/rating/star.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/ajax-loader.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/file.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/folder-closed.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/folder.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/minus.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/plus.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-black-line.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-black.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-default-line.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-default.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-famfamfam-line.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-famfamfam.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-gray-line.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-gray.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-red-line.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/images/treeview-red.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/treeview/jquery.treeview.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/13037637/yiitab/jquery.yiitab.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/include/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime/admin/application.log" beforeDir="false" afterPath="$PROJECT_DIR$/runtime/admin/application.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,16 +130,16 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\wamp64\www\HhYii\admin\views" />
+      <recent name="C:\Users\Administrator\Desktop\5\HhYii5\admin\views\Ice" />
+      <recent name="C:\Users\Administrator\Desktop\5\HhYii5\models" />
+      <recent name="C:\Users\Administrator\Desktop\5\HhYii5\admin\controllers" />
+      <recent name="C:\Users\Administrator\Desktop\5\HhYii5\admin\views" />
       <recent name="D:\wamp64\www\HhYii\models" />
-      <recent name="D:\wamp64\www\HhYii\admin\controllers" />
-      <recent name="D:\wamp64\www\HhYii\admin\views\iceLog" />
-      <recent name="D:\wamp64\www\HhYii\admin\views\Ice" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\wamp64\www\HhYii\admin\views\Ice" />
@@ -147,31 +211,20 @@
       <workItem from="1626924868545" duration="887000" />
       <workItem from="1626925790576" duration="74000" />
       <workItem from="1626944261971" duration="7715000" />
-      <workItem from="1627021847510" duration="2007000" />
-      <workItem from="1627024134171" duration="448000" />
-      <workItem from="1627030568082" duration="687000" />
-      <workItem from="1627031267233" duration="158000" />
-      <workItem from="1627031429252" duration="26000" />
-      <workItem from="1627094073644" duration="1479000" />
-      <workItem from="1627098355474" duration="379000" />
-      <workItem from="1627111343996" duration="1634000" />
-      <workItem from="1627113525106" duration="416000" />
+      <workItem from="1627889672316" duration="1606000" />
+      <workItem from="1627980573874" duration="1729000" />
+      <workItem from="1628041200181" duration="135000" />
+      <workItem from="1628657402555" duration="343000" />
+      <workItem from="1628674859548" duration="1251000" />
     </task>
-    <task id="LOCAL-00001" summary="test to push">
-      <created>1627024229103</created>
+    <task id="LOCAL-00001" summary="优化流程了的送冰模块，添加明细和新的审核过程">
+      <created>1627713146456</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1627024229103</updated>
+      <updated>1627713146456</updated>
     </task>
-    <task id="LOCAL-00002" summary="Default Changelist">
-      <created>1627094952176</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1627094952176</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,19 +235,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -203,9 +244,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="test to push" />
-    <MESSAGE value="Default Changelist" />
-    <option name="LAST_COMMIT_MESSAGE" value="Default Changelist" />
+    <MESSAGE value="优化流程了的送冰模块，添加明细和新的审核过程" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化流程了的送冰模块，添加明细和新的审核过程" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

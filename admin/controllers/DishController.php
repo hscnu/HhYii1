@@ -81,7 +81,6 @@ class DishController extends BaseController {
         $criteria = new CDbCriteria;
         $criteria -> condition = get_like('1','d_name',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'d_name',$keywords);
-
         $data = array();
         parent::_list($model, $criteria, 'rest', $data);
     }
@@ -92,6 +91,7 @@ class DishController extends BaseController {
         $criteria = new CDbCriteria;
         $criteria -> condition = get_like('1','d_name',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'d_name',$keywords);
+        $criteria->order = 'd_rate desc';
         $data = array();
         parent::_list($model, $criteria, 'user', $data);
     }
