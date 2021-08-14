@@ -79,6 +79,7 @@ class DisinfectionSign_mobileController extends BaseController {
         $FExamine = count($modelName::model()->findAll('state=4'));
         $deliver_wait = count($modelName::model()->findAll('state=13'));
         $deliver_finish = count($modelName::model()->findAll('state=10'));
+        $AllSignCount = $waitSignCount+$signedCount;
         return array(
             'todayCount'=>$todayCount,
             'waitCount'=>$waitCount,
@@ -89,6 +90,7 @@ class DisinfectionSign_mobileController extends BaseController {
             'FExamineCount'=>$FExamine,
             'deliverwaitCount' => $deliver_wait,
             'deliverfinishCount' => $deliver_finish,
+            'AllSignCount'=>$AllSignCount,
         );
     }
     public function getDisinfectionKeyWords($keywords = ''){

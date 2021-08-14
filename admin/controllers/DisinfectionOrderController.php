@@ -252,7 +252,7 @@ class DisinfectionOrderController extends BaseController {
         $waitCenterSign = count($modelName::model()->findAll('state=15'));
         $signedCount = count($modelName::model()->findAll('state=11'));
         $IExamine = count($modelName::model()->findAll('state=12'));
-        $FExamine = count($modelName::model()->findAll('state=4 and disinfection_id='.$userUnit));
+        $FExamine = count($modelName::model()->findAll("state=4 and disinfection_id='".$userUnit."'"));
         $deliver_wait = count($modelName::model()->findAll('state=13'));
         $waitRestSign = count($modelName::model()->findAll('state=10'));
         $deliver_wait2 = count($modelName::model()->findAll('state=14'));
@@ -530,13 +530,13 @@ class DisinfectionOrderController extends BaseController {
         $unitId=$this->getUserUnit();
         $name='未知';
         if($unitType=='rest'){
-            $temp=Restaurant::model()->find('id='.$unitId);
+            $temp=Restaurant::model()->find("r_code='".$unitId."'");
             if($temp){
                 $name=$temp->r_name;
             }
         }
         elseif ($unitType=='disinfection_center'){
-            $temp=DisinfectionCenter::model()->find('id='.$unitId);
+            $temp=DisinfectionCenter::model()->find("code='".$unitId."'");
             if($temp){
                 $name=$temp->name;
             }
