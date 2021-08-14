@@ -2,19 +2,16 @@
     <div class="box-title c">
         <h1><i class="fa fa-table"></i>订单明细</h1>
         <?php if($condition==1){?>
-            <a class="btn btn-blue" href="javascript:;" onclick="fishery_examine()">审核通过</a>
+            <a class="btn btn-green" href="javascript:;" onclick="fishery_examine()">审核通过</a>
         <?php } ?>
         <?php if($condition==1){?>
             <a class="btn btn-blue" href="javascript:;" onclick="fishery_examine_back()">退回订单</a>
         <?php } ?>
-        <?php if($take_type=='配送'&&$condition==2){?>
-            <button class="btn" type="button" onclick="chooseShr(<?php echo $id;?>);">选择送冰员</button>
-        <?php } ?>
         <?php if(($take_type=='配送'&&$deliver_name!=NULL)&&$condition==2){?>
-            <a class="btn btn-blue" href="javascript:;" onclick="logistics_examine(1)">审核通过</a>
+            <a class="btn btn-green" href="javascript:;" onclick="logistics_examine(1)">审核通过</a>
         <?php } ?>
         <?php if($take_type=='自取'&&$condition==2){?>
-            <a class="btn btn-blue" href="javascript:;" onclick="logistics_examine(2)">审核通过</a>
+            <a class="btn btn-green" href="javascript:;" onclick="logistics_examine(2)">审核通过</a>
         <?php } ?>
         <?php if($condition==2){?>
             <a class="btn btn-blue" href="javascript:;" onclick="logistics_examine_back()">退回订单</a>
@@ -99,6 +96,9 @@
                 <ul style="display: inline-block;width:30%;text-align: left;">
                     <span style="font-size:15px;font-weight:bold;">配送人：</span>
                     <?php echo $deliver_name; ?>
+                    <?php if($take_type=='配送'&&$condition==2){?>
+                        <button class="btn btn-blue" type="button" onclick="chooseShr(<?php echo $id;?>);">选择送冰员</button>
+                    <?php } ?>
                 </ul>
                 <ul style="display: inline-block;width:30%;text-align: center;">
                     <span style="font-size:15px;font-weight:bold;">收货人：</span>

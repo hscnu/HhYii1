@@ -19,8 +19,10 @@ class Ice extends BaseModel
                 // array('id', 'required', 'message' => '{attribute} 不能为空'),
                 array('order_name', 'required', 'message' => '{attribute} 不能为空'),
                 array('order_tel', 'required', 'message' => '{attribute} 不能为空'),
-                array('order_destination', 'required', 'message' => '{attribute} 不能为空'),
+                //array('order_destination', 'required', 'message' => '{attribute} 不能为空'),
+                array('order_id', 'required', 'message' => '{attribute} 不能为空'),
                 array('order_time', 'required', 'message' => '{attribute} 不能为空'),
+                array('take_type', 'required', 'message' => '{attribute} 不能为空'),
             );
         $a[]= array($this->safeField(), 'safe');
         return $a;
@@ -41,16 +43,22 @@ class Ice extends BaseModel
     {
         return array(
             'id' => 'ID',
+            'order_id'=>'订单编号',
+            'order_time' => '收货时间',
+            'title'=>'标题',
+            'company'=>'单位/公司',
             'order_name' => '联系人',
             'order_tel' => '联系人电话',
-            'order_time' => '收货时间',
-            'ice_amount' => '冰的数量',
-            'order_destination' => '收货地点',
             'order_remark' => '备注',
-            'order_state' => '订单状态',
+            'take_type'=>'取冰方式',
+            'order_destination' => '收货地点',
             'deliver_id'=>'送货人ID',
             'deliver_name'=>'送货人姓名',
-            'deliver_tel'=>'送货人电话'
+            'deliver_tel'=>'送货人电话',
+            'order_state' => '订单状态',
+            'fishing_boat'=> '渔船名称',
+            'longitude' =>'经度',
+            'latitude'=>'维度'
         );
     }
 
