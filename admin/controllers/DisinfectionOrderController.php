@@ -102,9 +102,8 @@ class DisinfectionOrderController extends BaseController {
 
         parent::_list($model, $criteria, 'index', $data);
     }
-
+    //添加明细
     public function actionOpenDialog(){
-
         $modelName='DisinfectionOrderDetail';
         $detail_id=DecodeAsk('detail_id');
         if($detail_id){
@@ -124,6 +123,32 @@ class DisinfectionOrderController extends BaseController {
             $this->Save_detail($model, $_POST['DisinfectionOrderDetail']);
         }
     }
+    public function actionOpenPreset($order_id){
+        $modelName='TableWare';
+        $model = $modelName::model();
+        $criteria=new CDbCriteria();
+        $data = array();
+        $data['model'] = $model;
+        $data['order_id']=$order_id;
+        parent::_list($model, $criteria, 'preset_detail', $data);
+    }
+    public function actionSavePreset($tablewareIds,$order_id,$number=0){
+        foreach (explode(',',$tablewareIds) as $id){
+            $tmp=TableWare::model()->find('id='.$id);
+            if($tmp){
+                $detailModel = new DisinfectionOrderDetail();
+                $detailModel->order_id=$order_id;
+                $detailModel->number=$number;
+                $detailModel->tableware_type=$tmp->type;
+                $detailModel->tableware_name=$tmp->name;
+                $detailModel->unit=$tmp->unit;
+                $detailModel->cost=$tmp->cost;
+                $detailModel->tableware_code=$tmp->code;
+                $detailModel->save();
+            }
+        }
+        echo CJSON::encode(array('yes'=>'yes'));
+    }
 
     public function Save_detail($model, $post) {
         $model->attributes = $post;
@@ -141,6 +166,7 @@ class DisinfectionOrderController extends BaseController {
         $model->attributes = $_REQUEST[$this->model];
         $model->save();
     }
+    //添加明细end
     /////导航栏
 
     public function actionIndex_by_condition($next_index,$keywords = '',$w='',$examineType='None',$istoday=0) {
