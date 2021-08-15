@@ -241,6 +241,7 @@ class DisinfectionOrderController extends BaseController {
     //待酒楼签收
     public function actionIndex_waitRestSign($keywords = '')
     {
+        set_session('navAction','Index_waitRestSign');
         $w = "state=10";
         $examineType='Rest_Sign';
         $this->actionIndex_by_condition('index_sign2', $keywords, $w,$examineType);
