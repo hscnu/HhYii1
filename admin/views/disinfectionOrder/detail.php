@@ -169,6 +169,10 @@
 </script>
 <script>
     $(document).ready(function(){
+        var x='<?php echo get_session('navAction');?>'
+        if(x=='Index_signed'){
+            $("#qsbt").hide();
+        }
         $("a").load(function(){
             if(nowView!=='index_sign2'){
                 $("#qsbt").hide();

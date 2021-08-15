@@ -63,8 +63,9 @@ class DisinfectionOrderController extends BaseController {
     function saveData($model, $post) {
         $model->attributes = $post;
 //识别用户单位
-        $resId=$this->getUserUnit();
-        $model['restaurant_id']=$resId;
+        $restCode=$this->getUserUnit();
+        $tmp=Restaurant::model()->find("r_code='".$restCode."'");
+        $model['restaurant_id']=$tmp->id;
         $model['restaurant_name']=Restaurant::model()->getNameFromId($model['restaurant_id']);
 
         if($model['state']==0){
@@ -84,16 +85,8 @@ class DisinfectionOrderController extends BaseController {
         $criteria = new CDbCriteria;
         $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
-        ///测试
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
-        ///测试end
-//        $userId=get_session('userId');
-//        $tmp=User::model()->find('userId='.$userId);
-//        if($tmp){
-//            $resId=$tmp->unitId;
-//            $criteria ->addCondition('restaurant_id='.$resId);
-//        }
 
         $model->deleteAll('state'.' in (' . 0 . ')');
 
@@ -132,7 +125,8 @@ class DisinfectionOrderController extends BaseController {
         $data['order_id']=$order_id;
         parent::_list($model, $criteria, 'preset_detail', $data);
     }
-    public function actionSavePreset($tablewareIds,$order_id,$number=0){
+    public function actionSavePreset($tablewareIds,$order_id,$number){
+        if($number==''){$number=0;}
         foreach (explode(',',$tablewareIds) as $id){
             $tmp=TableWare::model()->find('id='.$id);
             if($tmp){
@@ -174,7 +168,6 @@ class DisinfectionOrderController extends BaseController {
         $modelName = $this->model;
         $model = $modelName::model();
         $criteria = new CDbCriteria;
-
         $criteria -> condition = $this->getDisinfectionKeyWords($keywords);
         if($w){
             $criteria -> addCondition($w);
@@ -255,6 +248,7 @@ class DisinfectionOrderController extends BaseController {
     //酒楼已签收
     public function actionIndex_signed($keywords = '') {
         $w="state=11";
+        set_session('navAction','Index_signed');
         $this->actionIndex_by_condition('index_sign2',$keywords,$w);
     }
     //待酒楼配送
@@ -271,14 +265,27 @@ class DisinfectionOrderController extends BaseController {
     }
     public function getAppointCountList(){
         $modelName = $this->model;
-        $userUnit=$this->getUserUnit();
-        $todayCount = count($modelName::model()->findAll('state=1'));
-        $waitCount = count($modelName::model()->findAll('state=2'));
+        $unitCode=$this->getUserUnit();
+        $disinfectionTmp=DisinfectionCenter::model()->find("code='".$unitCode."'");
+        $restaurantTmp=Restaurant::model()->find("r_code='".$unitCode."'");
+        $FExamine=0;
+        $todayCount=0;
+        $waitCount=0;
+        if($disinfectionTmp){
+            $FExamine = count($modelName::model()->findAll("state=4 and disinfection_id='".$disinfectionTmp->id."'"));
+        }
+
+        if($restaurantTmp){
+            $todayCount = count($modelName::model()->findAll('state=1'));
+            $waitCount = count($modelName::model()->findAll('state=2'));
+        }
+
+
         $finishCount = count($modelName::model()->findAll('state=3'));
         $waitCenterSign = count($modelName::model()->findAll('state=15'));
         $signedCount = count($modelName::model()->findAll('state=11'));
         $IExamine = count($modelName::model()->findAll('state=12'));
-        $FExamine = count($modelName::model()->findAll("state=4 and disinfection_id='".$userUnit."'"));
+
         $deliver_wait = count($modelName::model()->findAll('state=13'));
         $waitRestSign = count($modelName::model()->findAll('state=10'));
         $deliver_wait2 = count($modelName::model()->findAll('state=14'));
@@ -544,13 +551,17 @@ class DisinfectionOrderController extends BaseController {
    ///角色所属单位控制
     public function rest_limit(): string
     {
-        $unitId=$this->getUserUnit();
-        return "restaurant_id='".$unitId."'";
+        $unitCode=$this->getUserUnit();
+        $tmp=Restaurant::model()->find("r_code='".$unitCode."'");
+        if($tmp){ return "restaurant_id='".$tmp->id."'";}
+        else return '';
     }
     public function disinfection_center_limit(): string
     {
-        $unitId=$this->getUserUnit();
-        return "disinfection_id='".$unitId."'";
+        $unitCode=$this->getUserUnit();
+        $tmp=DisinfectionCenter::model()->find("code='".$unitCode."'");
+        if($tmp){ return "disinfection_id='".$tmp->id."'";}
+        else return '';
     }
     public function getUserUnitName($unitType){
         $unitId=$this->getUserUnit();
