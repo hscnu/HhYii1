@@ -19,13 +19,13 @@
 
 
 .article-item{
-    Box-shadow:0 0 10px 0 rgba(152, 177, 248, 0.53);
+    Box-shadow:0 0 10px 0 rgba(166, 185, 240, 0.53);
     display: flex;
     /*flex-direction: row;*/
     /*justify-content: center;*/
     /*align-content: center;*/
     font-size: 14px;
-    margin: 5px 5px 10px 5px;
+    margin: 20px 0px 30px 0px;
     padding: 10px;
     background-color: #fff;
     border-radius:10px;
@@ -164,7 +164,7 @@
 }
 
 .article-title {
-    border-bottom: 1px dashed lightseagreen;
+    border-bottom: 1px dashed #00abfd ;
     font-size: 26px;
     line-height: 36px;
 }
