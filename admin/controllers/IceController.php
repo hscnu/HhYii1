@@ -35,7 +35,6 @@ class IceController extends BaseController {
 
     //添加订单
     public function actionCreate() {
-        put_msg('进入create');
         $modelName = $this->model;
         $model = new $modelName('create');
         $model->check_save=0;//跳过必填（required）检验
@@ -45,11 +44,26 @@ class IceController extends BaseController {
     }
     //编辑订单
     public function actionUpdate($id='0',$isAdd=0) {
-        put_msg("进入update");
         $modelName = $this->model;
         $modelName3='IceDetail';
         $model = $this->loadModel($id, $modelName);//加载对应添加id的订单
         if($isAdd==1) {
+            $model['user_id']=get_Session('userId');
+            $count=Ice::model()->count("user_id=".get_session('userId')." and create_time like '%".date('Y-m-d')."%'");
+            put_msg(strlen($count));
+            if(strlen($count)==1){
+                $order_id=str_pad(date('Ymd'),10,"0",STR_PAD_RIGHT);
+                $order_id=str_pad($order_id,11,$count,STR_PAD_RIGHT);
+            }
+            if(strlen($count)==2){
+                $order_id=str_pad(date('Ymd'),9,"0",STR_PAD_RIGHT);
+                $order_id=str_pad($order_id,11,$count,STR_PAD_RIGHT);
+            }
+            if(strlen($count)==3){
+                $order_id=str_pad($order_id,11,$count,STR_PAD_RIGHT);
+            }
+            $model['order_id']=$order_id;
+            $model['create_time']=date('Y-m-d H:i:s');
             $model['order_state'] = 1;
             $detailList2 = IceType::model()->findAll();
             if(count(IceType::model()->findAll())!=count(IceDetail::model()->findAll('order_id='.$id))) {
@@ -194,6 +208,7 @@ class IceController extends BaseController {
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
         $data = $this->getAppointCountList();
+        $criteria->addCondition('user_id='.get_session('userId'));
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
         parent::_list($model, $criteria, 'index', $data);
     }
@@ -204,26 +219,13 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
         if("order_state=6"){
             $criteria -> addCondition("order_state=6");
         }
         $data = $this->getAppointCountList();
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
         parent::_list($model, $criteria, 'index_myconfirm_receipt', $data);
-    }
-    //物流人员确认收货页面
-    public function actionIndex_deliveryconfirm_receipt($keywords = '') {
-        set_cookie('_currentUrl_', Yii::app()->request->url);
-        $modelName = $this->model;
-        $model = $modelName::model();
-        $criteria = new CDbCriteria;
-        $criteria -> condition = $this->getIceKeyWords($keywords);
-        if("order_state=7"){
-            $criteria -> addCondition("order_state=7");
-        }
-        $data = $this->getAppointCountList();
-        $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
-        parent::_list($model, $criteria, 'index_deliveryconfirm_receipt', $data);
     }
     //审核页面
     public function actionIndex_examine($keywords = '') {
@@ -233,10 +235,28 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
         $data = $this->getAppointCountList();
         $data["action"]=$action;
         parent::_list($model, $criteria, 'index_examine', $data);
     }
+
+    //领冰页面
+    public function actionIndex_accept_ice($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
+        if("order_state=4"){
+            $criteria -> addCondition("order_state=4");
+        }
+        $data = $this->getAppointCountList();
+        $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
+        parent::_list($model, $criteria, 'index_accept_ice', $data);
+    }
+
     //物流人员业务页面
     public function actionIndex_logistic($keywords = '') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
@@ -244,6 +264,7 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('deliver_id='.get_session('userId'));
         $data = $this->getAppointCountList();
         parent::_list($model, $criteria, 'index_logistic', $data);
     }
@@ -254,6 +275,7 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
         $data = array();
         parent::_list($model, $criteria, 'index_appointing', $data);
     }
@@ -264,6 +286,7 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
         $data = $this->getAppointCountList();
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
         parent::_list($model, $criteria, 'index_query', $data);
@@ -275,6 +298,7 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
         $data = $this->getAppointCountList();
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
         parent::_list($model, $criteria, 'index_myquery', $data);
@@ -286,6 +310,7 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
         $data = $this->getAppointCountList();
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
         parent::_list($model, $criteria, 'index_fisheryquery', $data);
@@ -297,6 +322,7 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
         $data = $this->getAppointCountList();
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
         parent::_list($model, $criteria, 'index_logisticsquery', $data);
@@ -308,6 +334,7 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria->addCondition('user_id='.get_session('userId'));
         $data = $this->getAppointCountList();
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
         parent::_list($model, $criteria, 'index_deliveryquery', $data);
@@ -391,7 +418,7 @@ class IceController extends BaseController {
         $views='index_examine';
         $this->actionIndex_by_condition($keywords,$views,$w);
     }
-    //待确认(派送员)
+    //待派送员领冰(冰管理)
     public function actionIndex_confirm_deliver($keywords = '') {
         $w="order_state=4";
         $views='index_logistic';
@@ -529,6 +556,12 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
+        if($views=='index_logistic'){
+            $criteria->addCondition('deliver_id='.get_session('userId'));
+        }
+        else{
+            $criteria->addCondition('user_id='.get_session('userId'));
+        }
         if($w){
             $criteria -> addCondition($w);
         }
@@ -540,13 +573,14 @@ class IceController extends BaseController {
         $date=array();
         $modelName = $this->model;
         $model = $modelName::model();
-        $date['savedCount']= $model->count("order_state=1");//状态1，已保存待提交
-        $date['waitCount']= $model->count("order_state=2");//2，已提交待渔业公司审核
-        $date['examine_finishCount']= $model->count("order_state=3");//3，渔业公司已审核待物流审核
-        $date['examine_logisticsCount']= $model->count("order_state=4");//4，物流已审核待配送员确认
-        $date['wait_deliver_Count']= $model->count("order_state=5");//5，配送员已确认待配送
-        $date['delivering_Count']= $model->count("order_state=6");//6，配送员正在配送待签收
-        $date['finishCount']= $model->count("order_state=7");//7，已签收
+        $date['savedCount']= $model->count("order_state=1 and user_id=".get_session('userId'));//状态1，已保存待提交
+        $date['waitCount']= $model->count("order_state=2 and user_id=".get_session('userId'));//2，已提交待渔业公司审核
+        $date['examine_finishCount']= $model->count("order_state=3 and user_id=".get_session('userId'));//3，渔业公司已审核待物流审核
+        $date['examine_logisticsCount']= $model->count("order_state=4 and user_id=".get_session('userId'));//4，物流已审核待配送员确认
+        $date['wait_deliver_Count']= $model->count("order_state=5 and deliver_id=".get_session('userId'));//5，配送员已确认待配送
+        $date['delivering_Count']= $model->count("order_state=6 and deliver_id=".get_session('userId'));//6，配送员正在配送待签收
+        $date['deliver_finishCount']= $model->count("order_state=7 and deliver_id=".get_session('userId'));//7，已签收
+        $date['finishCount']= $model->count("order_state=7 and user_id=".get_session('userId'));//7，已签收
         return $date;
     }
 
@@ -606,7 +640,7 @@ class IceController extends BaseController {
             '物流配送审核通过'=>4,
             '物流自取审核通过'=>6,
             '物流退回订单'=>1,
-            '确认'=>5,
+            '确认出库'=>5,
             '开始配送'=>6,
             '确认收货'=>7
         );
@@ -643,7 +677,7 @@ class IceController extends BaseController {
 
 
 
-    //待优化
+    //物流审核页面
 
     public function getIndexCriteria($keywords,$w){
         $criteria = new CDbCriteria;

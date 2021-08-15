@@ -25,7 +25,7 @@
                         </td>
                         <td><?php echo $form->labelEx($model, 'order_time');?></td>
                         <td>
-                            <?php echo $form->textField($model, 'order_time', array('class' => 'Wdate','style'=>'width:180px;'));?>
+                            <?php echo $form->textField($model, 'order_time', array('class' => 'input-text'));?>
                             <?php echo $form->error($model, 'order_time', $htmlOptions = array());?>
                         </td>
                         <td><?php echo $form->labelEx($model, 'take_type');?></td>
@@ -69,6 +69,15 @@
                             <?php echo $form->error($model, 'order_destination', $htmlOptions = array()); ?>
                         </td>
                     </tr>
+
+
+                    <tr>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'order_remark'); ?></td>
+                        <td colspan="5">
+                            <?php echo $form->textField($model, 'order_remark', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'order_remark', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'longitude'); ?></td>
                         <td colspan="2">
@@ -79,33 +88,6 @@
                         <td colspan="2">
                             <?php echo $form->textField($model, 'latitude', array('class' => 'input-text','id'=>'txtlatitude'));?>
                             <?php echo $form->error($model, 'latitude', $htmlOptions = array());?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="6">
-                            <!DOCTYPE html>
-                            <html lang="en">
-                            <head>
-                                <meta charset="UTF-8">
-                                <title>Title</title>
-                                <script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=GzZOnHTfDPIqhLHTijaeTkadjBFGNzHR"></script>
-                            </head>
-                            <body>
-
-            </div>
-
-            <br />
-
-            <div style="width:90%;height:340px;border:1px solid gray" id="container"></div>
-            </body>
-            </html>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="1"><?php echo $form->labelEx($model, 'order_remark'); ?></td>
-                        <td colspan="5">
-                            <?php echo $form->textField($model, 'order_remark', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'order_remark', $htmlOptions = array()); ?>
                         </td>
                     </tr>
                 </table>
@@ -146,6 +128,31 @@
                     </tbody>
                 </table>
             </div><!--box-table end-->
+
+
+        <div style="display:block;" class="box-detail-tab-item">
+            <tr>
+                <td colspan="4">
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>Title</title>
+                        <script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=GzZOnHTfDPIqhLHTijaeTkadjBFGNzHR"></script>
+                    </head>
+                    <body>
+                    <br/>
+        <div style="width:90%;height:340px;border:1px solid gray" id="container"></div>
+                    </body>
+                    </html>
+                </td>
+            </tr>
+        </div>
+        </div>
+
+
+
+
         </div><!--box-detail-bd end-->
 
         <div class="box-detail-submit">
@@ -157,19 +164,6 @@
     </div><!--box-detail end-->
 </div><!--box end-->
 
-<script>//时间框脚本
-    $(function() {
-            var $date=$('#<?php echo get_class($model);?>_order_time');
-            $date.on('click', function() {
-                    WdatePicker( {
-                            startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd HH:mm:ss'
-                        }
-                    );
-                }
-            );
-        }
-    );
-</script>
 
 
 

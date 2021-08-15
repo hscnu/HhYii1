@@ -39,9 +39,16 @@ class IceDetail extends BaseModel
     {
         return array(
             'id' => 'ID',
-            'order_id' => '关联订单ID',
-            'strip_ice_amount'=>'条冰数量',
-            'crushed_ice_amount'=>'碎冰数量'
+            'ice_number'=>'冰的编号',
+            'ice_type'=>'冰的名称',
+            'order_id' => '订单编号',
+            'ice_id'=>'冰编号',
+            'ice_name'=>'名称',
+            'specification'=>'规格',
+            'amount'=>'数量',
+            'unit_price'=>'单价',
+            'remark'=>'备注',
+            'total_price'=>'总额'
         );
     }
 

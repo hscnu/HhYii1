@@ -90,9 +90,7 @@
             url:url,
             type:'post',
             success: function(data){
-                //console.log(data);
                 var obj = JSON.parse(data);
-                //console.log(obj.data);
                 if(obj.data===true){
                     alert('没有记录');
                     we.reload();

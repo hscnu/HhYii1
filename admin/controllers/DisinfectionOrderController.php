@@ -63,8 +63,9 @@ class DisinfectionOrderController extends BaseController {
     function saveData($model, $post) {
         $model->attributes = $post;
 //识别用户单位
-        $resId=$this->getUserUnit();
-        $model['restaurant_id']=$resId;
+        $restCode=$this->getUserUnit();
+        $tmp=Restaurant::model()->find("r_code='".$restCode."'");
+        $model['restaurant_id']=$tmp->id;
         $model['restaurant_name']=Restaurant::model()->getNameFromId($model['restaurant_id']);
 
         if($model['state']==0){
@@ -84,16 +85,8 @@ class DisinfectionOrderController extends BaseController {
         $criteria = new CDbCriteria;
         $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
-        ///测试
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
-        ///测试end
-//        $userId=get_session('userId');
-//        $tmp=User::model()->find('userId='.$userId);
-//        if($tmp){
-//            $resId=$tmp->unitId;
-//            $criteria ->addCondition('restaurant_id='.$resId);
-//        }
 
         $model->deleteAll('state'.' in (' . 0 . ')');
 
@@ -102,9 +95,8 @@ class DisinfectionOrderController extends BaseController {
 
         parent::_list($model, $criteria, 'index', $data);
     }
-
+    //添加明细
     public function actionOpenDialog(){
-
         $modelName='DisinfectionOrderDetail';
         $detail_id=DecodeAsk('detail_id');
         if($detail_id){
@@ -124,6 +116,33 @@ class DisinfectionOrderController extends BaseController {
             $this->Save_detail($model, $_POST['DisinfectionOrderDetail']);
         }
     }
+    public function actionOpenPreset($order_id){
+        $modelName='TableWare';
+        $model = $modelName::model();
+        $criteria=new CDbCriteria();
+        $data = array();
+        $data['model'] = $model;
+        $data['order_id']=$order_id;
+        parent::_list($model, $criteria, 'preset_detail', $data);
+    }
+    public function actionSavePreset($tablewareIds,$order_id,$number){
+        if($number==''){$number=0;}
+        foreach (explode(',',$tablewareIds) as $id){
+            $tmp=TableWare::model()->find('id='.$id);
+            if($tmp){
+                $detailModel = new DisinfectionOrderDetail();
+                $detailModel->order_id=$order_id;
+                $detailModel->number=$number;
+                $detailModel->tableware_type=$tmp->type;
+                $detailModel->tableware_name=$tmp->name;
+                $detailModel->unit=$tmp->unit;
+                $detailModel->cost=$tmp->cost;
+                $detailModel->tableware_code=$tmp->code;
+                $detailModel->save();
+            }
+        }
+        echo CJSON::encode(array('yes'=>'yes'));
+    }
 
     public function Save_detail($model, $post) {
         $model->attributes = $post;
@@ -141,6 +160,7 @@ class DisinfectionOrderController extends BaseController {
         $model->attributes = $_REQUEST[$this->model];
         $model->save();
     }
+    //添加明细end
     /////导航栏
 
     public function actionIndex_by_condition($next_index,$keywords = '',$w='',$examineType='None',$istoday=0) {
@@ -148,9 +168,7 @@ class DisinfectionOrderController extends BaseController {
         $modelName = $this->model;
         $model = $modelName::model();
         $criteria = new CDbCriteria;
-
         $criteria -> condition = $this->getDisinfectionKeyWords($keywords);
-
         if($w){
             $criteria -> addCondition($w);
         }
@@ -159,6 +177,28 @@ class DisinfectionOrderController extends BaseController {
         $data = $this->getAppointCountList();
         $data['istoday']=$istoday;
         $data['examineType']=$examineType;
+
+        $indexToUserLimit=array(
+            'index_appointed'=>'rest',
+            'index_examine'=>'rest',
+            'index_get_delivered'=>'rest',
+            'index_sign2'=>'rest',
+            'index_examine2'=>'disinfection_center',
+            'index_sign'=>'disinfection_center',
+            'index_get_delivered2'=>'disinfection_center',
+        );
+        if(isset($indexToUserLimit[$next_index])){
+            if($indexToUserLimit[$next_index]=='rest'){
+                $criteria -> addCondition($this->rest_limit());
+                $data['usersUnit']=$this->getUserUnitName('rest');
+            }
+            elseif ($indexToUserLimit[$next_index]=='disinfection_center'){
+                $criteria -> addCondition($this->disinfection_center_limit());
+                $data['usersUnit']=$this->getUserUnitName('disinfection_center');
+            }
+        }
+        else{ $data['usersUnit']='未知';}
+
         parent::_list($model, $criteria, $next_index, $data);
     }
 
@@ -208,6 +248,7 @@ class DisinfectionOrderController extends BaseController {
     //酒楼已签收
     public function actionIndex_signed($keywords = '') {
         $w="state=11";
+        set_session('navAction','Index_signed');
         $this->actionIndex_by_condition('index_sign2',$keywords,$w);
     }
     //待酒楼配送
@@ -224,14 +265,27 @@ class DisinfectionOrderController extends BaseController {
     }
     public function getAppointCountList(){
         $modelName = $this->model;
+        $unitCode=$this->getUserUnit();
+        $disinfectionTmp=DisinfectionCenter::model()->find("code='".$unitCode."'");
+        $restaurantTmp=Restaurant::model()->find("r_code='".$unitCode."'");
+        $FExamine=0;
+        $todayCount=0;
+        $waitCount=0;
+        if($disinfectionTmp){
+            $FExamine = count($modelName::model()->findAll("state=4 and disinfection_id='".$disinfectionTmp->id."'"));
+        }
 
-        $todayCount = count($modelName::model()->findAll('state=1'));
-        $waitCount = count($modelName::model()->findAll('state=2'));
+        if($restaurantTmp){
+            $todayCount = count($modelName::model()->findAll('state=1'));
+            $waitCount = count($modelName::model()->findAll('state=2'));
+        }
+
+
         $finishCount = count($modelName::model()->findAll('state=3'));
         $waitCenterSign = count($modelName::model()->findAll('state=15'));
         $signedCount = count($modelName::model()->findAll('state=11'));
         $IExamine = count($modelName::model()->findAll('state=12'));
-        $FExamine = count($modelName::model()->findAll('state=4'));
+
         $deliver_wait = count($modelName::model()->findAll('state=13'));
         $waitRestSign = count($modelName::model()->findAll('state=10'));
         $deliver_wait2 = count($modelName::model()->findAll('state=14'));
@@ -249,7 +303,6 @@ class DisinfectionOrderController extends BaseController {
         );
     }
     public function getDisinfectionKeyWords($keywords = ''){
-        put_msg($keywords);
         return get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
     }
 
@@ -396,11 +449,12 @@ class DisinfectionOrderController extends BaseController {
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
         $criteria->addCondition("state>=10");
         $criteria->addCondition("state<=11");
-
+        $criteria -> addCondition($this->rest_limit());
         $model->deleteAll('state'.' in (' . 0 . ')');
 
         $data = $this->getAppointCountList();
         $data['examineType']='None';
+        $data['usersUnit']=$this->getUserUnitName('rest');
         parent::_list($model, $criteria, 'index_sign2', $data);
     }
     /// 订单签收end
@@ -415,13 +469,13 @@ class DisinfectionOrderController extends BaseController {
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
         $criteria->addCondition("state=3");
-
+        $criteria -> addCondition($this->rest_limit());
         $model->deleteAll('state'.' in (' . 0 . ')');
 
 
         $data = $this->getAppointCountList();
         $data['examineType']='None';
-
+        $data['usersUnit']=$this->getUserUnitName('rest');
         parent::_list($model, $criteria, 'index_examine', $data);
     }
     public function actionIndex_examine2($keywords = '') {
@@ -434,18 +488,17 @@ class DisinfectionOrderController extends BaseController {
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
         $criteria->addCondition("state=4");
-
+        $criteria -> addCondition($this->disinfection_center_limit());
         $model->deleteAll('state'.' in (' . 0 . ')');
 
 
         $data = $this->getAppointCountList();
         $data['examineType']='None';
-
+        $data['usersUnit']=$this->getUserUnitName('disinfection_center');
         parent::_list($model, $criteria, 'index_examine2', $data);
     }
-
-
     /// 订单审核end
+
     ///配送订单
     public function actionIndex_get_delivered($keywords='')
     {
@@ -495,4 +548,37 @@ class DisinfectionOrderController extends BaseController {
         $tem = TableWare::model()->find("name='".$name."'");
         echo CJSON::encode($tem->unit);
     }
+   ///角色所属单位控制
+    public function rest_limit(): string
+    {
+        $unitCode=$this->getUserUnit();
+        $tmp=Restaurant::model()->find("r_code='".$unitCode."'");
+        if($tmp){ return "restaurant_id='".$tmp->id."'";}
+        else return '';
+    }
+    public function disinfection_center_limit(): string
+    {
+        $unitCode=$this->getUserUnit();
+        $tmp=DisinfectionCenter::model()->find("code='".$unitCode."'");
+        if($tmp){ return "disinfection_id='".$tmp->id."'";}
+        else return '';
+    }
+    public function getUserUnitName($unitType){
+        $unitId=$this->getUserUnit();
+        $name='未知';
+        if($unitType=='rest'){
+            $temp=Restaurant::model()->find("r_code='".$unitId."'");
+            if($temp){
+                $name=$temp->r_name;
+            }
+        }
+        elseif ($unitType=='disinfection_center'){
+            $temp=DisinfectionCenter::model()->find("code='".$unitId."'");
+            if($temp){
+                $name=$temp->name;
+            }
+        }
+        return $name;
+    }
+    ///角色所属单位控制end
 }

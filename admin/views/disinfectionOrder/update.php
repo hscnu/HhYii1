@@ -58,6 +58,7 @@
 
         <div class="box-table">
             <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加餐具</button>
+            <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="presetDetail();">+预设</button>
             <table class="list">
                 <thead>
                 <tr>
@@ -149,6 +150,24 @@
             }
         });
     };
+
+    function presetDetail(){
+        saveFormDate();
+        url = '<?php echo $this->createUrl("OpenPreset");?>'
+        url += '&order_id=<?php echo $model->id;?>'
+        $.dialog.open(url,{
+            id: 'updateDetail',
+            lock:true,opacity:0.3,
+            width:'1000px',
+            height:'80%',
+            title:'请勾选所需要的餐具',
+            close: function () {
+                redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
+                redirect+='&id='+'<?php echo $model->id;?>'
+                window.location.href = redirect;
+            }
+        });
+    }
 
     function saveFormDate() {
         let form=$('#active-form').serialize();

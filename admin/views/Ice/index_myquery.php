@@ -47,7 +47,7 @@
                 <thead>
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
-                    <th width="6%"><?php echo $model->getAttributeLabel('order_name'); ?></th>
+                    <th width="7%"><?php echo $model->getAttributeLabel('order_name'); ?></th>
                     <th width="8%"><?php echo $model->getAttributeLabel('order_tel'); ?></th>
                     <th width="22%"><?php echo $model->getAttributeLabel('order_destination'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>

@@ -11,6 +11,7 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
+        $navData[]=array('index','全部','('.$AllSignCount.')');
         $navData[]=array('Index_wait_sign','待签收','('.$waitSignCount.')');
         $navData[]=array('Index_signed','已签收','('.$signedCount.')');
         echo $this->getNav($navData);
