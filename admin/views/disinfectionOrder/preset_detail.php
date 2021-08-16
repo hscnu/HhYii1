@@ -2,7 +2,6 @@
     <div class="box-content">
         <div class="box-header">
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
-            <input style="width:200px;" class="input-text" type="text" id="number" placeholder="请输入餐具数量">
             <a style="display:none;" class="btn btn-green" id="j-delete" class="btn" href="javascript:;"
                onclick="presetDetails(we.checkval('.check-item input:checked'));"><i
                     class="fa fa-plus"></i>添加</a>
@@ -20,7 +19,7 @@
                     <th><?php echo $model->getAttributeLabel('unit'); ?></th>
                     <th><?php echo $model->getAttributeLabel('cost'); ?></th>
 
-                    <th>操作</th>
+                    <th>输入数量</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,10 +34,7 @@
                         <td style='text-align: center;'><?php echo $v->cost; ?></td>
 
                         <td>
-                            <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
-                               title="编辑"><i class="fa fa-edit"></i></a>
-                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                               title="删除"><i class="fa fa-trash-o"></i></a>
+                            <input  class="input-text" type="text" id="<?php echo $v->id?>">
                         </td>
                     </tr>
                 <?php } ?>
@@ -50,10 +46,16 @@
 </div><!--box end-->
 <script>
    function presetDetails(tablewareIds){
+       var chosedValues='';
+       <?php foreach ($arclist as $v){?>
+       chosedValues+='<?php echo $v->id?>'+'-';
+       chosedValues+=$('#<?php echo $v->id?>').val();
+       chosedValues+=',';
+       <?php }?>
        var number=$('#number').val();
        var url='<?php echo $this->createUrl("SavePreset",array('order_id'=>$order_id));?>'
        url += '&tablewareIds='+tablewareIds;
-       url += '&number='+number;
+       url += '&chosedValues='+chosedValues;
        $.dialog.confirm('确定生成预设？', function () {
            $.ajax({
                type: 'get',

@@ -58,7 +58,7 @@
 
         <div class="box-table">
             <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加餐具</button>
-            <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="presetDetail();">+预设</button>
+            <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="presetDetail();">+添加预设</button>
             <table class="list">
                 <thead>
                 <tr>
