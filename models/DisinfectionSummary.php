@@ -48,6 +48,7 @@ class DisinfectionSummary extends BaseModel {
             'end_date' => '结束日期',
             'disinfection_center_name' => '消毒中心名称',
             'total_price' => '总价',
+            'complete_date'=>'完成时间',
         );
     }
 

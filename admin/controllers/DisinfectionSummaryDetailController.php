@@ -12,7 +12,6 @@ class DisinfectionSummaryDetailController extends BaseController {
 
 
     public function actionDelete($id) {
-        put_msg(15);
         parent::_clear($id);
     }
 
@@ -63,6 +62,7 @@ class DisinfectionSummaryDetailController extends BaseController {
         $data = array();
         parent::_list($model, $criteria, 'index', $data);
     }
+
     //删除无用明细
     public function actionDeleteUselessDetail()
     {

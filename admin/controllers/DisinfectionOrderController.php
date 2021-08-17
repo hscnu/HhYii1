@@ -402,6 +402,7 @@ class DisinfectionOrderController extends BaseController {
         $tmp->state= $a[$Now_state] ?$a[$Now_state] : $Now_state;
         if($Now_state=='签收'){
             $tmp->complete_time=Date('Y-m-d');
+            DisinfectionSummaryDetail::model()->actionAddDetail($tmp);
         }
         $tmp->save();
 
@@ -427,7 +428,6 @@ class DisinfectionOrderController extends BaseController {
         if('index_appoint'==$action){
             return $html;
         }
-
     }
     /// 状态改变end
     /// 订单签收
