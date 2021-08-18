@@ -46,7 +46,7 @@
                     <tr>
                         <td colspan="1"> <?php echo $form->labelEx($model, 'notes');?></td>
                         <td colspan="3"> <?php echo $form->textArea($model, 'notes',
-                                array('class' => 'input-text', 'style'=>'width:97%;height:100px','maxlength' => '200','placeholder'=>"本栏目限填200字"));?>
+                                array('class' => 'input-text', 'style'=>'width:97%;height:35px','maxlength' => '200','placeholder'=>"本栏目限填200字"));?>
                             <?php echo $form->error($model, 'notes', $htmlOptions = array());?>
                         </td>
                     </tr>
