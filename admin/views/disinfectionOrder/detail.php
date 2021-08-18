@@ -137,12 +137,13 @@
             alert('操作失败！');
             op=false;
         }
-        //var url = examineType==='I_examine'?url1:url2;
         if(nowView==='index_examine'){
             $.ajax({
                 url:url,
                 type:'post',
                 success: function(data){
+                    let api = $.dialog.open.api;
+                    api.close();
                     we.close();
                 },
             })
@@ -152,6 +153,8 @@
                 url:url,
                 type:'post',
                 success: function(data){
+                    let api = $.dialog.open.api;
+                    api.close();
                     we.close();
                 },
             })

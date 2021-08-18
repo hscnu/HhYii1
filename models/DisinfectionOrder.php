@@ -56,6 +56,7 @@ class DisinfectionOrder extends BaseModel {
             'title'=>'订单标题',
             'appointer_id'=>'申请人id',
             'appoint_time'=>'申请时间',
+            'detail_number'=>'餐具种类数',
         );
     }
 

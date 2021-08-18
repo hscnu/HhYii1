@@ -46,7 +46,7 @@
                     <tr>
                         <td colspan="1"> <?php echo $form->labelEx($model, 'notes');?></td>
                         <td colspan="3"> <?php echo $form->textArea($model, 'notes',
-                                array('class' => 'input-text', 'style'=>'width:97%;height:100px','maxlength' => '200','placeholder'=>"本栏目限填200字"));?>
+                                array('class' => 'input-text', 'style'=>'width:97%;height:35px','maxlength' => '200','placeholder'=>"本栏目限填200字"));?>
                             <?php echo $form->error($model, 'notes', $htmlOptions = array());?>
                         </td>
                     </tr>
@@ -58,7 +58,7 @@
 
         <div class="box-table">
             <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加餐具</button>
-            <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="presetDetail();">+预设</button>
+            <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="presetDetail();">+添加预设</button>
             <table class="list">
                 <thead>
                 <tr>

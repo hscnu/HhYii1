@@ -48,6 +48,8 @@ class DisinfectionSummary extends BaseModel {
             'end_date' => '结束日期',
             'disinfection_center_name' => '消毒中心名称',
             'total_price' => '总价',
+            'complete_date'=>'完成时间',
+            'detail_number'=>'明细条数',
         );
     }
 
@@ -70,8 +72,23 @@ class DisinfectionSummary extends BaseModel {
     {
         return $this->findAll('1=1');
     }
-
-
-
+    //增加汇总、根据日期、酒楼、消毒中心
+    public function addSummary($order_tmp){
+        $model=$this->find("complete_date='".$order_tmp->complete_time."'"." and restaurant_name='".$order_tmp->restaurant_name."'"." and disinfection_center_name='".$order_tmp->disinfection_name."'");
+        if(!$model){
+            $model=new DisinfectionSummary();
+            $model->restaurant_id=$order_tmp->restaurant_id;
+            $model->restaurant_name=$order_tmp->restaurant_name;
+            $model->disinfection_center_id=$order_tmp->disinfection_id;
+            $model->disinfection_center_name=$order_tmp->disinfection_name;
+            $model->complete_date=$order_tmp->complete_time;
+            $model->save();
+        }
+        $model=$this->find("complete_date='".$order_tmp->complete_time."'"." and restaurant_name='".$order_tmp->restaurant_name."'"." and disinfection_center_name='".$order_tmp->disinfection_name."'");
+        $date=DisinfectionSummaryDetail::model()->connectDetail_DateRestaurantDisinfection($model);
+        $model->total_price=$date['total_price'];
+        $model->detail_number=$date['detail_number'];
+        $model->save();
+    }
 
 }

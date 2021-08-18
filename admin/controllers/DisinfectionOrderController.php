@@ -74,6 +74,7 @@ class DisinfectionOrderController extends BaseController {
 
         $model['disinfection_id']=DisinfectionCenter::model()->getIdFromName($model['disinfection_name']);
         $model['appoint_time']=date('Y-m-d');
+        $model['detail_number']=count(DisinfectionOrderDetail::model()->findAll('order_id='.$model['id']));
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
 
@@ -125,14 +126,23 @@ class DisinfectionOrderController extends BaseController {
         $data['order_id']=$order_id;
         parent::_list($model, $criteria, 'preset_detail', $data);
     }
-    public function actionSavePreset($tablewareIds,$order_id,$number){
-        if($number==''){$number=0;}
+    public function actionSavePreset($tablewareIds,$order_id,$chosedValues){
+        $number=array();
+        $idAndValues=explode(',',$chosedValues);
+        foreach ($idAndValues as $I_V){
+            $IV=explode('-',$I_V);
+            if(isset($IV[1])&&$IV[1]!=''){
+                put_msg($IV[0].'-'.$IV[1]);
+                $number[$IV[0]]=$IV[1];
+            }
+        }
         foreach (explode(',',$tablewareIds) as $id){
             $tmp=TableWare::model()->find('id='.$id);
             if($tmp){
                 $detailModel = new DisinfectionOrderDetail();
                 $detailModel->order_id=$order_id;
-                $detailModel->number=$number;
+                if(isset($number[$id])){$detailModel->number=$number[$id];}
+                else{$detailModel->number=0;}
                 $detailModel->tableware_type=$tmp->type;
                 $detailModel->tableware_name=$tmp->name;
                 $detailModel->unit=$tmp->unit;
@@ -241,6 +251,7 @@ class DisinfectionOrderController extends BaseController {
     //待酒楼签收
     public function actionIndex_waitRestSign($keywords = '')
     {
+        set_session('navAction','Index_waitRestSign');
         $w = "state=10";
         $examineType='Rest_Sign';
         $this->actionIndex_by_condition('index_sign2', $keywords, $w,$examineType);
@@ -391,6 +402,7 @@ class DisinfectionOrderController extends BaseController {
         $tmp->state= $a[$Now_state] ?$a[$Now_state] : $Now_state;
         if($Now_state=='签收'){
             $tmp->complete_time=Date('Y-m-d');
+            DisinfectionSummaryDetail::model()->actionAddDetail($tmp);
         }
         $tmp->save();
 
@@ -416,7 +428,6 @@ class DisinfectionOrderController extends BaseController {
         if('index_appoint'==$action){
             return $html;
         }
-
     }
     /// 状态改变end
     /// 订单签收

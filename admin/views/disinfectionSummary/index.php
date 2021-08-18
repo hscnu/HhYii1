@@ -41,20 +41,30 @@
                 <thead>
                 <tr>
                     <?php
-                    $str='start_date,end_date,restaurant_name,disinfection_center_name,total_price';
+                    $str='complete_date,restaurant_name,disinfection_center_name,detail_number,total_price';
                     echo $model->gridHead($str); ?>
+                    <th><?php echo '餐具1'; ?></th>
+                    <th><?php echo '价格'; ?></th>
+                    <th><?php echo '餐具2'; ?></th>
+                    <th><?php echo '价格'; ?></th>
+                    <th><?php echo '餐具3'; ?></th>
+                    <th><?php echo '价格'; ?></th>
                     <td>操作</td>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($arclist as $v) { ?>
                     <tr>
-
                         <?php echo $v->gridRow($str); ?>
+                        <?php $detailList=DisinfectionSummaryDetail::model()->findAll('summary_id='.$v->id);
+                        for ($i=0;$i<3;$i++){?>
+                        <td style='text-align: center;'><?php if(isset($detailList[$i])){echo $detailList[$i]->tableware_name;}
+                                                else{echo '';}?></td>
+                        <td style='text-align: center;'><?php if(isset($detailList[$i])){echo $detailList[$i]->total_price;}
+                                                else{echo '';}?></td>
+                        <?php }?>
                         <td>
-                            <button class="btn" type="button" onclick="openDetail(<?php echo $v->id;?>);">查看明细</button>
-                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                               title="删除"><i class="fa fa-trash-o"></i></a>
+                            <button class="btn" type="button" onclick="openDetail(<?php echo $v->id;?>);">更多明细</button>
                         </td>
                     </tr>
                 <?php } ?>

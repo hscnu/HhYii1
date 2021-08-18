@@ -43,11 +43,9 @@
                     <th><?php echo $model->getAttributeLabel('restaurant_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('disinfection_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('date'); ?></th>
-
                     <th><?php echo $model->getAttributeLabel('state'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('detail_number'); ?></th>
                     <th><?php echo $model->getAttributeLabel('notes'); ?></th>
-
-
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -60,10 +58,9 @@
                         <td style='text-align: center;'><?php echo $v->restaurant_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->disinfection_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->date; ?></td>
-
                         <td style='text-align: center;'><?php echo $model->getCHName($v->state); ?></td>
+                        <td style='text-align: center;'><?php echo $v->detail_number; ?></td>
                         <td style='text-align: center;'><?php echo $v->notes; ?></td>
-
                         <td>
                             <?php {?>
                                 <button class="btn" type="button" onclick="chooseShr(<?php echo $v->id;?>);">查看明细</button>
