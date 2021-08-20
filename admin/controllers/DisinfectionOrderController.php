@@ -148,6 +148,7 @@ class DisinfectionOrderController extends BaseController {
                 $detailModel->unit=$tmp->unit;
                 $detailModel->cost=$tmp->cost;
                 $detailModel->tableware_code=$tmp->code;
+                $detailModel->total_cost=$detailModel->number*$detailModel->cost;
                 $detailModel->save();
             }
         }
@@ -158,6 +159,8 @@ class DisinfectionOrderController extends BaseController {
         $model->attributes = $post;
         $tmp = TableWare::model()->find("name='".$model->tableware_name."'");
         $model->tableware_code=$tmp->code;
+        $model->cost=$tmp->cost;
+        $model->total_cost=$model->number*$tmp->cost;
         $url=Yii::app()->request->getUrl().'&isClose=1';
         show_status($model->save(), '保存成功',$url, '保存失败');
     }
@@ -366,7 +369,7 @@ class DisinfectionOrderController extends BaseController {
                 $v->deliver_id = $shrId;//填入送货人信息
                 $v->deliver_name = $shr->user_name;
                 $v->deliver_tel = $shr->user_tel;
-                $v->state =(($v->state==13)?15:10);//修改状态 13=>待酒楼配送 10=>待酒楼签收 15=>待消毒中心签收
+                $v->state =(($v->state==13)?16:17);//修改状态 13=>待酒楼配送 10=>待酒楼签收 15=>待消毒中心签收
                 $v->save();
             }
         }

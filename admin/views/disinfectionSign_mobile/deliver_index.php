@@ -11,9 +11,9 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
-        $navData[]=array('Index_wait_sign','待签收','('.$waitSignCount.')');
-        $navData[]=array('Index_signed','已签收','('.$signedCount.')');
-        $navData[]=array('index','全部','('.$AllSignCount.')');
+        $navData[]=array($nowType,'待配送','('.$delivering1.')');
+        $navData[]=array($deliveredType,'已完成','('.$delivered.')');
+//        $navData[]=array('Index_signed','全部','('.$delliverAll.')');
         echo $this->getNav($navData);
         ;?>
 
@@ -42,7 +42,7 @@
             <div class="article-item">
                 <div class="article-content">
                     <h2 class="article-title">
-                        <a class="text" href="<?php echo $this->createUrl('detail',array('id'=>$v->id));?>"><?php echo $v->title;?></a>
+                        <a class="text" href="<?php echo $this->createUrl('deliver_detail',array('id'=>$v->id));?>"><?php echo $v->title;?></a>
                     </h2>
 
                     <div class="article-note">
@@ -52,7 +52,7 @@
 
                     <div class="article-info">
                         <p>
-                            <span class="muted"><i class="icon-author icon2"></i><?php echo $v->id;?></span>
+                            <span class="muted"><?php echo $v->notes;?></span>
                         </p>
                     </div>
 
