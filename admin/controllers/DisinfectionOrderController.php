@@ -557,6 +557,72 @@ class DisinfectionOrderController extends BaseController {
         $data = $this->getAppointCountList();
         parent::_list($model, $criteria, 'index_appointed', $data);
     }
+
+    //手机申请
+    public function actionAppointed_mobile($keywords = ''){
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+        $criteria->addCondition($this->rest_limit());
+        $criteria->addCondition('state=1');
+        $model->deleteAll('state'.' in (' . 0 . ')');
+        $data = $this->getAppointCountList();
+        $data['usersUnit']=$this->getUserUnitName('rest');
+        parent::_list($model, $criteria, 'appointed_mobile', $data);
+    }
+    public function actionmobile_appoint_wait($keywords = ''){
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
+        $start_date=DecodeAsk('start_date');
+        $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
+        $criteria->addCondition($this->rest_limit());
+        $criteria->addCondition('state=2');
+        $model->deleteAll('state'.' in (' . 0 . ')');
+        $data = $this->getAppointCountList();
+        $data['usersUnit']=$this->getUserUnitName('rest');
+        parent::_list($model, $criteria, 'appointed_mobile', $data);
+    }
+    public function actionCreate_mobile() {
+        $modelName = $this->model;
+        $model = new $modelName('create');
+        $model->check_save=0;
+        $model->save();
+        $this->actionUpdate_mobile($model->id);
+    }
+
+
+    public function actionUpdate_mobile($id) {
+        $modelName = $this->model;
+        $model = $this->loadModel($id, $modelName);
+        $detailList=DisinfectionOrderDetail::model()->findAll('order_id='.$id);
+        $uid=get_session('userId');
+        if (!Yii::app()->request->isPostRequest) {
+            $data = array();
+            $data['model'] = $model;
+            $data['detailList'] = $detailList;
+
+            $temp=DisinfectionOrder::model()->find("appointer_id = '".$uid."' order by date desc");
+            if($temp){
+                $model->disinfection_name=$temp->disinfection_name;
+            }
+            $resId=$this->getUserUnit();
+            $data['restaurant_name']=Restaurant::model()->getNameFromId($resId);
+            $data['code']=$id;
+            $this->render('update_mobile', $data);
+        } else {
+            $model->appointer_id=$uid;
+            $this->saveData($model, $_POST[$modelName]);
+        }
+    }
     ///申请订单end
     public function actionGetDetailUnit($name){
         $tem = TableWare::model()->find("name='".$name."'");

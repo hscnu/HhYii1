@@ -23,12 +23,12 @@
                     </h4>
 
                     <div class="article-note">
-                        <p><?php echo $v->tableware_code;?></p>
+                        <p>编号：<?php echo $v->tableware_code;?> 单位：<?php echo $v->unit;?> 数量：<?php echo $v->number;?></p>
                     </div>
 
                     <div class="article-info">
                         <p>
-                            <span class="muted"><i class="icon-author icon2"></i><?php echo $v->id;?></span>
+                            <span class="muted">备注：<?php echo $v->notes;?></span>
                         </p>
                     </div>
 

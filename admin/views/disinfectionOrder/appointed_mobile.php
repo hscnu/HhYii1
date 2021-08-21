@@ -1,6 +1,13 @@
 <div class="box">
     <div class="box-content">
 
+        <h3 style="text-align:center;">所属单位：<?php echo $usersUnit; ?></h3>
+
+        <div id="dg" style="z-index: 9999; position: fixed ! important; right: 0px; top: 0px;">
+            <table width=""100% style="position: absolute; width:260px; right: 0px; top: 0px;">
+                <a class="btn btn-green" style="float: bottom" href="<?php echo $this->createUrl('create_mobile'); ?>"><i class="fa fa-plus"></i>申请订单</a>
+            </table>
+        </div>
         <div class="box-header">
             <a style="display:none;" class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
@@ -11,9 +18,8 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
-        $navData[]=array($nowType,'待配送','('.$delivering1.')');
-        $navData[]=array($deliveredType,'已完成','('.$delivered.')');
-//        $navData[]=array('Index_signed','全部','('.$delliverAll.')');
+        $navData[]=array('appointed_mobile','申请中','('.$todayCount.')');
+        $navData[]=array('mobile_appoint_wait','已提交','('.$waitCount.')');
         echo $this->getNav($navData);
         ;?>
 
@@ -48,7 +54,7 @@
                     <div class="article-note">
                         <p>状态：<?php echo $model->getCHName($v->state);?></p>
                         <p>消毒中心：<?php echo $v->disinfection_name;?></p>
-                        <p> 餐具种类数：<?php echo $v->detail_number;?></p>
+                        <p>餐具种类数：<?php echo $v->detail_number;?></p>
                     </div>
 
                     <div class="article-info">

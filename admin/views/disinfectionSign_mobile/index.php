@@ -48,11 +48,12 @@
                     <div class="article-note">
                         <p>状态：<?php echo $model->getCHName($v->state);?></p>
                         <p>消毒中心：<?php echo $v->disinfection_name;?></p>
+                        <p>餐具种类数：<?php echo $v->detail_number;?></p>
                     </div>
 
                     <div class="article-info">
                         <p>
-                            <span class="muted"><i class="icon-author icon2"></i><?php echo $v->id;?></span>
+                            <span class="muted">备注：<?php echo $v->notes;?></span>
                         </p>
                     </div>
 
