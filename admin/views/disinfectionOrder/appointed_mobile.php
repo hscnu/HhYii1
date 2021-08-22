@@ -1,6 +1,13 @@
 <div class="box">
     <div class="box-content">
 
+        <h3 style="text-align:center;">所属单位：<?php echo $usersUnit; ?></h3>
+
+        <div id="dg" style="z-index: 9999; position: fixed ! important; right: 0px; top: 0px;">
+            <table width=""100% style="position: absolute; width:260px; right: 0px; top: 0px;">
+                <a class="btn btn-green" style="float: bottom" href="<?php echo $this->createUrl('create_mobile'); ?>"><i class="fa fa-plus"></i>申请订单</a>
+            </table>
+        </div>
         <div class="box-header">
             <a style="display:none;" class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
@@ -11,9 +18,8 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
-        $navData[]=array('Index_wait_sign','待签收','('.$waitSignCount.')');
-        $navData[]=array('Index_signed','已签收','('.$signedCount.')');
-        $navData[]=array('index','全部','('.$AllSignCount.')');
+        $navData[]=array('appointed_mobile','申请中','('.$todayCount.')');
+        $navData[]=array('mobile_appoint_wait','已提交','('.$waitCount.')');
         echo $this->getNav($navData);
         ;?>
 
@@ -42,7 +48,7 @@
             <div class="article-item">
                 <div class="article-content">
                     <h2 class="article-title">
-                        <a class="text" href="<?php echo $this->createUrl('detail',array('id'=>$v->id));?>"><?php echo $v->title;?></a>
+                        <a class="text" href="<?php echo $this->createUrl('deliver_detail',array('id'=>$v->id));?>"><?php echo $v->title;?></a>
                     </h2>
 
                     <div class="article-note">

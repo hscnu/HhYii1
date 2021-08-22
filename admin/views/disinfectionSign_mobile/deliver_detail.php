@@ -8,6 +8,7 @@
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
                         class="fa fa-trash-o"></i>删除</a>
             <h1><?php echo $order_model->title?>明细</h1>
+            <h1><?php echo $order_model->notes?></h1>
         </div><!--box-header end-->
 
         <!--  导航栏end-->
@@ -35,7 +36,7 @@
             </div>
         <?php }?>
         <div style="text-align: center">
-            <a id="sign" class="btn btn-green" href="javascript:;" style="display: none">签收</a>
+            <a id="sign" class="btn btn-green" href="javascript:;" style="display: none">配送</a>
             <a class="btn btn-blue" type="button" onclick="we.back();">返回</a>
         </div>
         <div class="box-page c"><?php $this->page($pages); ?></div>
@@ -47,7 +48,8 @@
 <!--日期搜索-->
 <script>
     $(document).ready(function (){
-        var $stateIsWait_to_sign='<?php echo $order_model->state==10?true:false;?>'
+        console.log('<?php echo $order_model->state==16 ||$order_model->state==17 ;?>');
+        var $stateIsWait_to_sign='<?php echo $order_model->state==16 ||$order_model->state==17 ;?>'
         if($stateIsWait_to_sign){
             $('#sign').show();
         }
@@ -55,11 +57,11 @@
             $('#sign').hide();
         }
         $('#sign').on('click',function (){
-            var url= '<?php echo $this->createUrl('sign',array('id'=>$order_model->id));?>';
-            let res= confirm('确认签收？')
+            var url= '<?php echo $this->createUrl('delivering',array('id'=>$order_model->id));?>';
+            let res= confirm('确认配送？')
             if(res){
                 $.get(url,function (data){
-                    alert('签收成功');
+                    alert('订单已在配送中，请尽快送达');
                     //we.back();
                     $('#sign').hide();
                 })
