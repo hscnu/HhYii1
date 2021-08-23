@@ -92,7 +92,7 @@ class DisinfectionOrderController extends BaseController {
         $model->deleteAll('state'.' in (' . 0 . ')');
 
 
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
 
         parent::_list($model, $criteria, 'index', $data);
     }
@@ -187,7 +187,7 @@ class DisinfectionOrderController extends BaseController {
         }
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         $data['istoday']=$istoday;
         $data['examineType']=$examineType;
 
@@ -276,45 +276,6 @@ class DisinfectionOrderController extends BaseController {
     {
         $w = "state=14";
         $this->actionIndex_by_condition('index_get_delivered2', $keywords, $w);
-    }
-    public function getAppointCountList(){
-        $modelName = $this->model;
-        $unitCode=$this->getUserUnit();
-        $disinfectionTmp=DisinfectionCenter::model()->find("code='".$unitCode."'");
-        $restaurantTmp=Restaurant::model()->find("r_code='".$unitCode."'");
-        $FExamine=0;
-        $todayCount=0;
-        $waitCount=0;
-        if($disinfectionTmp){
-            $FExamine = count($modelName::model()->findAll("state=4 and disinfection_id='".$disinfectionTmp->id."'"));
-        }
-
-        if($restaurantTmp){
-            $todayCount = count($modelName::model()->findAll('state=1'));
-            $waitCount = count($modelName::model()->findAll('state=2'));
-        }
-
-
-        $finishCount = count($modelName::model()->findAll('state=3'));
-        $waitCenterSign = count($modelName::model()->findAll('state=15'));
-        $signedCount = count($modelName::model()->findAll('state=11'));
-        $IExamine = count($modelName::model()->findAll('state=12'));
-
-        $deliver_wait = count($modelName::model()->findAll('state=13'));
-        $waitRestSign = count($modelName::model()->findAll('state=10'));
-        $deliver_wait2 = count($modelName::model()->findAll('state=14'));
-        return array(
-            'todayCount'=>$todayCount,
-            'waitCount'=>$waitCount,
-            'finishCount'=>$finishCount,
-            'waitCenterSignCount'=>$waitCenterSign,
-            'signedCount'=>$signedCount,
-            'IExamineCount'=>$IExamine,
-            'FExamineCount'=>$FExamine,
-            'deliverwaitCount' => $deliver_wait,
-            'waitRestSignCount'=>$waitRestSign,
-            'deliverwait2Count'=>$deliver_wait2,
-        );
     }
     public function getDisinfectionKeyWords($keywords = ''){
         return get_like('1','restaurant_id,restaurant_name,disinfection_name,complete_time,disinfection_id,date',$keywords);
@@ -448,7 +409,7 @@ class DisinfectionOrderController extends BaseController {
         $model->deleteAll('state'.' in (' . 0 . ')');
 
 
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         $data['examineType']='None';
         parent::_list($model, $criteria, 'index_sign', $data);
     }
@@ -466,7 +427,7 @@ class DisinfectionOrderController extends BaseController {
         $criteria -> addCondition($this->rest_limit());
         $model->deleteAll('state'.' in (' . 0 . ')');
 
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         $data['examineType']='None';
         $data['usersUnit']=$this->getUserUnitName('rest');
         parent::_list($model, $criteria, 'index_sign2', $data);
@@ -487,7 +448,7 @@ class DisinfectionOrderController extends BaseController {
         $model->deleteAll('state'.' in (' . 0 . ')');
 
 
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         $data['examineType']='None';
         $data['usersUnit']=$this->getUserUnitName('rest');
         parent::_list($model, $criteria, 'index_examine', $data);
@@ -506,7 +467,7 @@ class DisinfectionOrderController extends BaseController {
         $model->deleteAll('state'.' in (' . 0 . ')');
 
 
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         $data['examineType']='None';
         $data['usersUnit']=$this->getUserUnitName('disinfection_center');
         parent::_list($model, $criteria, 'index_examine2', $data);
@@ -525,7 +486,7 @@ class DisinfectionOrderController extends BaseController {
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
         $model->deleteAll('state'.' in (' . 0 . ')');
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         parent::_list($model, $criteria, 'index_get_delivered', $data);
     }
     public function actionIndex_get_delivered2($keywords='')
@@ -539,7 +500,7 @@ class DisinfectionOrderController extends BaseController {
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
         $model->deleteAll('state'.' in (' . 0 . ')');
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         parent::_list($model, $criteria, 'index_get_delivered2', $data);
     }
     ///配送订单end
@@ -554,7 +515,7 @@ class DisinfectionOrderController extends BaseController {
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
         $model->deleteAll('state'.' in (' . 0 . ')');
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         parent::_list($model, $criteria, 'index_appointed', $data);
     }
 
@@ -571,7 +532,7 @@ class DisinfectionOrderController extends BaseController {
         $criteria->addCondition($this->rest_limit());
         $criteria->addCondition('state=1');
         $model->deleteAll('state'.' in (' . 0 . ')');
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         $data['usersUnit']=$this->getUserUnitName('rest');
         parent::_list($model, $criteria, 'appointed_mobile', $data);
     }
@@ -587,7 +548,7 @@ class DisinfectionOrderController extends BaseController {
         $criteria->addCondition($this->rest_limit());
         $criteria->addCondition('state=2');
         $model->deleteAll('state'.' in (' . 0 . ')');
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         $data['usersUnit']=$this->getUserUnitName('rest');
         parent::_list($model, $criteria, 'appointed_mobile', $data);
     }
@@ -622,6 +583,19 @@ class DisinfectionOrderController extends BaseController {
             $model->appointer_id=$uid;
             $this->saveData($model, $_POST[$modelName]);
         }
+    }
+    public function actionappointed_mobile_detail($id,$keywords=''){
+        $modelName = 'DisinfectionOrder';
+        $order_model =$this->loadModel($id,$modelName);
+        $model = DisinfectionOrderDetail::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = $this->getOrderDetailKeyWords($id);
+        $data = array();
+        $data['order_model']=$order_model;
+        parent::_list($model, $criteria, 'appointed_mobile_detail', $data);//渲染detail
+    }
+    public function getOrderDetailKeyWords($keywords){
+        return  get_like('1','order_id',$keywords);
     }
     ///申请订单end
     public function actionGetDetailUnit($name){

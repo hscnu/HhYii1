@@ -79,16 +79,65 @@ class DisinfectionOrder extends BaseModel {
     {
         return $this->findAll('1=1');
     }
-
+    public function getUserUnit(){
+        $userId=get_session('userId');
+        $tmp=User::model()->find('userId='.$userId);
+        if($tmp){
+            return $tmp->unitId;
+        }
+    }
     public function getAppointCountList(){
+        $unitCode=$this->getUserUnit();
+        $disinfectionTmp=DisinfectionCenter::model()->find("code='".$unitCode."'");
+        $restaurantTmp=Restaurant::model()->find("r_code='".$unitCode."'");
+        $FExamine=0;
+        $todayCount=0;
+        $waitCount=0;
+        $delivering1=0;
+        $delivered=0;
+        $waitSignCount=0;
+        $signedCount=0;
+        if($disinfectionTmp){//消毒中心
+            $FExamine = count($this->findAll("state=4 and disinfection_id='".$disinfectionTmp->id."'"));
+            $delivering1 = count($this->findAll('state=17'));//手机配送中
+            $delivered=count($this->findAll('state=10'));//手机配送完成
+            $waitSignCount=count($this->findAll('state=15'));//手机等待签收
+            $signedCount=count($this->findAll('state=14'));//手机签收完成
+            $delliverAll=$delivering1+$delivered;
 
-        $todayCount = count($this->findAll('state=1'));
-        $waitCount = count($this->findAll('state=2'));
+        }
+        if($restaurantTmp){//酒楼
+            $todayCount = count($this->findAll('state=1'));
+            $waitCount = count($this->findAll('state=2'));
+            $delivering1 = count($this->findAll('state=16'));//手机配送中
+            $delivered=count($this->findAll('state=15'));//手机配送完成
+            $waitSignCount=count($this->findAll('state=10'));//手机等待签收
+            $signedCount=count($this->findAll('state=11'));//手机签收完成
+            $delliverAll=$delivering1+$delivered;
+        }
         $finishCount = count($this->findAll('state=3'));
+        $waitCenterSign = count($this->findAll('state=15'));
+        $signedCount = count($this->findAll('state=11'));
+        $IExamine = count($this->findAll('state=12'));
+        $deliver_wait = count($this->findAll('state=13'));
+        $waitRestSign = count($this->findAll('state=10'));
+        $deliver_wait2 = count($this->findAll('state=14'));
         return array(
             'todayCount'=>$todayCount,
-            $waitCount,
-            $finishCount,
+            'waitCount'=>$waitCount,
+            'finishCount'=>$finishCount,
+            'waitCenterSignCount'=>$waitCenterSign,
+            'signedCount'=>$signedCount,
+            'IExamineCount'=>$IExamine,
+            'FExamineCount'=>$FExamine,
+            'deliverwaitCount' => $deliver_wait,
+            'waitRestSignCount'=>$waitRestSign,
+            'deliverwait2Count'=>$deliver_wait2,
+            'delivering1'=>$delivering1,
+            'delivered'=>$delivered,
+            'delliverAll'=>$delliverAll,
+            'waitSignCount'=>$waitSignCount,
+            'signedCount'=>$signedCount,
         );
     }
     public function getCHName($state){
@@ -103,7 +152,7 @@ class DisinfectionOrder extends BaseModel {
             8=>'消毒完成',
             9=>'待归还',
             10=>'待签收',
-            11=>'已签收',
+            11=>'已签收',//订单完成
             13=>'待配送',//酒楼送往中心
             16=>'等待取货中',//酒楼送往中心
             14=>'待消毒中心配送',//中心送往酒楼

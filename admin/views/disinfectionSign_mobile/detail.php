@@ -34,9 +34,15 @@
                 </div>
             </div>
         <?php }?>
-        <div style="text-align: center">
-            <a id="sign" class="btn btn-green" href="javascript:;" style="display: none">签收</a>
-            <a class="btn btn-blue" type="button" onclick="we.back();">返回</a>
+<!--        <div style="text-align: center">-->
+<!--            <a id="sign" class="btn btn-green" href="javascript:;" style="display: none">签收</a>-->
+<!--            <a class="btn btn-blue" type="button" onclick="we.back();">返回</a>-->
+<!--        </div>-->
+        <div id="dg" style="z-index: 9999; position: fixed ! important; right: 0px; top: 0px;">
+            <table width=""100% style="position: absolute; width:260px; right: 0px; top: 0px;">
+                <a id="sign" class="btn btn-green" href="javascript:;" style="display: none">签收</a>
+                <a class="btn btn-blue" type="button" onclick="we.back();">返回</a>
+            </table>
         </div>
         <div class="box-page c"><?php $this->page($pages); ?></div>
     </div><!--box-content end-->
@@ -47,7 +53,7 @@
 <!--日期搜索-->
 <script>
     $(document).ready(function (){
-        var $stateIsWait_to_sign='<?php echo $order_model->state==10?true:false;?>'
+        var $stateIsWait_to_sign='<?php echo $order_model->state==10||$order_model->state==15?true:false;?>'
         if($stateIsWait_to_sign){
             $('#sign').show();
         }
