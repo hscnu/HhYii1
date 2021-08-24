@@ -48,7 +48,7 @@
             <div class="article-item">
                 <div class="article-content">
                     <h2 class="article-title">
-                        <a class="text" href="<?php echo $this->createUrl('deliver_detail',array('id'=>$v->id));?>"><?php echo $v->title;?></a>
+                        <a class="text" href="<?php echo $this->createUrl('appointed_mobile_detail',array('id'=>$v->id));?>"><?php echo $v->title;?></a>
                     </h2>
 
                     <div class="article-note">

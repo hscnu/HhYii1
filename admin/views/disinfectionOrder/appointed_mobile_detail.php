@@ -41,7 +41,7 @@
 <!--        </div>-->
         <div id="dg" style="z-index: 9999; position: fixed ! important; right: 0px; top: 50px;">
             <table width=""100% style="position: absolute; width:260px; right: 0px; top: 0px;">
-                <a id="sign" class="btn btn-green" href="javascript:;" style="display: none">配送</a>
+                <a id="sign" class="btn btn-green" href="javascript:;" style="display: none">签收</a>
                 <a class="btn btn-blue" type="button" onclick="we.back();">返回</a>
             </table>
         </div>

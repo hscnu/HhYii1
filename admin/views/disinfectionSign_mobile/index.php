@@ -11,9 +11,9 @@
         </div><!--box-header end-->
         <!--  导航栏-->
         <?php
-        $navData[]=array('Index_wait_sign','待签收','('.$waitSignCount.')');
-        $navData[]=array('Index_signed','已签收','('.$signedCount.')');
-        $navData[]=array('index','全部','('.$AllSignCount.')');
+        $navData[]=array($nowType,'待签收','('.$waitSignCount.')');
+        $navData[]=array($deliveredType,'已签收','('.$signedCount.')');
+        //$navData[]=array('index','全部','('.$AllSignCount.')');
         echo $this->getNav($navData);
         ;?>
 

@@ -61,49 +61,8 @@ class DisinfectionSign_mobileController extends BaseController {
         $state2=11;//已签收
         $criteria->condition=get_where($criteria->condition,($state1!=""),'state>=',$state1,'"');
         $criteria->condition=get_where($criteria->condition,($state2!=""),'state<=',$state2,'"');
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         parent::_list($model, $criteria, 'index', $data);
-    }
-    public function getAppointCountList(){
-        $modelName = 'DisinfectionOrder';
-
-        $todayCount = count($modelName::model()->findAll('state=1'));
-        $waitCount = count($modelName::model()->findAll('state=2'));
-        $finishCount = count($modelName::model()->findAll('state=3'));
-        $waitSignCount = count($modelName::model()->findAll('state=10'));
-        $signedCount = count($modelName::model()->findAll('state=11'));
-        $IExamine = count($modelName::model()->findAll('state=12'));
-        $FExamine = count($modelName::model()->findAll('state=4'));
-        $deliver_wait = count($modelName::model()->findAll('state=13'));
-        //配送用户判断
-        if($this->deliverJudge()){
-            $delivering1 = count($modelName::model()->findAll('state=16'));
-            $delivered=count($modelName::model()->findAll('state=15'));
-            $delliverAll=$delivering1+$delivered;
-        }
-        else{
-            $delivering1 = count($modelName::model()->findAll('state=17'));
-            $delivered=count($modelName::model()->findAll('state=10'));
-            $delliverAll=$delivering1+$delivered;
-        }
-
-        $deliver_finish = count($modelName::model()->findAll('state=10'));
-        $AllSignCount = $waitSignCount+$signedCount;
-        return array(
-            'todayCount'=>$todayCount,
-            'waitCount'=>$waitCount,
-            'finishCount'=>$finishCount,
-            'waitSignCount'=>$waitSignCount,
-            'signedCount'=>$signedCount,
-            'IExamineCount'=>$IExamine,
-            'FExamineCount'=>$FExamine,
-            'deliverwaitCount' => $deliver_wait,
-            'deliverfinishCount' => $deliver_finish,
-            'AllSignCount'=>$AllSignCount,
-            'delivering1'=>$delivering1,
-            'delivered'=>$delivered,
-            'delliverAll'=>$delliverAll,
-        );
     }
 
     public function getDisinfectionKeyWords($keywords = ''){
@@ -120,28 +79,58 @@ class DisinfectionSign_mobileController extends BaseController {
         }
         $start_date=DecodeAsk('start_date');
         $criteria -> condition= get_like( $criteria -> condition,'date',$start_date);
-        $data = $this->getAppointCountList();
+        $data = DisinfectionOrder::model()->getAppointCountList();
         $data['istoday']=$istoday;
         $data['nowType']=$nowType;
         $data['deliveredType']=$deliveredType;
 
         parent::_list($model, $criteria, $next_index, $data);
     }
-    //酒楼待签收
     public function actionIndex_wait_sign($keywords = '') {
+        //用户判断，选择对应签收
+        $w='';
+        if($this->deliverJudge()){
+            $w="state=10";
+            $this->actionIndex_wait_sign1();
+        }
+        else{
+            $w="state=15";
+            $this->actionIndex_wait_sign2($w);
+        }
+    }
+    //酒楼待签收
+    public function actionIndex_wait_sign1($keywords = '') {
+        $nowType='Index_wait_sign1';
+        $deliveredType='Index_signed1';
         $w="state=10";
-        $this->actionIndex_by_condition('index',$keywords,$w);
+        $this->actionIndex_by_condition('index',$keywords,$w,$nowType,$deliveredType);
     }
     //酒楼已签收
-    public function actionIndex_signed($keywords = '') {
+    public function actionIndex_signed1($keywords = '') {
+        $nowType='Index_wait_sign1';
+        $deliveredType='Index_signed1';
         $w="state=11";
-        $this->actionIndex_by_condition('index',$keywords,$w);
+        $this->actionIndex_by_condition('index',$keywords,$w,$nowType,$deliveredType);
+    }
+    //消毒中心待签收
+    public function actionIndex_wait_sign2($w='',$keywords = ''){
+        $nowType='Index_wait_sign2';
+        $deliveredType='Index_signed2';
+        $w="state=15";
+        $this->actionIndex_by_condition('index',$keywords,$w,$nowType,$deliveredType);
+    }
+    //消毒中心已签收
+    public function actionIndex_signed2($keywords = ''){
+        $nowType='Index_wait_sign2';
+        $w="state=14";
+        $deliveredType='Index_signed2';
+        $this->actionIndex_by_condition('index',$keywords,$w,$nowType,$deliveredType);
     }
 
     ////配送
-    public function deliverJudge(){
+    public function deliverJudge(){//判断是否为酒楼用户
         $unitCode=$this->getUserUnit();
-        $order = Restaurant::model()->findAll("id>0");//找订单
+        $order = Restaurant::model()->findAll("id>0");
         $flag=false;
         foreach ($order as $o){
             if($unitCode==$o->r_code) $flag=true;
@@ -218,6 +207,10 @@ class DisinfectionSign_mobileController extends BaseController {
         $order_model =$this->loadModel($id,$modelName);
         if($order_model['state']==10){
             $order_model['state']=11;
+            $order_model->save();
+        }
+        elseif ($order_model['state']==15){
+            $order_model['state']=14;
             $order_model->save();
         }
         echo CJSON::encode(array('yes'=>'yes'));
