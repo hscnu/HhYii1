@@ -13,7 +13,10 @@
 
 <?php $cs = Yii::app()->clientScript;
  $js_path=Yii::app()->request->baseUrl.'/static/admin'; ?>
-<?php $cs->registerCssFile($js_path.'/css/public.css');?>
+    <?php $cs->registerCssFile($js_path.'/layui-v2.6.8/layui/css/layui.css');?>
+    <?php $cs->registerScriptFile($js_path.'/layui-v2.6.8/layui/layui.js');?>
+
+    <?php $cs->registerCssFile($js_path.'/css/public.css');?>
 <?php $cs->registerCssFile($js_path.'/css/font.css');?>
 <?php $cs->registerCssFile($js_path.'/css/style.css');?>
 <?php $cs->registerCssFile($js_path.'/css/stylec.css');?>
@@ -61,5 +64,6 @@
 <?php echo $content;?>
 </body>
 </html>
+
 
 
