@@ -9,34 +9,6 @@
                         class="fa fa-trash-o"></i>删除</a>
 
 
-            <div class="box-detail-tab box-detail-tab mt15">
-                <ul class="c">
-                    <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
-                    <li<?php if($action=='query_saved'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_saved');?>">已保存<?php echo '('.$savedCount.')'?></a>
-                    </li>
-                    <li<?php if($action=='query_submited'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_submited');?>">已提交<?php echo '('.$waitCount.')'?></a>
-                    </li>
-                    <li<?php if($action=='query_fishery_examined'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_fishery_examined');?>">渔业已审核<?php echo '('.$examine_finishCount.')'?></a>
-                    </li>
-                    <li<?php if($action=='query_logistics_examined'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_logistics_examined');?>">物流已审核<?php echo '('.$examine_logisticsCount.')'?></a>
-                    </li>
-                    <li<?php if($action=='query_confirmed'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_confirmed');?>">送货已确认<?php echo '('.$wait_deliver_Count.')'?></a>
-                    </li>
-                    <li<?php if($action=='query_delivering'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_delivering');?>">配送中<?php echo '('.$delivering_Count.')'?></a>
-                    </li>
-                    <li<?php if($action=='query_received'){?> class="current"<?php }?>>
-                        <a href="<?php echo $this->createUrl('Ice/query_received');?>">已签收<?php echo '('.$finishCount.')'?></a>
-                    </li>
-
-                </ul>
-            </div>
-
 
         </div><!--box-header end-->
         <div class="box-search">
@@ -56,7 +28,7 @@
                 <thead>
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
-                    <th width="7%"><?php echo $model->getAttributeLabel('order_id'); ?></th>
+                    <th width="8%"><?php echo $model->getAttributeLabel('order_id'); ?></th>
                     <th width="15%"><?php echo $model->getAttributeLabel('title'); ?></th>
                     <th width="8%"><?php echo $model->getAttributeLabel('fishing_boat'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>

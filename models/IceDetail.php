@@ -64,4 +64,25 @@ class IceDetail extends BaseModel
     {
         return $this->findAll('1=1');
     }
+    public function save_detail($did,$pos){
+        $TypeList = IceType::model()->findAll();
+        $i=0;
+        put_msg('12345');
+        put_msg(count(IceType::model()->findAll()));
+        put_msg(IceDetail::model()->count('order_id='.$did));
+        if(count(IceType::model()->findAll())!=count(IceDetail::model()->findAll('order_id='.$did))) {
+            put_msg('123456');
+            foreach ($TypeList as $v) {
+                $model3 = new IceDetail();
+                $model3['order_id'] = $did;
+                $model3['ice_id'] = $v->id;
+                $model3['ice_number'] = $v->ice_id;
+                $model3['ice_type'] = $v->ice_type;
+                $model3['specification'] = $v->specification;
+                $model3['amount']=$_POST['amount_'.$i++];
+                $model3['unit_price'] = $v->unit_price;
+                $model3->save();
+            }
+        }
+    }
 }

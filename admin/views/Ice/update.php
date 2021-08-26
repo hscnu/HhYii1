@@ -15,54 +15,66 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr class="table-title">
-                        <td colspan="6">申请信息</td>
+                        <td colspan="4">申请信息</td>
                     </tr>
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'order_id'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'order_id', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'order_id', $htmlOptions = array()); ?>
-                        </td>
-                        <td><?php echo $form->labelEx($model, 'order_time');?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'order_time', array('class' => 'input-text'));?>
-                            <?php echo $form->error($model, 'order_time', $htmlOptions = array());?>
-                        </td>
-                        <td><?php echo $form->labelEx($model, 'take_type');?></td>
-                        <td><?php echo $form->radioButtonList($model, 'take_type', Chtml::listData(BaseCodeIce::model()->getByType('yes_no'), 'f_name', 'f_name'), array('template' => '<li style="display:inline-block;">{input} {label}</li>','separator' => ' '));?>
-                            <?php echo $form->error($model, 'take_type', $htmlOptions = array());?>
-                        </td>
-                    </tr>
+
                     <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'title'); ?></td>
-                        <td colspan="5">
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'title', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'title', $htmlOptions = array()); ?>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="1"><?php echo $form->labelEx($model, 'company'); ?></td>
-                        <td colspan="1">
-                            <?php echo $form->textField($model, 'company', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'company', $htmlOptions = array()); ?>
+                        <td><?php echo $form->labelEx($model, 'order_time');?></td>
+                        <td colspan="3">
+                            年月日：
+                            <?php echo $form->textField($model, 'order_time', array('class' => 'Wdate','style'=>'width:100px;','value'=>Date('Y-m-d')));?>
+                            <?php echo $form->error($model, 'order_time', $htmlOptions = array());?>
+                            时间段：
+                            <?php echo $form->textField($model, 'former_time', array('class' => 'Wdate','style'=>'width:80px;','value'=>Date('H:m:s')));?>
+                            <?php echo $form->error($model, 'former_time', $htmlOptions = array());?>
+                            ~
+                            <?php echo $form->textField($model, 'latter_time', array('class' => 'Wdate','style'=>'width:80px;','value'=>Date('H:m:s')));?>
+                            <?php echo $form->error($model, 'latter_time', $htmlOptions = array());?>
                         </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'take_type');?></td>
+                        <td colspan="3"><?php echo $form->radioButtonList($model, 'take_type', Chtml::listData(BaseCodeIce::model()->getByType('yes_no'), 'f_name', 'f_name'), array('template' => '<li style="display:inline-block;">{input} {label}</li>','separator' => ' '));?>
+                            <?php echo $form->error($model, 'take_type', $htmlOptions = array());?>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'order_name'); ?></td>
-                        <td colspan="1">
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'order_name', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'order_name', $htmlOptions = array()); ?>
                         </td>
+                    </tr>
+                    <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'order_tel'); ?></td>
-                        <td colspan="1">
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'order_tel', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'order_tel', $htmlOptions = array()); ?>
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'company'); ?></td>
+                        <td colspan="3">
+                            <?php echo $form->textField($model, 'company', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'company', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'fishing_boat'); ?></td>
-                        <td colspan="1">
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'fishing_boat', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'fishing_boat', $htmlOptions = array()); ?>
                         </td>
+
+                    </tr>
+                    <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'order_destination'); ?></td>
                         <td colspan="3">
                             <?php echo $form->textField($model, 'order_destination', array('class' => 'input-text')); ?>
@@ -70,22 +82,23 @@
                         </td>
                     </tr>
 
-
                     <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'order_remark'); ?></td>
-                        <td colspan="5">
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'order_remark', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'order_remark', $htmlOptions = array()); ?>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'longitude'); ?></td>
-                        <td colspan="2">
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'longitude', array('class' => 'input-text','id'=>'txtlongitude'));?>
                             <?php echo $form->error($model, 'longitude', $htmlOptions = array());?>
                         </td>
+                    </tr>
+                    <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'latitude'); ?></td>
-                        <td colspan="2">
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'latitude', array('class' => 'input-text','id'=>'txtlatitude'));?>
                             <?php echo $form->error($model, 'latitude', $htmlOptions = array());?>
                         </td>
@@ -100,27 +113,30 @@
                         <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
                         <?php $model2 = IceDetail::model();?>
                         <?php
-                        $str='ice_number,ice_type,specification,unit_price';
+                        $str='ice_id,ice_type,specification,unit_price';
                         echo $model2->gridHead($str); ?>
                         <th>数量</th>
-                        <th>备注</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                     if(isset($detailList)){
                         $index1=0;
-                        $index2=0;
-                        foreach ($detailList as $v) { ?>
+                        //加载商品种类
+                        $typeList = IceType::model()->findAll();
+                        $tm=new IceDetail();
+                        foreach ($typeList as $v) {
+                            $r=0;
+                            $w1='order_id='.$model->id.' and ice_id='.$v->id;
+                            $tmp=IceDetail::model()->find($w1);
+                            if(!empty($tmp)) $r=$tmp->amount;
+                            $tm->amount=$r;
+                            ?>
                             <tr>
                                 <?php echo $v->gridRow($str); ?>
                                 <td>
-                                    <?php echo $form->textField($v, 'amount', array('class' => 'input-text','name'=>'amount_'.$index1++)); ?>
-                                    <?php echo $form->error($v, 'amount', $htmlOptions = array()); ?>
-                                </td>
-                                <td>
-                                    <?php echo $form->textField($v, 'remark', array('class' => 'input-text','name'=>'remark_'.$index2++)); ?>
-                                    <?php echo $form->error($v, 'remark', $htmlOptions = array()); ?>
+                                    <?php echo $form->textField($tm, 'amount', array('class' => 'input-text','style'=>'width:30px','name'=>'amount_'.$index1++)); ?>
+                                    <?php echo $form->error($tm, 'amount', $htmlOptions = array()); ?>
                                 </td>
                             </tr>
                         <?php } }?>
@@ -142,7 +158,7 @@
                     </head>
                     <body>
                     <br/>
-        <div style="width:90%;height:340px;border:1px solid gray" id="container"></div>
+        <div style="width:98%;height:340px;border:1px solid gray" id="container"></div>
                     </body>
                     </html>
                 </td>
@@ -165,6 +181,41 @@
 </div><!--box end-->
 
 
+<script>
+    $(function() {
+            var $date=$('#<?php echo get_class($model);?>_order_time');
+            $date.on('click', function() {
+                    WdatePicker( {
+                            startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'
+                        }
+                    );
+                }
+            );
+        }
+    );
+    $(function() {
+            var $date=$('#<?php echo get_class($model);?>_former_time');
+            $date.on('click', function() {
+                    WdatePicker( {
+                            startDate:'%H:%m:%s',dateFmt:'H:m:s'
+                        }
+                    );
+                }
+            );
+        }
+    );
+    $(function() {
+            var $date=$('#<?php echo get_class($model);?>_latter_time');
+            $date.on('click', function() {
+                    WdatePicker( {
+                            startDate:'%H:%m:%s',dateFmt:'H:m:s'
+                        }
+                    );
+                }
+            );
+        }
+    );
+</script>
 
 
 <script>

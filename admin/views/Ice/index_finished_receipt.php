@@ -41,7 +41,6 @@
                                 <span class="muted"><i class="icon-author icon2"></i><?php echo $v->order_name;?></span>
                                 <span class="muted"><i class="icon-time icon2"></i><?php echo $v->create_time;?></span>
                             </p>
-                            <?php echo $this->chge_state_btn($v,'确认收货','index_myconfirm_receipt')?>
                         </div>
 
                     </div>

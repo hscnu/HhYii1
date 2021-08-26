@@ -41,9 +41,9 @@
                                 <span class="muted"><i class="icon-author icon2"></i><?php echo $v->order_name;?></span>
                                 <span class="muted"><i class="icon-time icon2"></i><?php echo $v->create_time;?></span>
                             </p>
-                            <?php echo $this->chge_state_btn($v,'确认收货','index_myconfirm_receipt')?>
+                            <button class="btn" type="button" onclick="showLocation(<?php echo $v->id;?>);">定位</button>
+                            <?php echo $this->chge_state_btn($v,'确认收货','index_delivering')?>
                         </div>
-
                     </div>
                 </div>
             <?php }?>
@@ -53,6 +53,36 @@
     </div><!--box-content end-->
 </div><!--box end-->
 <script>
-    var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
+    function showDetails(id){
+        url = '<?php echo $this->createUrl("ShowDetail");?>'
+        url=url+'&oId='+id+'&condition=0'
+        $.dialog.data('id',0)
+        $.dialog.open(url,{
+            id: 'showdetails',
+            lock:true,opacity:0.3,
+            width:'100%',
+            height:'100%',
+            title:'订单明细',
+            close: function () {
+                we.reload();
+            }
+        });
+    };
+</script>
+<script>
+    //按键定位
+    function showLocation(id){
+        url = '<?php echo $this->createUrl("ShowMap");?>'
+        url=url+'&oId='+id
+        $.dialog.data('id',0)
+        $.dialog.open(url,{
+            id: 'showlocation',
+            lock:true,opacity:0.3,
+            width:'1000px',
+            height:'80%',
+            title:'定位详情',
+        });
+    };
 
 </script>
+

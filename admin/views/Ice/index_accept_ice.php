@@ -9,6 +9,18 @@
                         class="fa fa-trash-o"></i>删除</a>
 
 
+            <div class="box-detail-tab box-detail-tab mt15">
+                <ul class="c">
+                    <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
+                    <li<?php if($action=='index_accept_ice_by_oneself'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/index_accept_ice_by_oneself');?>">自取待收货<?php echo '('.$accept_ice_by_oneself_Count.')'?></a>
+                    </li>
+                    <li<?php if($action=='index_accept_ice_by_logistic'){?> class="current"<?php }?>>
+                        <a href="<?php echo $this->createUrl('Ice/Index_accept_ice_by_logistic');?>">配送待出库<?php echo '('.$accept_ice_by_logistics_Count.')'?></a>
+                    </li>
+                </ul>
+            </div>
+
         </div><!--box-header end-->
         <div class="box-search">
             <form action="<?php echo Yii::app()->request->url; ?>" method="get">
@@ -28,7 +40,7 @@
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
-                    <th width="7%"><?php echo $model->getAttributeLabel('order_id'); ?></th>
+                    <th width="8%"><?php echo $model->getAttributeLabel('order_id'); ?></th>
                     <th width="15%"><?php echo $model->getAttributeLabel('title'); ?></th>
                     <th width="8%"><?php echo $model->getAttributeLabel('fishing_boat'); ?></th>
                     <th width="11%"><?php echo $model->getAttributeLabel('order_time'); ?></th>
@@ -51,11 +63,8 @@
                         <td style='text-align: center;'><?php echo $v->order_remark; ?></td>
                         <td>
                             <button class="btn" type="button" onclick="showDetails(<?php echo $v->id;?>);">订单明细</button>
-                            <?php echo $this->chge_state_btn($v,'确认出库','index_accept_ice')?>
-                            <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
-                               title="编辑"><i class="fa fa-edit"></i></a>
-                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                               title="删除"><i class="fa fa-trash-o"></i></a>
+                            <?php echo $this->chge_state_btn($v,'确认收货','index_accept_ice_by_oneself')?>
+                            <?php echo $this->chge_state_btn($v,'确认出库','index_accept_ice_by_logistic')?>
                         </td>
                     </tr>
                 <?php } ?>
