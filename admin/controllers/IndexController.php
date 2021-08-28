@@ -72,7 +72,7 @@ class IndexController extends BaseController {
         Yii::app()->session['F_ROLENAME']=$role;
         $model= User::model()->find("TCOD='". $usercode."' or TUNAME='".$usercode."'");
         if(!empty($model)){
-//            $pass=md5($pass);
+            $pass=md5(md5($pass));
             if($pass==$model->TPWD)
 //            if($model->F_ROLENAME==$role)
             {
@@ -186,4 +186,19 @@ class IndexController extends BaseController {
         $data['user_login'] = "0";
         $this->render($s1,$data);
     }
+    public function actionChooseType($TUNAME="",$TPWD="",$tname=""){
+        Yii::app()->session['admin_id']=null;
+        $_SESSION["admin"]=null;
+        $model = new User('create');
+        $data = array();
+        $data['model'] = $model;
+        $data['TUNAME'] = $TUNAME;
+        $data['TNAME'] = $tname;
+        $data['TPWD'] = $TPWD;
+        $data['user_login'] = ($TUNAME) ? "1":"0";
+        if ($TUNAME) $s1='chooseType';//useoauth.php
+        $s1='chooseType';
+        $this->render($s1,$data);
+    }
+
 }

@@ -58,6 +58,7 @@ class User extends BaseModel {
             'wechat_num'=>'微信账号',
             'sex'=>'用户性别',
             'userName'=>'用户名',
+            'TYPE'=>'用户所属模块',//E-入驻管理；A-酒楼消毒；B-送冰；F-农户养殖；D-餐饮管理；C-农户种植；G-捕鱼模块
 
         );
     }
