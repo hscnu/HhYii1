@@ -53,8 +53,8 @@
             <button class="button "  type="submit"  onclick="login();" style="color: #ff000" >进入系统</button></div><!--item end-->
         <div class="register flex-center">
             <a href="<?php echo $this->createUrl('Register');?>" >注册</a>
-<!--            |-->
-<!--            <a href="--><?php //echo $this->createURL('index/index')?><!--" >返回首页</a>-->
+            <!--            |-->
+            <!--            <a href="--><?php //echo $this->createURL('index/index')?><!--" >返回首页</a>-->
         </div>
         <?php $this->endWidget(); ?>
     </div><!--main end-->

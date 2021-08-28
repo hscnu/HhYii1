@@ -117,3 +117,45 @@ button:hover{
 	font-size:25px;
 	margin: 5px;
 }
+
+.container-card{
+	margin: 50px;
+	height: 80%;
+	width: 80%;
+	border-radius: 5px;
+	padding: 20px;
+}
+
+
+.item-card{
+	border: grey;
+}
+
+.item-card-title{
+	border-bottom: 2px solid grey;
+}
+
+.bd-grey{
+	/*padding: 20px;*/
+	margin: 10px 0;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid grey;
+}
+.background-white{
+	background-color: whitesmoke;
+}
+
+.flex-center{
+	display: flex;
+	justify-content: center;
+}
+
+.item-list a{
+	text-decoration: none;
+	cursor:pointer;
+}
+
+.item-list a:hover,.bd-grey:hover{
+	background-color: #e7e7e7;
+}
