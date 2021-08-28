@@ -1,7 +1,7 @@
 <?php
 
 class User extends BaseModel {
-
+    public $TPWD2;
     public function tableName() {
         return '{{user}}';
     }

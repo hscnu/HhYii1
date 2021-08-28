@@ -8,32 +8,40 @@ html,body{
 body{
 	position:relative;
 	font:12px/1.5 "microsoft yahei","\5FAE\8F6F\96C5\9ED1",Arial;
-    color:#333;
-	background:url(../img/login_bg.gif) 0 0 repeat;}
+	color:#333;
+	background:url(../img/login_green.png) 0px 0 ;}
 h1{
 	font-size:24px;}
 
 .input-text{
-    padding:8px;
-    width:480px;
-    height:16px;
-    line-height:16px;
-    vertical-align:middle;
-    color:#333;
-    border:1px #ddd solid;}
+	padding:8px;
+	width:480px;
+	height:16px;
+	line-height:16px;
+	vertical-align:middle;
+	color:#333;
+	border:1px #ddd solid;}
 
 .wrapper{
 	position:relative;
 	width:100%;
 	height:100%;
 	overflow:hidden;}
+
 .main{
 	position:absolute;
-	top:45%;
+	top:20%;
 	left:50%;
-	margin-top:-200px;
+	/*margin-top:-200px;*/
 	margin-left:-149px;
-	width:297px;}
+	width:297px;
+	padding: 50px 70px;
+	background-color: snow;
+	border-radius: 7px;
+	Box-shadow:0 10px 10px 0 rgba(51, 59, 99, 0.62);
+
+}
+
 
 .item{
 	position:relative;
@@ -63,14 +71,49 @@ h1{
 	font-size:14px;
 	color:#f00;}
 
-button{
-	display:block;
-	margin:0 auto;
-	width:297px;
-	height:54px;
-	overflow:hidden;
-	line-height:200px;
+.button{
+	/*display:block;*/
+	margin-bottom:10px;
+	width:295px;
+	height:50px;
+	font-size: 20px ;
+	/*overflow:hidden;*/
+	/*line-height:200px;*/
 	border:none;
-	background:url(../img/login_submit.png) 0 0 no-repeat;}
+	background-color: #3380b4;
+	color: whitesmoke;
+	border-radius: 2px;
+	/*background:url(../img/login_submit.png) 0 0 no-repeat;*/
+}
+
+
+.register{
+	display: flex;
+	justify-content: center;
+}
+
+.register a{
+	margin:0px 4px;
+	font-size: 14px;
+}
+
+a:link{text-decoration:none ; color:black ;}
+a:visited {text-decoration:none ; color:black;}
+a:hover {text-decoration:underline ; color:black;}
+a:active {text-decoration:none ; color:black;}
+
 button:hover{
 	background-position:0 -54px;}
+
+.welcome{
+	font-size: 20px;
+	background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(14, 71, 56, 0.75)), to(rgba(0, 0, 0, 0.52)));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+
+.login-title{
+	font-size:25px;
+	margin: 5px;
+}

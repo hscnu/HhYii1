@@ -1,0 +1,57 @@
+
+.h400{
+    height: 400px;
+}
+
+.h300{
+    height: 300px;
+}
+
+.h200{
+    height: 200px;
+}
+
+.h100{
+    height:100px;
+}
+
+.ui-pd-10{
+    padding: 10px;
+}
+
+.ui-pb-10{
+    padding-bottom: 10px;
+}
+
+
+.ui-mt-10{
+    margin-top: 10px;
+}
+
+.ui-margin-10{
+    margin: 10px;
+}
+
+.ui-margin-20{
+    margin: 20px;
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+}
+
+.flex-center-2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.test{
+    border: 5px solid blue;
+}
+
+.info-grey{
+    color: grey;
+    font-size: 12px;
+}

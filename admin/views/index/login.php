@@ -19,11 +19,11 @@
     <?php $cs->registerScriptFile(Yii::app()->request->baseUrl.'/static/admin/js/public.js');?>
 </head>
 <body>
-<div class="wrapper">
+<div class="wrapper flex-center">
     <input type="hidden" name="user_login" value="<?php echo $user_login;?>">
     <div class="main">
         <?php  $form = $this->beginWidget('CActiveForm', get_form_login()); ?>
-        <div class="item"><h1>后台管理系统</h1></div>
+        <div class="item"><span class="login-title">后台管理系统</span></div>
         <?php
         if($user_login=='1'){
             ?>
@@ -51,8 +51,14 @@
 
         <div class="item">
             <button class="button "  type="submit"  onclick="login();" style="color: #ff000" >进入系统</button></div><!--item end-->
+        <div class="register flex-center">
+            <a href="<?php echo $this->createUrl('Register');?>" >注册</a>
+<!--            |-->
+<!--            <a href="--><?php //echo $this->createURL('index/index')?><!--" >返回首页</a>-->
+        </div>
         <?php $this->endWidget(); ?>
     </div><!--main end-->
+
 </div><!--wrapper end-->
 </body>
 </html>

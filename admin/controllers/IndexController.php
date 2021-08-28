@@ -70,9 +70,7 @@ class IndexController extends BaseController {
     function check_pass($usercode,$pass,$role,&$data,$user_login='0')
     {
         Yii::app()->session['F_ROLENAME']=$role;
-
         $model= User::model()->find("TCOD='". $usercode."' or TUNAME='".$usercode."'");
-
         if(!empty($model)){
 //            $pass=md5($pass);
             if($pass==$model->TPWD)
@@ -155,6 +153,37 @@ class IndexController extends BaseController {
     }
 
 
+    public function actionCheckRegister($USERNAME='',$PASSWORD='',$ROLE='',$user_login=0,$TCNAME='') {
+        $data = array();
+        $USERNAME=$this->dele_char($USERNAME);
+        $data['TUNAME']="";
+        $data['TCOD']=$USERNAME;
+        $data['ROLE']=$ROLE;
+        $data['f_kcszid']=0;
+        $TestUser=User::model()->find("userName='".$USERNAME."'");
+        if(empty($TestUser)){
+            $data['f_kcszid']=1;
+            $user=new User();
+            $user->userName=$USERNAME;
+            $user->TUNAME=$USERNAME;
+            $user->TPWD=md5(md5($PASSWORD));
+            $user->TCNAME=$TCNAME;
+            $user->save();
+        }
+        echo CJSON::encode($data);
+    }
 
 
+    public function actionRegister(){
+        $s1='register';
+        $data=array();
+        $model = new User('create');
+        $data['model'] = $model;
+        $data['TUNAME'] = '';
+        $data['TNAME'] = '';
+        $data['TPWD'] = '';
+        $data['back']='1';
+        $data['user_login'] = "0";
+        $this->render($s1,$data);
+    }
 }
