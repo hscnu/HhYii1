@@ -1,5 +1,6 @@
 <div class="box">
     <div class="box-content">
+        <h3 style="text-align:center;">所属单位：<?php echo $UserUnitName; ?></h3>
         <div class="box-header">
 
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
@@ -16,6 +17,7 @@
                     <span>关键字：</span>
                     <input style="width:200px;" class="input-text" type="text" name="keywords"
                            value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
+                    <button id="submit" class="btn btn-blue" type="submit">查询</button>
                 </label>
                 <label style="margin-right:10px;">
                     <span>选择汇总时间段：</span>
@@ -30,45 +32,44 @@
                         <?php }?>
                     </select>
 
-                    <a class="btn btn-green" href="javascript:;" onclick="createSummary();">生成</a>
+<!--                    <a class="btn btn-green" href="javascript:;" onclick="createSummary();">生成</a>-->
                 </label>
 
             </form>
 
         </div><!--box-search end-->
         <div class="box-table">
-            <table class="list">
-                <thead>
-                <tr>
-                    <?php
-                    $str='complete_date,restaurant_name,disinfection_center_name,detail_number,total_price';
-                    echo $model->gridHead($str); ?>
-                    <th><?php echo '餐具1'; ?></th>
-                    <th><?php echo '价格'; ?></th>
-                    <th><?php echo '餐具2'; ?></th>
-                    <th><?php echo '价格'; ?></th>
-                    <th><?php echo '餐具3'; ?></th>
-                    <th><?php echo '价格'; ?></th>
-                    <td>操作</td>
-                </tr>
-                </thead>
-                <tbody>
+            <table class="list" >
                 <?php foreach ($arclist as $v) { ?>
+                    <thead style="table-layout=fixed;width:100%;">
                     <tr>
-                        <?php echo $v->gridRow($str); ?>
+                    <?php
+                    $str='complete_date,restaurant_name,disinfection_center_name';
+                    echo $model->gridHead($str);
+                    ?>
+                    <?php $detailList=DisinfectionSummaryDetail::model()->findAll('summary_id='.$v->id);
+                    for ($i=0;$i<3;$i++){?>
+                        <th><?php if(isset($detailList[$i])){echo $detailList[$i]->tableware_name;}
+                            else echo '';?></th>
+                    <?php }?>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody style="table-layout=fixed;width:100%;">
+                    <tr>
+                    <?php echo $v->gridRow($str); ?>
                         <?php $detailList=DisinfectionSummaryDetail::model()->findAll('summary_id='.$v->id);
                         for ($i=0;$i<3;$i++){?>
-                        <td style='text-align: center;'><?php if(isset($detailList[$i])){echo $detailList[$i]->tableware_name;}
-                                                else{echo '';}?></td>
-                        <td style='text-align: center;'><?php if(isset($detailList[$i])){echo $detailList[$i]->total_price;}
-                                                else{echo '';}?></td>
+                            <td><?php if(isset($detailList[$i])){echo $detailList[$i]->number;}
+                                else echo '';?></td>
                         <?php }?>
                         <td>
                             <button class="btn" type="button" onclick="openDetail(<?php echo $v->id;?>);">更多明细</button>
                         </td>
                     </tr>
-                <?php } ?>
-                </tbody>
+                    </tbody>
+                <?php }?>
+
             </table>
         </div><!--box-table end-->
         <div class="box-page c"><?php $this->page($pages); ?></div>
@@ -130,4 +131,7 @@
             }
         });
     };
+
 </script>
+
+

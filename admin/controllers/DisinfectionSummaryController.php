@@ -57,9 +57,11 @@ class DisinfectionSummaryController extends BaseController {
         $modelName = $this->model;
         $model = $modelName::model();
         $criteria = new CDbCriteria;
-        $criteria -> condition = get_like('1','restaurant_id,disinfection_center_id,start_date,restaurant_name,end_date,disinfection_center_name,total_price',$keywords);
-        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,disinfection_center_id,start_date,restaurant_name,end_date,disinfection_center_name,total_price',$keywords);
+        $criteria -> condition = get_like('1','restaurant_id,disinfection_center_id,start_date,restaurant_name,end_date,disinfection_center_name,total_price,complete_date',$keywords);
+        $criteria -> condition = get_like( $criteria -> condition,'restaurant_id,disinfection_center_id,start_date,restaurant_name,end_date,disinfection_center_name,total_price,complete_date',$keywords);
+        $criteria->addCondition($this->userCodition());
         $data = array();
+        $data['UserUnitName'] = $this->getUserUnitName();
         parent::_list($model, $criteria, 'index', $data);
     }
     //删除无用明细
@@ -134,7 +136,6 @@ class DisinfectionSummaryController extends BaseController {
     public function getOrderKeyWords($keywords){
         return  get_like('1','summary_id',$keywords);
     }
-
     public function actionOpenSummaryDetail($order_id){
 
         $model = DisinfectionSummaryDetail::model();
@@ -144,4 +145,35 @@ class DisinfectionSummaryController extends BaseController {
         parent::_list($model, $criteria, 'detail', $data);//渲染detail
     }
     //汇总明细窗口end
+    //角色筛选
+    public function getUserUnitName(){
+        $unitId=$this->getUserUnit();
+        $flag=$unitId[0];
+        $name='未知';
+        if($flag=='R'){
+            $temp=Restaurant::model()->find("r_code='".$unitId."'");
+            if($temp){
+                $name=$temp->r_name;
+            }
+        }
+        elseif ($flag=='D'){
+            $temp=DisinfectionCenter::model()->find("code='".$unitId."'");
+            if($temp){
+                $name=$temp->name;
+            }
+        }
+        return $name;
+    }
+    public function userCodition(){
+        $unitId=$this->getUserUnit();
+        $unitName=$this->getUserUnitName();
+        $flag=$unitId[0];
+        if($flag=='R'){
+            return "restaurant_name='".$unitName."'";
+        }
+        elseif ($flag=='D'){
+            return "disinfection_center_name='".$unitName."'";
+        }
+        else return '';
+    }
 }

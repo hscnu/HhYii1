@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="box-title c"><h1><i class="fa fa-table"></i>填写消毒订单</h1><span class="back"></span></div><!--box-title end-->
+    <div class="box-title c"><h1><i class="fa fa-table"></i>填写信息</h1><span class="back"></span></div><!--box-title end-->
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
         <div class="box-detail-tab">
