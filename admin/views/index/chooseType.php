@@ -20,8 +20,46 @@
 </head>
 <body>
 <div class="wrapper flex-center">
+   <div class="background-white container-card">
+       <div class="item-card">
+           <span class="item-card-title"><h1>入驻类型</h1></span>
+           <div class="item-list">
+            <div class="bd-grey">
+                <a>
+                    <div>
+                        送冰
+                    </div>
+                    <div>
+                        提示信息
+                    </div>
+                </a>
+            </div>
+               <div class="bd-grey">
 
-你好
+
+               <a>
+                   <div>
+                       捕鱼
+                   </div>
+                   <div>
+                       提示信息
+                   </div>
+               </a>
+             </div>
+
+           </div>
+       </div>
+   </div>
 </div><!--wrapper end-->
 </body>
 </html>
+
+<script>
+   $(function () {
+    $('.bd-grey').on('click',function () {
+        $('.bd-grey').attr('style','background-color: none')
+        $(this).attr('style','background-color: #e7e7e7')
+    })
+   })
+</script>
+
