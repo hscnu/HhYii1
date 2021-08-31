@@ -9,10 +9,7 @@
             <ul class="c">
                 <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
                 <li<?php if($action=='index_register'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('Fishingreport/index_register');?>">待提交<?php echo "(".$waitCount.")";?></a>
-                </li>
-                <li<?php if($action=='index_history'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('Fishingreport/index_history');?>">已提交<?php echo "(".$appointCount.")";?></a>
+                    <a href="<?php echo $this->createUrl('Fishingreport/index_register');?>">待提交</a>
                 </li>
             </ul>
         </div><!--box-detail-tab end-->
@@ -25,30 +22,6 @@
                     <input style="width:200px;" class="input-text" type="text" name="keywords"
                            value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
                 </label>
-
-                <?php if($action=='index_history'){ ?>
-                    <label style="margin-right:10px;">
-                        <span>提交日期：</span>
-                        <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
-                        <span>-</span>
-                        <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
-                    </label>
-                <?php }?>
-
-                <?php
-                $list=BaseCodefish::model()->getByType('statename');
-                if ($action=='index_history'){?>
-                    <label style="margin-right:20px;">
-                        <span>状态：</span>
-                        <select  class="singleSelect" style="width: 130px;" name="statename">
-                            <option value="">请选择</option>
-                            <?php foreach($list as $v){?>
-                                <option value="<?php echo $v->f_code;?>"<?php if(Yii::app()->request->getParam('statename')==$v->f_code){?>selected<?php }?>><?php echo $v->f_name;?></option>
-                            <?php }?>
-                        </select>
-                    </label>
-                <?php }?>
-
                 <button class="btn btn-blue" type="submit">查询</button>
                 <br>
 
@@ -65,14 +38,12 @@
                     <th style='text-align: center;'>序号</th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('report_id'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('title'); ?></th>
-                    <th style='text-align: center;'><?php echo $model->getAttributeLabel('name'); ?></th>
+                    <!--<th style='text-align: center;'><?php echo $model->getAttributeLabel('name'); ?></th>-->
+                    <th style='text-align: center;'><?php echo $model->getAttributeLabel('boat_id'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('reporttime'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('count'); ?></th>
                     <th style='text-align: center;'><?php echo $model->getAttributeLabel('remark'); ?></th>
-                    <th style='text-align: center;'><?php echo $model->getAttributeLabel('state'); ?></th>
-                    <?php if($action=='index_history'){ ?>
-                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('opinion'); ?></th>
-                    <?php }?>
+                    <th style='text-align: center;'><?php echo $model->getAttributeLabel('opinion'); ?></th>
                     <th style='text-align: center;'>操作</th>
                 </tr>
                 </thead>
@@ -85,14 +56,12 @@
                         <td style='text-align: center;'><?php echo $index++; ?></td>
                         <td style='text-align: center;'><?php echo $v->report_id; ?></td>
                         <td style='text-align: center;'><?php echo $v->title; ?></td>
-                        <td style='text-align: center;'><?php echo $v->name; ?></td>
+                        <!--<td style='text-align: center;'><?php echo $v->name; ?></td>-->
+                        <td style='text-align: center;'><?php echo $v->boat_id; ?></td>
                         <td style='text-align: center;'><?php echo $v->reporttime; ?></td>
                         <td style='text-align: center;'><?php echo $v->count; ?></td>
                         <td style='text-align: center;'><?php echo $v->remark; ?></td>
-                        <td style='text-align: center;'><?php echo $model->getStateName($v->state); ?></td>
-                        <?php if($action=='index_history'){ ?>
-                            <td style='text-align: center;'><?php echo $v->opinion; ?></td>
-                        <?php }?>
+                        <td style='text-align: center;'><?php echo $v->opinion; ?></td>
                         <td style='text-align: center;'>
                             <?php if($action=='index_register'){ ?>
                                 <button class="btn" type="button" onclick="AuditDetail(<?php echo $v->id;?>);">提交</button>

@@ -40,8 +40,10 @@ class ReportDetail extends BaseModel
             'order_id'=>'表单号',
             'species' => '名称',
             'number' => '数量',
-            'code'=>'商品编码',
+            'code'=>'商品号',
             'unit'=>'单位',
+            'remark'=>'备注',
+            'img'=>'图片'
         );
     }
 

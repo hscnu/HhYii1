@@ -6,7 +6,7 @@ class FishingReport extends BaseModel
     public $check_save=1; //设置跳过检验标志符
     public function tableName()
     {
-        return '{{fishingreport}}';
+        return '{{FishingReport}}';
     }
 
     /**
@@ -39,10 +39,10 @@ class FishingReport extends BaseModel
             'id' => 'ID',
             'report_id'=>'上报单号',
             'state'=>'状态',
-            'boat_id'=>'渔船编码',
-            'name' => '上报人姓名',
+            'boat_id'=>'船号',
+            'name' => '姓名',
             'company'=>'公司名称',
-            'count'=>'记录数',
+            'count'=>'笔',
             'fishingtime' => '捕鱼时间',
             'reporttime'=>'上报时间',
             'userId'=>'用户',
@@ -51,6 +51,7 @@ class FishingReport extends BaseModel
             'check_time'=>'审核时间',
             'checktor_id'=>'审核人ID',
             'opinion'=>'审核意见',
+            'image'=>'封面'
         );
     }
 
@@ -86,7 +87,7 @@ class FishingReport extends BaseModel
             '4'=>'已保存',
             '5'=>'通过',
             '6'=>'不通过',
-
+            '7'=>'退回，可重新提交',
         );
         return isset($a[$state])?$a[$state]:'未知状态';
     }
