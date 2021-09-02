@@ -1073,7 +1073,9 @@ function gf_implode($separator='|',$parray){
 function put_msg($pmsg,$parr=0){
     if (is_array($pmsg)){
         //  $pmsg=json_encode($pmsg);
-        $pmsg=json_encode($pmsg,JSON_UNESCAPED_UNICODE);
+//        $pmsg=json_encode($pmsg,JSON_UNESCAPED_UNICODE);
+        $pmsg=CJSON::encode($pmsg);
+
     }
 
     // $backtrace = debug_backtrace();

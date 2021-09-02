@@ -39,12 +39,9 @@ class BaseCodeController extends BaseController {
             $this->saveData($model, $_POST[$modelName]);
         }
     }
-
-
+    
 
     function saveData($model, $post) {
-
-
         $model->attributes = $post;
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
@@ -88,6 +85,7 @@ class BaseCodeController extends BaseController {
         $criteria->condition=get_like($criteria->condition,'audit_department',$department_keywords);
         $criteria->condition=get_like($criteria->condition,'state_name',$state_name_keywords);
         $data = array();
+
         parent::_list($model, $criteria, 'index_verify', $data);
 
     }

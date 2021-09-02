@@ -330,8 +330,9 @@ class FishingReportController extends BaseController {
         $model = ReportDetail::model();
         $criteria = new CDbCriteria;
         $criteria->condition='order_id='.DecodeAsk('orderId');
-
-        ReportDetail::model()->findAll($criteria);
+        put_msg('333');
+        put_msg( $criteria->condition);
+        put_msg(ReportDetail::model()->findAll($criteria));
         $data = array();
         parent::_list($model, $criteria, 'select', $data);//渲染select
     }

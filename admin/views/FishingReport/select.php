@@ -20,7 +20,7 @@
                 <?php foreach ($arclist as $v) { ?>
                     <tr  data-img="<?php echo $v->img;?>"  >
                         <!--                        <td class="check check-item"><input class="input-check" type="checkbox" value="--><?php //echo CHtml::encode($v->userId); ?><!--"></td>-->
-                        <td style='text-align: center;'><?php echo show_pic($model->img); echo $model->img;?></td>
+                        <td style='text-align: center;'><?php echo show_pic($v->img); ?></td>
                     </tr>
                 <?php } ?>
                 </tbody>
