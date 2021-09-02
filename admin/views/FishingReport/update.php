@@ -74,25 +74,37 @@
             <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加</button>
             <table class="list">
                 <thead>
-                <tr>
-                    <th style='text-align: center;'>序号</th>
-                    <?php $model2 =ReportDetail::model();?>
+<!--                <tr>-->
+<!--                    <th style='text-align: center;'>序号</th>-->
+<!--                    --><?php //$model2 =ReportDetail::model();?>
                     <?php
                     $str='code,species,unit,number';
-                    echo $model2->gridHead($str); ?>
-                    <th style='text-align: center;'>操作</th>
-                </tr>
+//                    echo $model2->gridHead($str);
+                    ?>
+<!--                    <th style='text-align: center;'>操作</th>-->
+<!--                </tr>-->
                 </thead>
                 <tbody>
                 <?php $index=1; ?>
                 <?php
                 if(isset($detailList))
                     foreach ($detailList as $v) { ?>
-                        <tr>
-                            <td style='text-align: center;'><?php echo $index++; ?></td>
-                            <?php echo $v->gridRow($str); ?>
-                            <td style='text-align: center;'>
-                                <button class="btn" type="button" onclick="updateDetail(<?php echo $v->id;?>);">编辑</button>
+                        <tr class="tbody-item" data-id="<?php echo $v->id;?>">
+<!--                            <td style='text-align: center;'>--><?php //echo $index++; ?><!--</td>-->
+<!--                            --><?php //echo $v->gridRow($str); ?>
+
+                            <td>
+                            <div class="flex-row">
+                            <?php echo show_pic($v->img)?>
+                            <div class="ml10">
+                            <?php foreach (explode(',',$str) as $item){?>
+                            <?php echo $v->getAttributeLabel($item).":".$v->{$item}?><br>
+                            <?php }?>
+                            </div>
+                            </div>
+                            </td>
+
+                            <td style='text-align: center;width: 20%'>
                                 <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                                    title="删除">删除</a>
                             </td>
@@ -135,10 +147,12 @@
         tl= id===0?'添加明细':'修改明细'
         $.dialog.data('id',0)
         $.dialog.open(url,{
+            top:0,
             id: 'updateDetail',
             lock:true,opacity:0.3,
             width:'1000px',
-            height:'90%',
+            height:'75%',
+
             title:tl,
             close: function () {
                 redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
@@ -146,6 +160,7 @@
                 window.location.href = redirect;
             }
         });
+
     };
 
     //打开弹窗前先保存订单一次
@@ -159,6 +174,12 @@
             dataType: 'json',
         })
     }
+
+    $('.tbody-item').on('click',function (e) {
+        if(e.target.localName!=='a'){
+            updateDetail($(this).data('id'))
+        }
+    })
 </script>
 <style>
 .photo{
@@ -169,6 +190,15 @@ width:25%;
 float:right;
 width:25%;
 }
+.flex-row{
+    display:flex;
+    flex-direction: row;
+}
+.ml10{
+    margin-left: 10px;
+}
+
+
 </style>
 <script>
 
