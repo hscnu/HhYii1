@@ -72,7 +72,7 @@
 
         <div class="box-table">
             <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加</button>
-            <table class="list">
+            <table class="">
                 <thead>
 <!--                <tr>-->
 <!--                    <th style='text-align: center;'>序号</th>-->
