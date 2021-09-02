@@ -155,9 +155,11 @@
 
             title:tl,
             close: function () {
-                redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
-                redirect+='&id='+'<?php echo $model->id;?>'
-                window.location.href = redirect;
+                if($.dialog.data('detailId')>0){
+                    redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
+                    redirect+='&id='+'<?php echo $model->id;?>'
+                    window.location.href = redirect;
+                }
             }
         });
 
@@ -197,7 +199,6 @@ width:25%;
 .ml10{
     margin-left: 10px;
 }
-
 
 </style>
 <script>
