@@ -151,7 +151,7 @@
             id: 'updateDetail',
             lock:true,opacity:0.3,
             width:'1000px',
-            height:'75%',
+            height:'85%',
 
             title:tl,
             close: function () {

@@ -27,11 +27,12 @@
     }
     .flex-container-button{
         display:flex;
-        flex-direction: row-reverse;
+        flex-direction: row;
+        justify-content: space-between;
 
     }
     .text-container{
-        padding: 0 20px;
+        padding-left: 10px;
         font-size: 11px;
     }
     .img{
@@ -40,6 +41,8 @@
     }
 
     .article-content{
+        display: flex;
+        flex-direction: column;
         margin: 2px;
     }
 </style>
@@ -65,15 +68,10 @@
         <?php foreach ($arclist as $v){?>
             <div class="article-item" data-id="<?php echo $v->id?>">
                 <div class="article-content" >
-
                  <div class="bd-grey">
-                    <a class="btn-trash" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                        title="删除"><img class="img" src="static/admin/img/trash.png"></a>
-
                     <div class="flex-container">
-
                     <div class="flex-row">
-                        <div class="disabled"><?php echo show_pic($v->image,'','80','80','0') ;?></div>
+                        <div class="disabled"><?php echo show_pic($v->image,'','139','130','0') ;?></div>
                             <div>
                                 <div class="text-container">
                                 <p style="font-weight: bold"> <?php echo $v->title;?></p>
@@ -87,9 +85,11 @@
                     </div>
                     </div>
                     <div class="flex-container-button">
-                        <div>
+
+                            <a class="btn-trash" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
+                               title="删除"><img class="img" src="static/admin/img/trash.png"></a>
                             <button class="btn btn-green"  type="button" onclick="AuditDetail(<?php echo $v->id;?>);">提交</button>
-                        </div>
+
                     </div>
                 </div>
             </div>
