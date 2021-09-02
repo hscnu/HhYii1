@@ -46,7 +46,9 @@ class ReportDetail extends BaseModel
             'img'=>'图片'
         );
     }
-
+    public function picLabels(){
+        return 'img';
+    }
     /**
      * Returns the static model of the specified AR class.
      */

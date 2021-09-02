@@ -55,6 +55,9 @@ class FishingReport extends BaseModel
         );
     }
 
+    public function picLabels(){
+        return 'image';
+    }
 
     public function getInfoFromMenu($views,$field) {
         $tmp1=Menu::model()->find("f_name='".$views."'");

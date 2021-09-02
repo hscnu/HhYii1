@@ -55,8 +55,7 @@ class BaseController extends CController {
         $pages->pageSize = $pageSize;
         $pages->applylimit($criteria);
         $arclist = $model->findAll($criteria);
-        put_msg(444);
-        put_msg($arclist);
+
         $data = array_merge($data, array('model' => $model, 'arclist' => $arclist, 'pages' => $pages, 'count'=>$count));
         $this->render($template, $data);
     }

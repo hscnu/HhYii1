@@ -40,6 +40,7 @@
         );
         $('.box-table tbody tr').on('click', function(){
             if($(this).attr('data-img')){
+                $.dialog.data('code',200)
                 $.dialog.data('img',$(this).attr('data-img'));
                 $.dialog.close();
             }

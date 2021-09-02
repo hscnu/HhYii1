@@ -59,7 +59,11 @@
                     </tr>
                     <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'image'); ?></td>
-                        <td colspan="3" ><button class="btn" type="button" onclick="chooseImg()">选择图片</button>
+                        <td colspan="3" >
+                            <span style="display: inline-block">
+                            <?php echo show_pic($model->image,'','100','200')?>
+                            <button class="btn" type="button"  onclick="chooseImg()">选择图片</button>
+                            </span>
                         </td>
                     </tr>
                 </table>
@@ -179,7 +183,7 @@ width:25%;
             height:'80%',
             title:'选择图片',
             close: function () {
-                if($.dialog.data('img')>0){
+                if($.dialog.data('code')===200){
                     s1='<?php echo $this->createUrl('changeOrderImg')?>'
                     s1=s1+'&oId='+'<?php echo $model->id?>'
                     s1=s1+'&img='+$.dialog.data('img')

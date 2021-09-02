@@ -330,18 +330,21 @@ class FishingReportController extends BaseController {
         $model = ReportDetail::model();
         $criteria = new CDbCriteria;
         $criteria->condition='order_id='.DecodeAsk('orderId');
-        put_msg('333');
-        put_msg( $criteria->condition);
-        put_msg(ReportDetail::model()->findAll($criteria));
+
         $data = array();
         parent::_list($model, $criteria, 'select', $data);//渲染select
     }
-    public function changeOrderImg($oId,$img){
+    public function actionchangeOrderImg($oId,$img){
+        put_msg($oId);
+        put_msg($img);
         $order=FishingReport::model()->findAll("id in (".$oId.")");//找订单
+        put_msg($order);
         if($order){
             foreach ($order as $v){
                 $v->image=$img;//填入pic信息
-                $v->save();
+                put_msg('ok 1');
+                $s1=$v->save();
+                put_msg($s1);
             }
         }
         echo CJSON::encode('succeed');

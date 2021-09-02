@@ -1311,15 +1311,15 @@ function save_change_table($table) {
 
 
 //传入图片地址，id名（update用）
-function show_pic($flie='',$id=''){
+function show_pic($flie='',$id='',$maxHeight='80',$maxWidth='70'){
     $html='';
     if($flie){
-        $html=empty($id)?'<div style="max-width:80px; max-height:70px;overflow:hidden;">':
+        $html=empty($id)?'<div style="max-width:'.$maxHeight.'px; max-height:'.$maxWidth.'px;overflow:hidden;">':
             '<div style="float: left; margin-right:10px" id="upload_pic_'.$id.'">';
         $html.= '<a href="'.$flie.'" target="_blank" title="点击查看">';
         $html.= substr($flie,-3,3)=='pdf'?
             '<img src="'.'/scnursps/uploads/temp/image/pdf_icon.jpg'.'" style="max-height:30px; max-width:20px;">':
-            '<img src="'.$flie.'" style="max-height:80px; max-width:70px;">';
+            '<img src="'.$flie.'" style="max-height:'.$maxHeight.'px; max-width:'.$maxWidth.'px;">';
         $html.='</a></div>';
     }
     return $html;
