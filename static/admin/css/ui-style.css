@@ -55,3 +55,15 @@
     color: grey;
     font-size: 12px;
 }
+
+
+.flex-row{
+    display:flex;
+    flex-direction: row;
+}
+.ml10{
+    margin-left: 10px;
+}
+.line{
+    border-bottom: 1px rgba(168, 167, 167, 0.3) solid;
+}

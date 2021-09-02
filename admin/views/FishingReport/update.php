@@ -1,5 +1,16 @@
+<style>
+
+    .box-table{
+        padding-top: 25px;
+    }
+    .box-detail table {
+        border-collapse: collapse;
+    }
+
+</style>
+
 <div class="box">
-    <div class="box-title c"><h1><i class="fa fa-table"></i>更新信息</h1><span class="back"></span></div><!--box-title end-->
+    <div class="box-title c"><h1><i class="fa fa-table"></i>更新信息</h1><span class="back"></span></div>
 
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
@@ -7,9 +18,11 @@
             <ul class="c">
                 <li class="current">基本信息</li>
             </ul>
-        </div><!--box-detail-tab end-->
+        </div>
+        <!--box-detail-tab end-->
         <div class="box-detail-bd">
             <div style="display:block;" class="box-detail-tab-item">
+                <div class="article-item">
                 <table>
                     <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'title');?></td>
@@ -67,12 +80,14 @@
                         </td>
                     </tr>
                 </table>
+               </div>
             </div><!--box-detail-tab-item end   style="display:block;"-->
         </div><!--box-detail-bd end-->
+        <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加</button>
 
         <div class="box-table">
-            <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加</button>
-            <table class="">
+            <div class="article-item">
+            <table>
                 <thead>
 <!--                <tr>-->
 <!--                    <th style='text-align: center;'>序号</th>-->
@@ -112,6 +127,7 @@
                     <?php } ?>
                 </tbody>
             </table>
+            </div>
 
         </div>
     </div>
@@ -133,7 +149,26 @@
                     );
                 }
             );
+
+        //点击触发事件
+        $('.tbody-item').on('click',function (e) {
+            if(e.target.localName!=='a'){
+                updateDetail($(this).data('id'))
+            }
+        })
+
+        //tr追加样式
+        var t = $('tbody')
+        for (let i =  0 ;i<t.length;i++){
+            let c = $(t[i])[0].children
+            for(let j = 0 ;j<c.length-1;j++){
+                $(c[j]).attr('class','line')
+            }
         }
+        }
+
+
+
     );
 </script>
 
@@ -177,31 +212,6 @@
         })
     }
 
-    $('.tbody-item').on('click',function (e) {
-        if(e.target.localName!=='a'){
-            updateDetail($(this).data('id'))
-        }
-    })
-</script>
-<style>
-.photo{
-float:left;
-width:25%;
-}
-.intro{
-float:right;
-width:25%;
-}
-.flex-row{
-    display:flex;
-    flex-direction: row;
-}
-.ml10{
-    margin-left: 10px;
-}
-
-</style>
-<script>
 
 
     function chooseImg(){

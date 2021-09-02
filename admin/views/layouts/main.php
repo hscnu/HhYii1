@@ -18,7 +18,9 @@
 
     <?php $cs->registerCssFile($js_path.'/css/public.css');?>
 <?php $cs->registerCssFile($js_path.'/css/font.css');?>
-<?php $cs->registerCssFile($js_path.'/css/style.css');?>
+    <?php $cs->registerCssFile($js_path.'/css/ui-style.css');?>
+
+    <?php $cs->registerCssFile($js_path.'/css/style.css');?>
 <?php $cs->registerCssFile($js_path.'/css/stylec.css');?>
 <?php $cs->registerCoreScript('jquery');?>
 <?php $cs->registerScriptFile($js_path.'/js/jquery.nicescroll.js');?>
