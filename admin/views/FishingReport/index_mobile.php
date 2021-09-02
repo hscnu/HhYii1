@@ -16,27 +16,32 @@
         </div><!--box-search end-->
         <div><span>
             </span></div>
+
         <?php foreach ($arclist as $v){?>
             <div class="article-item">
                 <div class="article-content" >
-
-                        <div style="float:left;font-size:18px;font-weight: bold;"><?php echo $v->title;?></div>
-                        <div style="float:right;font-size:18px;font-weight: bold;"><?php echo $v->reporttime;?></div>
-                        <!--
-                        <a class="btn-round" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                           title="删除"> <img width=20px height=20px align="right"  src="static/admin/img/trash.png"/></a>
-                    -->
-                    <hr>
-                    <div class="article-note">
+                    <div class="flex-container">
+                    <div class="flex-row">
+                    <div><?php echo show_pic($v->image,'','180','180') ;?></div>
+                    <div>
+                        <div class="text-container">
+                        <p style="font-weight: bold"> <?php echo $v->title;?></p>
                         <p>上报单号：<?php echo $v->report_id;?></p>
                         <p>船号：<?php echo $v->boat_id;?></p>
                         <p><?php echo $v->count;?>笔</p>
+                        <p><?php echo $v->reporttime;?></p>
+                        </div>
                     </div>
-                    <div style="display: flex;justify-content: space-around">
-                    <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
-                       title="编辑">编辑</a>
-                    <!--<button class="btn" type="button" onclick="AuditDetail3(<?php echo $v->id;?>);">查看</button>-->
-                    <button class="btn btn-green" type="button" onclick="AuditDetail(<?php echo $v->id;?>);">提交</button>
+                    </div>
+                        <div class="flex-container2">
+                            <div>
+                                <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
+                                   title="删除"><img class="img" src="static/admin/img/trash.png"></a>
+                            </div>
+                            <div>
+                                <button class="btn btn-green"  type="button" onclick="AuditDetail(<?php echo $v->id;?>);">提交</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,14 +134,30 @@
 </script>
 
 <style>
-/*
-    .btn-round{
-        border-radius: 50%;
-        background-color: red;
-        color: whitesmoke;
-        width: 10%;
-        float: right;
-        padding: 3px;
+    .flex-row
+    {
+        display: flex;
+        flex-direction: row;
     }
-*/
+.flex-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.flex-container2{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.text-container{
+    padding:20px;
+
+}
+.img{
+    height:25px;
+    width:20px;
+}
+
 </style>
