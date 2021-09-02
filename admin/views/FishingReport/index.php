@@ -26,9 +26,7 @@
                 <br>
 
             </form>
-            </form>
-            </form>
-            </form>
+
         </div><!--box-search end-->
         <div class="box-table">
             <table class="list">

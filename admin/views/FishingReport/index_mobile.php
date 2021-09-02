@@ -1,3 +1,49 @@
+<style>
+    .btn-trash{
+        float: right;
+    }
+
+    .btn-trash img{
+        height: 20px;
+        width: 20px;
+    }
+
+    .flex-row
+    {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .bd-grey{
+        border-bottom: solid rgba(128, 128, 128, 0.08) 1px;
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+    }
+    .flex-container
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .flex-container-button{
+        display:flex;
+        flex-direction: row-reverse;
+
+    }
+    .text-container{
+        padding: 0 20px;
+        font-size: 11px;
+    }
+    .img{
+        height:25px;
+        width:20px;
+    }
+
+    .article-content{
+        margin: 2px;
+    }
+</style>
+
 <div class="box">
     <div class="box-content">
         <div class="box-header">
@@ -6,7 +52,6 @@
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
                     class="fa fa-trash-o"></i>删除</a>
-
         </div>
 
         <div class="box-search" style="text-align: center">
@@ -18,29 +63,32 @@
             </span></div>
 
         <?php foreach ($arclist as $v){?>
-            <div class="article-item">
+            <div class="article-item" data-id="<?php echo $v->id?>">
                 <div class="article-content" >
+
+                 <div class="bd-grey">
+                    <a class="btn-trash" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
+                        title="删除"><img class="img" src="static/admin/img/trash.png"></a>
+
                     <div class="flex-container">
+
                     <div class="flex-row">
-                    <div><?php echo show_pic($v->image,'','180','180') ;?></div>
-                    <div>
-                        <div class="text-container">
-                        <p style="font-weight: bold"> <?php echo $v->title;?></p>
-                        <p>上报单号：<?php echo $v->report_id;?></p>
-                        <p>船号：<?php echo $v->boat_id;?></p>
-                        <p><?php echo $v->count;?>笔</p>
-                        <p><?php echo $v->reporttime;?></p>
+                        <div class="disabled"><?php echo show_pic($v->image,'','80','80','0') ;?></div>
+                            <div>
+                                <div class="text-container">
+                                <p style="font-weight: bold"> <?php echo $v->title;?></p>
+                                <p>上报单号：<?php echo $v->report_id;?></p>
+                                <p>船号：<?php echo $v->boat_id;?></p>
+                                <p><?php echo $v->count;?>笔</p>
+                                <p><?php echo $v->reporttime;?></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     </div>
-                        <div class="flex-container2">
-                            <div>
-                                <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
-                                   title="删除"><img class="img" src="static/admin/img/trash.png"></a>
-                            </div>
-                            <div>
-                                <button class="btn btn-green"  type="button" onclick="AuditDetail(<?php echo $v->id;?>);">提交</button>
-                            </div>
+                    <div class="flex-container-button">
+                        <div>
+                            <button class="btn btn-green"  type="button" onclick="AuditDetail(<?php echo $v->id;?>);">提交</button>
                         </div>
                     </div>
                 </div>
@@ -131,33 +179,17 @@
             }
         });
     };
+
+    $('.article-item').on('click',function (e) {
+        if(e.target.localName!=='button'){
+            if (e.target.className!=='img'){
+                redirect='<?php echo $this->createUrl('update')?>'+'&id='+$(this).data('id')
+                window.location.href = redirect;
+            }
+
+        }
+    })
+
+
 </script>
 
-<style>
-    .flex-row
-    {
-        display: flex;
-        flex-direction: row;
-    }
-.flex-container
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.flex-container2{
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-}
-.text-container{
-    padding:20px;
-
-}
-.img{
-    height:25px;
-    width:20px;
-}
-
-</style>
