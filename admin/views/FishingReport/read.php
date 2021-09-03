@@ -14,13 +14,15 @@
                     </tr>
 
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'name'); ?></td>
-                        <td width="30%">
-                            <?php echo $form->textField($model, 'name', array('class' => 'input-text', 'readonly' => true)); ?>
+                        <td ><?php echo $form->labelEx($model, 'name'); ?></td>
+                        <td colspan="3">
+                            <?php echo $form->textField($model, 'name', array('class' => 'input-text','readonly' => true)); ?>
                             <?php echo $form->error($model, 'name', $htmlOptions = array()); ?>
                         </td>
-                        <td width="30%"><?php echo $form->labelEx($model, 'boat_id'); ?></td>
-                        <td width="30%">
+                    </tr>
+                    <tr>
+                        <td ><?php echo $form->labelEx($model, 'boat_id'); ?></td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'boat_id', array('class' => 'input-text', 'readonly' => true)); ?>
                             <?php echo $form->error($model, 'boat_id', $htmlOptions = array()); ?>
                         </td>
@@ -35,6 +37,11 @@
                     </tr>
 
                     <tr>
+                        <td ><?php echo $form->labelEx($model, 'remark');?></td>
+                        <td colspan="3" >
+                            <?php echo $form->textArea($model, 'remark',  array('class' => 'input-text', 'style'=>'width:90%;height:30px','maxlength' => '100','readonly'=>true));?>
+                            <?php echo $form->error($model, 'remark', $htmlOptions = array());?>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -97,7 +104,7 @@
             id: 'updateDetail',
             lock:true,opacity:0.3,
             width:'1000px',
-            height:'80%',
+            height:'100%',
             title:"捕鱼上报查看",
             close: function () {
                 redirect = '<?php echo str_replace('create','read',Yii::app()->request->getUrl())?>'

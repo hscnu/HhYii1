@@ -72,7 +72,7 @@ class IndexController extends BaseController {
         Yii::app()->session['F_ROLENAME']=$role;
         $model= User::model()->find("TCOD='". $usercode."' or TUNAME='".$usercode."'");
         if(!empty($model)){
-            $pass=md5(md5($pass));
+//            $pass=md5(md5($pass));
             if($pass==$model->TPWD)
 //            if($model->F_ROLENAME==$role)
             {

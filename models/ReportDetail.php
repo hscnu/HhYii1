@@ -40,11 +40,15 @@ class ReportDetail extends BaseModel
             'order_id'=>'表单号',
             'species' => '名称',
             'number' => '数量',
-            'code'=>'商品编码',
+            'code'=>'商品号',
             'unit'=>'单位',
+            'remark'=>'备注',
+            'img'=>'图片'
         );
     }
-
+    public function picLabels(){
+        return 'img';
+    }
     /**
      * Returns the static model of the specified AR class.
      */

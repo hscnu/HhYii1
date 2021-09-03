@@ -14,13 +14,15 @@
                     </tr>
 
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'name'); ?></td>
-                        <td width="30%">
+                        <td ><?php echo $form->labelEx($model, 'name'); ?></td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'name', array('class' => 'input-text', 'readonly' => true)); ?>
                             <?php echo $form->error($model, 'name', $htmlOptions = array()); ?>
                         </td>
-                        <td width="30%"><?php echo $form->labelEx($model, 'boat_id'); ?></td>
-                        <td width="30%">
+                    </tr>
+                    <tr>
+                        <td ><?php echo $form->labelEx($model, 'boat_id'); ?></td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'boat_id', array('class' => 'input-text', 'readonly' => true)); ?>
                             <?php echo $form->error($model, 'boat_id', $htmlOptions = array()); ?>
                         </td>
@@ -35,6 +37,11 @@
                     </tr>
 
                     <tr>
+                        <td ><?php echo $form->labelEx($model, 'remark');?></td>
+                        <td colspan="3" >
+                            <?php echo $form->textArea($model, 'remark',  array('class' => 'input-text', 'style'=>'width:90%;height:30px','maxlength' => '100','readonly'=>true));?>
+                            <?php echo $form->error($model, 'remark', $htmlOptions = array());?>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -66,7 +73,9 @@
         </div><!--box-table end-->
     </div><!--box-detail-bd end-->
     <div class="box-detail-submit">
-        <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
+        <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">提交</button>
+       <!-- <button class="btn" type="button" onclick="we.back();">返回</button>-->
+        <button class="btn" type="button" onclick="$.dialog.close();">返回</button>
     </div>
     <?php $this->endWidget(); ?>
 </div><!--box-detail end-->
