@@ -46,8 +46,9 @@ class DisinfectionCenterController extends BaseController {
         $model->attributes = $post;
      //   put_msg($post);
       //  put_msg($model->attributes);
-        
-        show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
+        $s1=$model->save();
+        User::model()->saveTypeRz($s1);
+        show_status($s1, '保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
 
     //列表搜索

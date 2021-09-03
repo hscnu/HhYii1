@@ -148,6 +148,7 @@ class DisinfectionSummaryController extends BaseController {
     //角色筛选
     public function getUserUnitName(){
         $unitId=$this->getUserUnit();
+        if(empty($unitId)) return '';
         $flag=$unitId[0];
         $name='未知';
         if($flag=='R'){
@@ -167,6 +168,7 @@ class DisinfectionSummaryController extends BaseController {
     public function userCodition(){
         $unitId=$this->getUserUnit();
         $unitName=$this->getUserUnitName();
+        if(empty($unitId)) return '';
         $flag=$unitId[0];
         if($flag=='R'){
             return "restaurant_name='".$unitName."'";

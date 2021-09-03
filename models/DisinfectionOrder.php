@@ -97,37 +97,48 @@ class DisinfectionOrder extends BaseModel {
         $delivered=0;
         $waitSignCount=0;
         $signedCount=0;
+        $delliverAll=0;
+        $finishCount=0;
+        $waitCenterSign=0;
+        $deliver_wait=0;
+        $deliver_wait2=0;
+        $waitRestSign=0;
         if($disinfectionTmp){//消毒中心
             $FExamine = count($this->findAll("state=4 and disinfection_id='".$disinfectionTmp->id."'"));
-            $delivering1 = count($this->findAll('state=17'));//手机配送中
-            $delivered=count($this->findAll('state=10'));//手机配送完成
-            $waitSignCount=count($this->findAll('state=15'));//手机等待签收
-            $signedCount=count($this->findAll('state=14'));//手机签收完成
+            $waitCenterSign = count($this->findAll("state=15 and disinfection_id='".$disinfectionTmp->id."'"));
+            $deliver_wait2 = count($this->findAll("state=14 and disinfection_id='".$disinfectionTmp->id."'"));
+            $delivering1 = count($this->findAll("state=17 and disinfection_id='".$disinfectionTmp->id."'"));//手机配送中
+            $delivered=count($this->findAll("state=10 and disinfection_id='".$disinfectionTmp->id."'"));//手机配送完成
+            $waitSignCount=count($this->findAll("state=15 and disinfection_id='".$disinfectionTmp->id."'"));//手机等待签收
+            $signedCount=count($this->findAll("state=14 and disinfection_id='".$disinfectionTmp->id."'"));//手机签收完成
             $delliverAll=$delivering1+$delivered;
 
         }
         if($restaurantTmp){//酒楼
-            $todayCount = count($this->findAll('state=1'));
-            $waitCount = count($this->findAll('state=2'));
-            $delivering1 = count($this->findAll('state=16'));//手机配送中
-            $delivered=count($this->findAll('state=15'));//手机配送完成
-            $waitSignCount=count($this->findAll('state=10'));//手机等待签收
-            $signedCount=count($this->findAll('state=11'));//手机签收完成
+
+            $todayCount = count($this->findAll("state=1 and restaurant_id='".$restaurantTmp->id."'"));
+            $waitCount = count($this->findAll("state=2 and restaurant_id='".$restaurantTmp->id."'"));
+            $finishCount = count($this->findAll("state=3 and restaurant_id='".$restaurantTmp->id."'"));
+            $deliver_wait = count($this->findAll("state=13 and restaurant_id='".$restaurantTmp->id."'"));
+            $delivering1 = count($this->findAll("state=16 and restaurant_id='".$restaurantTmp->id."'"));//手机配送中
+            $delivered=count($this->findAll("state=15 and restaurant_id='".$restaurantTmp->id."'"));//手机配送完成
+            $waitSignCount=count($this->findAll("state=10 and restaurant_id='".$restaurantTmp->id."'"));//手机等待签收
+            $waitRestSign=$waitSignCount;
+            $signedCount=count($this->findAll("state=11 and restaurant_id='".$restaurantTmp->id."'"));//手机签收完成
             $delliverAll=$delivering1+$delivered;
         }
-        $finishCount = count($this->findAll('state=3'));
-        $waitCenterSign = count($this->findAll('state=15'));
-        $signedCount = count($this->findAll('state=11'));
+
+
+
         $IExamine = count($this->findAll('state=12'));
-        $deliver_wait = count($this->findAll('state=13'));
-        $waitRestSign = count($this->findAll('state=10'));
-        $deliver_wait2 = count($this->findAll('state=14'));
+
+
         return array(
             'todayCount'=>$todayCount,
             'waitCount'=>$waitCount,
             'finishCount'=>$finishCount,
             'waitCenterSignCount'=>$waitCenterSign,
-            'signedCount'=>$signedCount,
+            //'signedCount'=>$signedCount,
             'IExamineCount'=>$IExamine,
             'FExamineCount'=>$FExamine,
             'deliverwaitCount' => $deliver_wait,
