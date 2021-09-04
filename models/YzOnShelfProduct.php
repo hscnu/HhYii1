@@ -1,12 +1,12 @@
 <?php
 
-class OnShelfProduct extends BaseModel
+class YzOnShelfProduct extends BaseModel
 {
     public $club_list_pic = '';
 
     public function tableName()
     {
-        return '{{onshelf_product}}';
+        return '{{yzonshelf_product}}';
     }
 
     /**

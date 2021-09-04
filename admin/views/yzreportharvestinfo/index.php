@@ -1,14 +1,16 @@
 <div class="box">
     <div class="box-content">
         <div class="box-header">
-            <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>产品上报</a>
+         <a class="btn" href="<?php echo $this->createUrl('create'); ?>"><i class="fa fa-plus"></i>收成产量上报</a>
             <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
                         class="fa fa-trash-o"></i>删除</a>
 
+
         </div><!--box-header end-->
+
         <div class="box-search">
             <form action="<?php echo Yii::app()->request->url; ?>" method="get">
                 <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
@@ -17,23 +19,22 @@
                     <input style="width:200px;" class="input-text" type="text" name="keywords"
                            value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
                 </label>
+
                 <button class="btn btn-blue" type="submit">查询</button>
             </form>
         </div><!--box-search end-->
-
-
         <div class="box-table">
             <table class="list">
                 <thead>
                 <tr>
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
+                    <th style="text-align: center"><?php echo $model->getAttributeLabel('report_order'); ?></th>
+                    <th style="text-align: center"><?php echo $model->getAttributeLabel('report_date'); ?></th>
+                    <th style="text-align: center"><?php echo $model->getAttributeLabel('theme'); ?></th>
+                    <th style="text-align: center"><?php echo $model->getAttributeLabel('operate_time'); ?></th>
+                    <th style="text-align: center"><?php echo $model->getAttributeLabel('state'); ?></th>
 
-                    <th><?php echo $model->getAttributeLabel('report_order'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('product_name'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('production'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('origin_place'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('production_unit'); ?></th>
-                    <th>操作</th>
+                    <th style="text-align: center">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,12 +44,13 @@
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
 
                         <td style='text-align: center;'><?php echo $v->report_order; ?></td>
-                        <td style='text-align: center;'><?php echo $v->product_name; ?></td>
-                        <td><?php echo $v->production; ?></td>
-                        <td><?php echo $v->production_unit; ?></td>
-                        <td><?php echo $v->origin_place; ?></td>
-                        <td>
-                            <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
+                        <td style='text-align: center;'><?php echo $v->report_date; ?></td>
+                        <td style="text-align: center"><?php echo $v->theme; ?></td>
+                        <td style="text-align: center"><?php echo $v->operate_time; ?></td>
+                        <td style="text-align: center"><?php echo $v->state; ?></td>
+
+                        <td style="text-align: center">
+                         <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
                                title="编辑"><i class="fa fa-edit"></i></a>
                             <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                                title="删除"><i class="fa fa-trash-o"></i></a>
@@ -64,3 +66,24 @@
 <script>
     var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
 </script>
+
+<!--<script>-->
+<!--    var $start_date=$('#start_date_operate');-->
+<!--    var $end_date=$('#end_date_operate');-->
+<!--    $start_date.on('click', function(){-->
+<!--        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});-->
+<!--    });-->
+<!--    $end_date.on('click', function(){-->
+<!--        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});-->
+<!--    });-->
+<!--</script>-->
+<!--<script>-->
+<!--    var $start_date=$('#start_date_report');-->
+<!--    var $end_date=$('#end_date_report');-->
+<!--    $start_date.on('click', function(){-->
+<!--        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});-->
+<!--    });-->
+<!--    $end_date.on('click', function(){-->
+<!--        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});-->
+<!--    });-->
+<!--</script>-->

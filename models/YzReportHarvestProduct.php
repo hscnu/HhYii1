@@ -1,12 +1,13 @@
 <?php
 
-class ReportProduct extends BaseModel
+class YzReportHarvestProduct extends BaseModel
 {
     public $club_list_pic = '';
 
+
     public function tableName()
     {
-        return '{{report_product}}';
+        return '{{yzreportharvest_product}}';
     }
 
     /**
@@ -22,8 +23,10 @@ class ReportProduct extends BaseModel
             array('origin_place', 'required', 'message' => '{attribute} 不能为空'),
             array('production_unit', 'required', 'message' => '{attribute} 不能为空'),
 
-            array($this->safeField(), 'safe',),
+            array($this->safeField(), 'safe')
         );
+
+
     }
 
     /**
@@ -42,6 +45,7 @@ class ReportProduct extends BaseModel
         return array(
             'id' => 'ID',
             'report_order' => '上报单号',
+            'product_id' => '产品编号',
             'product_name' => '产品名称',
             'production' => '产量',
             'origin_place' => '产地名',

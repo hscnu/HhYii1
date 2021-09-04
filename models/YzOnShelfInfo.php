@@ -1,6 +1,6 @@
 <?php
 
-class OnShelfInfo extends BaseModel
+class YzOnShelfInfo extends BaseModel
 {
     // public $club_list_pic = '';
 
@@ -8,7 +8,7 @@ class OnShelfInfo extends BaseModel
 
     public function tableName()
     {
-        return '{{onshelf_info}}';
+        return '{{yzonshelf_info}}';
     }
 
     /**
@@ -53,9 +53,9 @@ class OnShelfInfo extends BaseModel
             'theme' => '主题',
             'state' => '上架申请状态',
             'operate_time' => '操作时间',
-            'checktor' => '审核员',
-            'checktor_id' => '审核员ID'
-
+            'auditor' => '审核员',
+            'auditor_id' => '审核员ID',
+            'audit_opinion' => '审核意见'
         );
     }
 

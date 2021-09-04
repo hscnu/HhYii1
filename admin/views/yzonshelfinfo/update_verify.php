@@ -12,27 +12,27 @@
             <div style="display:block;" class="box-detail-tab-item">
                 <table>
                     <tr class="table-title">
-                        <td colspan="4">上报信息</td>
+                        <td colspan="4">上架信息</td>
                     </tr>
 
                     <tr>
-                        <td width="30%"><?php echo $form->labelEx($model, 'report_order'); ?></td>
+                        <td width="30%"><?php echo $form->labelEx($model, 'apply_order'); ?></td>
                         <td width="30%">
-                            <?php echo $form->textField($model, 'report_order', array('class' => 'input-text', 'readonly' => true)); ?>
-                            <?php echo $form->error($model, 'report_order', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'apply_order', array('class' => 'input-text', 'readonly' => true)); ?>
+                            <?php echo $form->error($model, 'apply_order', $htmlOptions = array()); ?>
                         </td>
-                        <td width="30%"><?php echo $form->labelEx($model, 'reporter_name'); ?></td>
+                        <td width="30%"><?php echo $form->labelEx($model, 'apply_name'); ?></td>
                         <td width="30%">
-                            <?php echo $form->textField($model, 'reporter_name', array('class' => 'input-text')); ?>
-                            <?php echo $form->error($model, 'reporter_name', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'apply_name', array('class' => 'input-text')); ?>
+                            <?php echo $form->error($model, 'apply_name', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'report_date');?></td>
+                        <td><?php echo $form->labelEx($model, 'apply_date');?></td>
                         <td>
-                            <?php echo $form->textField($model, 'report_date', array('class' => 'Wdate','style'=>'width:180px;'));?>
-                            <?php echo $form->error($model, 'report_date', $htmlOptions = array());?>
+                            <?php echo $form->textField($model, 'apply_date', array('class' => 'Wdate','style'=>'width:180px;'));?>
+                            <?php echo $form->error($model, 'apply_date', $htmlOptions = array());?>
                         </td>
                         <td><?php echo $form->labelEx($model, 'state'); ?></td>
                         <td>
@@ -54,7 +54,7 @@
 <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
                     <?php $model2 = ReportProduct::model();?>
                     <?php
-                    $str='report_order,product_name,production,production_unit,origin_place';
+                    $str='product_name,number,number_unit,price,put_time,sale_time,supplier,trade_means,contact_details';
                     echo $model2->gridHead($str); ?>
                 </tr>
                 </thead>
@@ -131,7 +131,7 @@
             lock:true,opacity:0.3,
             width:'1000px',
             height:'80%',
-            title:"审核上报产品",
+            title:"审核上架商品",
             close: function () {
                 redirect = '<?php echo str_replace('create','update_verify',Yii::app()->request->getUrl())?>'
                 redirect+='&id='+'<?php echo $model->id;?>'
