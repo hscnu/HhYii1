@@ -47,7 +47,7 @@
                     <td><?php echo $v->state; ?></td>
                     <td><?php echo $v->operation_time; ?></td>
                     <td>
-                        <a class="btn" href="<?php echo $this->createUrl('detail', array('id' => $v->id)); ?>"
+                        <a class="btn" href="<?php echo $this->createUrl('examine_detail', array('id' => $v->id)); ?>"
                            title="详情"><i class="fa fa-edit"></i></a>
                         <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                            title="删除"><i class="fa fa-trash-o"></i></a>
@@ -74,7 +74,7 @@
     });
 
 </script>
-<style>
+<style>f
     .singleSelect{
         width: 130px;
     }

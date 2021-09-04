@@ -4,8 +4,6 @@
         <h2><i class="fa fa-table"></i> 当前界面：社区单位》意向入驻管理》
             <span style="color:DodgerBlue">意向入驻审核</span></h2>
         <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
-    </div><!--box-title end-->
-    <div class="box-search">
         <form action="<?php echo Yii::app()->request->url; ?>" method="get">
             <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
             <label style="margin-right:10px;">
@@ -21,7 +19,7 @@
             </label>
             <button class="btn btn-blue" type="submit">查询</button>
         </form>
-    </div><!--box-search end-->
+    </div><!--box-title end-->
     <div class="box-table">
         <table class="list">
             <thead>

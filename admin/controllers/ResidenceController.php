@@ -64,6 +64,17 @@ class ResidenceController extends BaseController {
             $this->saveData($model, $_POST[$modelName]);
         }
     }
+    public function actionExamine_Detail($id) {
+        $modelName = $this->model;
+        $model = $this->loadModel($id, $modelName);
+        if (!Yii::app()->request->isPostRequest) {
+            $data = array();
+            $data['model'] = $model;
+            $this->render('examine_detail', $data);
+        } else {
+            $this->saveData($model, $_POST[$modelName]);
+        }
+    }
 
     public function actionqrdsh($id,$keywords=''){
         $tmp = Residence::model()->find('id='.$id);
@@ -80,6 +91,7 @@ class ResidenceController extends BaseController {
         if ($_POST['submitType'] == 'baocun'){
             $yes = '保存成功';
             $no = '保存失败';
+            $model->user_id = get_session('userId');
         }elseif($_POST['submitType'] == 'tijiaoshenhe'){
             $model->state = '待审核';
             $yes = '已提交审核';
@@ -93,7 +105,8 @@ class ResidenceController extends BaseController {
             $yes = '审核完成，未通过';
             $no = '审核未完成';
         }
-        show_status($model->save(), $yes, get_cookie('_currentUrl_'),$no);
+        $s1=$model->save();
+        show_status($s1, $yes, get_cookie('_currentUrl_'),$no);
     }
 
     //列表搜索
@@ -104,6 +117,7 @@ class ResidenceController extends BaseController {
         $criteria = new CDbCriteria;
         $criteria -> condition = get_like('1','apply_unit_or_apply_person,account_number',$keywords);
         $criteria -> condition = get_like( $criteria -> condition,'apply_unit_or_apply_person,account_number',$keywords);
+        $criteria -> addCondition('user_id = '.get_session('userId')  );
         $criteria->condition=get_where($criteria->condition,($start_date!=""),'uDate>=operation_time',$start_date,'"');
         $criteria->condition=get_where($criteria->condition,($end_date!=""),'uDate<=residence_time',$end_date,'"');
         $data = array();
@@ -179,7 +193,72 @@ class ResidenceController extends BaseController {
         $data = array();
         parent::_list($model, $criteria, 'index_examine_fail_list', $data);
     }
+    public function actionIndex_Home($keywords = '',$start_date='',$end_date='') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like("1",'apply_unit_or_apply_person,account_number',$keywords);
+        $criteria->condition=get_where($criteria->condition,($start_date!=""),'uDate>=operation_time',$start_date,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date!=""),'uDate<=residence_time',$end_date,'"');
+        $criteria ->addCondition('user_id = '.get_session('userId') );
+        $data = array();
+        parent::_list($model, $criteria, 'index_home', $data);
+    }
 
+    public function actionaddInfoRz(){
+        if(empty($tmp)){
+            $tmp=new Residence();
+        }
+        $criteria = new CDbCriteria;
+
+        if (!Yii::app()->request->isPostRequest) {
+            $data = array();
+            $data['model'] = $tmp;
+            $criteria ->addCondition('user_id = '.get_session('userId') );
+            parent::_list($tmp, $criteria, 'index_document', $data);
+        } else {
+            $this->saveData($tmp, $_POST['Residence']);
+        }
+    }
+
+
+    public function actionmobile_Create() {
+        $modelName = $this->model;
+        $model = new $modelName('create');
+        $data = array();
+        if (!Yii::app()->request->isPostRequest) {
+            $data['model'] = $model;
+            $this->render('mobile_update', $data);
+        } else {
+            $this->saveData($model, $_POST[$modelName]);
+        }
+    }
+
+    public function actionupdateMyInfo() {
+        $modelName = $this->model;
+        $model = $modelName::model()->getModelByUserId();
+        $data = array();
+        if (!Yii::app()->request->isPostRequest) {
+            $data['model'] = $model;
+            $this->render('mobile_my_info', $data);
+        } else {
+            $this->saveData($model, $_POST[$modelName]);
+        }
+    }
+
+    public function actionmobile_revise_my_info() {
+        $modelName = $this->model;
+        $model = $modelName::model()->getModelByUserId();
+        $data = array();
+        if (!Yii::app()->request->isPostRequest) {
+            $data['model'] = $model;
+            $this->render('mobile_revise_my_info', $data);
+        } else {
+            $this->saveData($model, $_POST[$modelName]);
+        }
+
+    }
 }
 
 

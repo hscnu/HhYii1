@@ -1,11 +1,21 @@
 <style>
-
     .box-table{
         padding-top: 25px;
     }
     .box-detail table {
         border-collapse: collapse;
     }
+    .Wdate{
+        padding: 4px 8px;
+        width: 90%;
+        height: 25px;
+        line-height: 16px;
+        vertical-align: middle;
+        color: #333;
+        border: 1px #d9d9d9 solid;
+        border-top-color: #c0c0c0;
+    }
+
 
 </style>
 
@@ -59,7 +69,7 @@
                     <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'fishingtime');?></td>
                         <td colspan="3">
-                            <?php echo $form->textField($model, 'fishingtime', array('class' => 'Wdate','style'=>'width:105px;','readonly' => true));?>
+                            <?php echo $form->textField($model, 'fishingtime', array('class' => 'Wdate','style'=>'','readonly' => true));?>
                             <?php echo $form->error($model, 'fishingtime', $htmlOptions = array());?>
                         </td>
                     </tr>
@@ -79,11 +89,13 @@
                             </span>
                         </td>
                     </tr>
+
                 </table>
                </div>
             </div><!--box-detail-tab-item end   style="display:block;"-->
         </div><!--box-detail-bd end-->
         <button class="btn btn-green" style="float: right;margin:5px" type="button" onclick="updateDetail();">+添加</button>
+
 
         <div class="box-table">
             <div class="article-item">
@@ -130,6 +142,8 @@
             </div>
 
         </div>
+
+
     </div>
     <div class="box-detail-submit">
         <button onclick="submitType='baocun'" class="btn btn-blue" type="submit">保存</button>
@@ -137,18 +151,29 @@
     </div>
     <?php $this->endWidget(); ?>
 </div>
-</div>
+
+
 
 <script>
     $(function() {
-            var $date=$('#<?php echo get_class($model);?>_fishingtime');
-            $date.on('click', function() {
-                    WdatePicker( {
-                            startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'
-                        }
-                    );
-                }
-            );
+        layui.use('laydate', function(){
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#<?php echo get_class($model)?>_fishingtime' //指定元素
+            });
+        });
+
+        layui.use('rate', function(){
+            layui.rate.render({
+                elem: '#layui-star',
+                text:true,
+                setText: function(value){
+                    var arrs = {'0':'请打分','1': '非常差','2': '差','3': '中等','4': '好','5':'非常好'};
+                    this.span.text(arrs[value]);
+                    $('#layui-star-input').val(value)
+                },
+            });
+        });
 
         //点击触发事件
         $('.tbody-item').on('click',function (e) {
@@ -166,8 +191,6 @@
             }
         }
         }
-
-
 
     );
 </script>
@@ -187,14 +210,14 @@
             lock:true,opacity:0.3,
             width:'1000px',
             height:'85%',
-
             title:tl,
             close: function () {
-                if($.dialog.data('detailId')>0){
+                // BUG
+                // if($.dialog.data('detailId')>0){
                     redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
                     redirect+='&id='+'<?php echo $model->id;?>'
                     window.location.href = redirect;
-                }
+                // }
             }
         });
 
@@ -211,7 +234,6 @@
             dataType: 'json',
         })
     }
-
 
 
     function chooseImg(){
@@ -239,11 +261,11 @@
                     });
                 }
             }
-
         });
     };
 
 </script>
+
 
 
 

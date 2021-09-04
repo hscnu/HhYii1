@@ -201,4 +201,26 @@ class IndexController extends BaseController {
         $this->render($s1,$data);
     }
 
+    public function actionSetRole($role){
+        Yii::app()->session['F_ROLENAME']=$role;
+        put_msg($role);
+    }
+
+    public function actionSetNavSb(){
+        $this->actionSetRole('送冰');
+    }
+
+    public function actionSetNavBy(){
+        $this->actionSetRole('捕鱼模块');
+    }
+
+    public function actionSetNavXd(){
+        $this->actionSetRole('消毒');
+    }
+    public function actionSetNavZz(){
+        $this->actionSetRole('农户种植');
+    }
+    public function actionSetNavMs(){
+        $this->actionSetRole('餐饮管理');
+    }
 }

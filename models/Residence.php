@@ -46,7 +46,7 @@ class Residence extends BaseModel {
             'establish_time'=>'创办时间',
             'operation_time'=>'操作时间',
             'eamil'=>'电子邮箱',
-            'ID card_number'=>'身份证账号',
+            'ID_card_number'=>'身份证账号',
             'remark'=>'备注',
             'residence_time'=>'入驻时间',
             'job'=>'职业',
@@ -93,6 +93,10 @@ class Residence extends BaseModel {
     }
 
     public function picLabels(){
-        return 'IDcard_photo_front';
+        return 'IDcard_photo_front,IDcard_photo_back,business_license';
+    }
+
+    public function getModelByUserId(){
+        return $this->find('user_id='.get_session('userId'));
     }
 }

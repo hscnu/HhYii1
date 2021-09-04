@@ -45,7 +45,7 @@
         ?>
         <div class="item">
             <?php echo '用户身份：'?>
-            <?php echo Select2::activeDropDownList($model, 'F_ROLENAME', Chtml::listData(MobileRole::model()->findAll(), 'f_rname', 'f_rname'), array('prompt'=>'请选择','style'=>'width:160px;', 'placeholder'=>'用户角色',"options" => array('系统管理员'=> array('selected' => true)))); ?>
+            <?php echo Select2::activeDropDownList($model, 'F_ROLENAME', Chtml::listData(MobileRole::model()->findAll('f_show=1'), 'f_rname', 'f_rname'), array('prompt'=>'请选择','style'=>'width:160px;', 'placeholder'=>'用户角色',"options" => array('系统管理员'=> array('selected' => true)))); ?>
             <?php echo $form->error($model, 'F_ROLENAME', $htmlOptions = array()); ?>
         </div>
 

@@ -25,14 +25,16 @@
 
 
                     <tr>
-                        <td colspan="1"><?php echo $form->labelEx($model, 'residence_type');?></td>
-                        <td colspan="1"><?php echo Select2::activeDropDownList($model, 'residence_type',Chtml::listData(BaseCode::model()->getByType('r_type'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;','readonly'=>'readonly'));?>
+                        <td><?php echo $form->labelEx($model, 'residence_type');?></td>
+                        <td colspan="3"><?php echo Select2::activeDropDownList($model, 'residence_type',Chtml::listData(BaseCode::model()->getByType('r_type'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:100px;','readonly'=>'readonly'));?>
                             <?php echo $form->error($model, 'residence_type', $htmlOptions = array());?>
                         </td>
                         </td><!--入驻类型-->
+                    </tr>
 
+                    <tr>
                         <td><?php echo $form->labelEx($model, 'account_number'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'account_number', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'account_number', $htmlOptions = array()); ?>
                         </td><!--单位管理账号-->
@@ -42,13 +44,15 @@
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'apply_number'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'apply_number', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'apply_number', $htmlOptions = array()); ?>
                         </td><!--申请人账号-->
+                    </tr>
 
+                    <tr>
                         <td><?php echo $form->labelEx($model, 'contact_person'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'contact_person', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'contact_person', $htmlOptions = array()); ?>
                         </td><!--联系人-->
@@ -58,13 +62,15 @@
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'contact_number'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'contact_number', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'contact_number', $htmlOptions = array()); ?>
                         </td><!--联系电话-->
+                    </tr>
 
+                    <tr>
                         <td><?php echo $form->labelEx($model, 'email'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'email', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'email', $htmlOptions = array()); ?>
                         </td><!--Email-->
@@ -74,12 +80,15 @@
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'ID_card_number'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'ID_card_number', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'ID_card_number', $htmlOptions = array()); ?>
                         </td><!--身份证账号-->
+                    </tr>
+
+                    <tr>
                         <td><?php echo $form->labelEx($model, 'location'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'location', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'location', $htmlOptions = array()); ?>
                         </td><!--单位所在地-->
@@ -88,13 +97,15 @@
 
                     <tr>
                         <td><?php echo $form->labelEx($model, 'account_number'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'account_number', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'account_number', $htmlOptions = array()); ?>
                         </td><!--单位管理账号-->
+                    </tr>
 
+                    <tr>
                         <td><?php echo $form->labelEx($model, 'unit_name'); ?></td>
-                        <td>
+                        <td colspan="3">
                             <?php echo $form->textField($model, 'unit_name', array('class' => 'input-text')); ?>
                             <?php echo $form->error($model, 'unit_name', $htmlOptions = array()); ?>
                         </td><!--单位名称-->
@@ -103,8 +114,8 @@
 
 
                     <tr>
-                        <td colspan="2"><?php echo $form->labelEx($model, 'job');?></td>
-                        <td colspan="2"><?php echo Select2::activeDropDownList($model, 'job',Chtml::listData(BaseCode::model()->getByType('job'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'job');?></td>
+                        <td colspan="3"><?php echo Select2::activeDropDownList($model, 'job',Chtml::listData(BaseCode::model()->getByType('job'), 'f_name', 'f_name'), array('prompt'=>'请选择','style'=>'width:160px;'));?>
                             <?php echo $form->error($model, 'job', $htmlOptions = array());?>
                         </td>
                     </tr><!--职业-->
@@ -112,8 +123,8 @@
 
 
                     <tr>
-                        <td colspan="2"><?php echo $form->labelEx($model, 'IDcard_photo_front');?></td>
-                        <td colspan="2">
+                        <td colspan="1"><?php echo $form->labelEx($model, 'IDcard_photo_front');?></td>
+                        <td colspan="3">
                             <?php echo $form->hiddenField($model, 'IDcard_photo_front', array('class' => 'input-text fl'));?>
                             <?php echo show_pic($model->IDcard_photo_front,get_class($model).'_'.'IDcard_photo_front')?>
                             <script>we.uploadpic('<?php echo get_class($model);?>_IDcard_photo_front', 'jpg');
@@ -125,8 +136,8 @@
 
 
                     <tr>
-                        <td colspan="2"><?php echo $form->labelEx($model, 'IDcard_photo_back');?></td>
-                        <td colspan="2">
+                        <td colspan="1"><?php echo $form->labelEx($model, 'IDcard_photo_back');?></td>
+                        <td colspan="3">
                             <?php echo $form->hiddenField($model, 'IDcard_photo_back', array('class' => 'input-text fl'));?>
                             <?php echo show_pic($model->IDcard_photo_back,get_class($model).'_'.'IDcard_photo_back')?>
                             <script>we.uploadpic('<?php echo get_class($model);?>_IDcard_photo_back', 'jpg');
@@ -136,9 +147,10 @@
                     </tr><!--身份证照反面-->
 
 
+
                     <tr>
-                        <td colspan="2"><?php echo $form->labelEx($model, 'business_license');?></td>
-                        <td colspan="2">
+                        <td colspan="1"><?php echo $form->labelEx($model, 'business_license');?></td>
+                        <td colspan="3">
                             <?php echo $form->hiddenField($model, 'business_license', array('class' => 'input-text fl'));?>
                             <?php echo show_pic($model->business_license,get_class($model).'_'.'business_license')?>
                             <script>we.uploadpic('<?php echo get_class($model);?>_business_license', 'jpg');

@@ -3,8 +3,6 @@
     <div class="box-title c">
         <h2><i class="fa fa-table"></i> 当前界面：社区单位》意向入驻管理》
             <span style="color:DodgerBlue">渔船入驻列表</span></h2>
-    </div><!--box-title end-->
-    <div class="box-search">
         <form action="<?php echo Yii::app()->request->url; ?>" method="get">
             <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
             <label style="margin-right:10px;">
@@ -20,19 +18,19 @@
             </label>
             <button class="btn btn-blue" type="submit">查询</button>
         </form>
-    </div><!--box-search end-->
+    </div><!--box-title end-->
     <div class="box-table">
         <table class="list">
             <thead>
             <tr>
                 <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
                 <th><?php echo $model->getAttributeLabel('boat_id'); ?></th>
+                <th><?php echo $model->getAttributeLabel('boat_name'); ?></th>
                 <th><?php echo $model->getAttributeLabel('boat_type'); ?></th>
                 <th><?php echo $model->getAttributeLabel('affiliated_company'); ?></th>
                 <th><?php echo $model->getAttributeLabel('registered_captain_name'); ?></th>
                 <th><?php echo $model->getAttributeLabel('captain_phone'); ?></th>
-                <th><?php echo $model->getAttributeLabel('design_draft'); ?></th>
-                <th><?php echo $model->getAttributeLabel('design_drainage'); ?></th>
+                <th><?php echo $model->getAttributeLabel('gross_tonnage'); ?></th>
                 <th><?php echo $model->getAttributeLabel('state'); ?></th>
                 <th>操作</th>
             </tr>
@@ -43,12 +41,12 @@
                     <td class="check check-item"><input class="input-check" type="checkbox"
                                                         value="<?php echo CHtml::encode($v->id); ?>"></td>
                     <td style='text-align: center;'><?php echo $v->boat_id; ?></td>
+                    <td style='text-align: center;'><?php echo $v->boat_name; ?></td>
                     <td style='text-align: center;'><?php echo $v->boat_type; ?></td>
                     <td><?php echo $v->affiliated_company; ?></td>
                     <td><?php echo $v->registered_captain_name; ?></td>
                     <td><?php echo $v->captain_phone; ?></td>
-                    <td><?php echo $v->design_draft; ?></td>
-                    <td><?php echo $v->design_drainage; ?></td>
+                    <td><?php echo $v->gross_tonnage; ?></td>
                     <td><?php echo $v->state; ?></td>
                     <td>
                         <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"

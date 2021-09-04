@@ -4,8 +4,6 @@
         <h2><i class="fa fa-table"></i> 当前界面：社区单位》意向入驻管理》
             <span style="color:DodgerBlue">意向入驻列表</span></h2>
         <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
-    </div><!--box-title end-->
-    <div class="box-search">
         <form action="<?php echo Yii::app()->request->url; ?>" method="get">
             <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
             <label style="margin-right:10px;">
@@ -26,7 +24,7 @@
             </label>
             <button class="btn btn-blue" type="submit">查询</button>
         </form>
-    </div><!--box-search end-->
+    </div><!--box-title end-->
     <div class="box-table">
         <table class="list">
             <thead>
@@ -60,7 +58,7 @@
                     <td><?php echo $v->state; ?></td>
                     <td><?php echo $v->residence_time; ?></td>
                     <td>
-                        <a class="btn" href="<?php echo $this->createUrl('update', array('id' => $v->id)); ?>"
+                        <a class="btn" href="<?php echo $this->createUrl('examine_detail', array('id' => $v->id)); ?>"
                            title="编辑"><i class="fa fa-edit"></i></a>
                         <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                            title="删除"><i class="fa fa-trash-o"></i></a>
