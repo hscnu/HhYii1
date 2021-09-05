@@ -152,7 +152,71 @@ class FishingBoatController extends BaseController {
         $data = array();
         parent::_list($model, $criteria, 'index_examine_fail_list', $data);
     }
+
+    public function actionIndex_Home($keywords = '',$start_date='',$end_date='') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = $this->model;
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = get_like("1",'apply_unit_or_apply_person,account_number',$keywords);
+        $criteria->condition=get_where($criteria->condition,($start_date!=""),'uDate>=operation_time',$start_date,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date!=""),'uDate<=residence_time',$end_date,'"');
+        $criteria ->addCondition('user_id = '.get_session('userId') );
+        $data = array();
+        parent::_list($model, $criteria, 'index_home', $data);
+    }
+
+    public function actionaddInfoRz(){
+        $tmp=FishingBoat::model()->find('user_id='.get_session('userId'));
+        if(empty($tmp)){
+            $tmp=new FishingBoat();
+        }
+
+
+        if (!Yii::app()->request->isPostRequest) {
+            $data = array();
+            $data['model'] = $tmp;
+            $this->render('mobile_update', $data);
+        } else {
+            $this->saveData($tmp, $_POST['FishingBoat']);
+        }
+    }
+
+
+    public function actionmobile_Create() {
+        $modelName = $this->model;
+        $model = new $modelName('create');
+        $data = array();
+        if (!Yii::app()->request->isPostRequest) {
+            $data['model'] = $model;
+            $this->render('mobile_update', $data);
+        } else {
+            $this->saveData($model, $_POST[$modelName]);
+        }
+    }
+
+    public function actionupdateMyInfo() {
+        $modelName = $this->model;
+        $model = $modelName::model()->getModelByUserId();
+        $data = array();
+        if (!Yii::app()->request->isPostRequest) {
+            $data['model'] = $model;
+            $this->render('mobile_my_info', $data);
+        } else {
+            $this->saveData($model, $_POST[$modelName]);
+        }
+    }
+
+    public function actionmobile_revise_my_info() {
+        $modelName = $this->model;
+        $model = $modelName::model()->getModelByUserId();
+        $data = array();
+        if (!Yii::app()->request->isPostRequest) {
+            $data['model'] = $model;
+            $this->render('mobile_revise_my_info', $data);
+        } else {
+            $this->saveData($model, $_POST[$modelName]);
+        }
+
+    }
 }
-
-
-

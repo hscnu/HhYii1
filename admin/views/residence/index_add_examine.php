@@ -2,27 +2,25 @@
 <div class="box">
     <div class="box-title c">
         <h2><i class="fa fa-table"></i> 当前界面：社区单位》意向入驻管理》
-            <span style="color:DodgerBlue">添加入驻</span></h2>
+            <span style="color:DodgerBlue">待审核列表</span></h2>
         <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
+        <form action="<?php echo Yii::app()->request->url; ?>" method="get">
+            <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
+            <label style="margin-right:10px;">
+                <span>查询日期：</span>
+                <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
+                <span>-</span>
+                <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
+            </label>
+            <label style="margin-right:10px;">
+                <span>关键字：</span>
+                <input style="width:200px;" class="input-text" type="text" name="keywords"
+                       value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
+            </label>
+            <button class="btn btn-blue" type="submit">查询</button>
+        </form>
     </div><!--box-title end-->
 
-        <div class="box-search">
-            <form action="<?php echo Yii::app()->request->url; ?>" method="get">
-                <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
-                <label style="margin-right:10px;">
-                    <span>查询日期：</span>
-                    <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
-                    <span>-</span>
-                    <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
-                </label>
-                <label style="margin-right:10px;">
-                    <span>关键字：</span>
-                    <input style="width:200px;" class="input-text" type="text" name="keywords"
-                           value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
-                </label>
-                <button class="btn btn-blue" type="submit">查询</button>
-            </form>
-        </div><!--box-search end-->
         <div class="box-table">
             <table class="list">
                 <thead>
@@ -53,12 +51,16 @@
                         <td><?php echo $v->contact_number; ?></td>
                         <td><?php echo $v->state; ?></td>
                         <td><?php echo $v->operation_time; ?></td>
+
+
                         <td>
                             <a class="btn" href="<?php echo $this->createUrl('detail', array('id' => $v->id)); ?>"
                                title="详情"><i class="fa fa-edit"></i></a>
                             <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id; ?>', deleteUrl);"
                                title="删除"><i class="fa fa-trash-o"></i></a>
                         </td>
+
+                        
                     </tr>
                 <?php } ?>
                 </tbody>

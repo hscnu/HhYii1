@@ -101,20 +101,9 @@
                     </tr>
 
 
-
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'job'); ?></td>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'IDcard_photo_front');?></td>
                         <td colspan="3">
-                            <?php echo $form->textField($model, 'job', array('class' => 'input-text','readonly'=>'readonly')); ?>
-                            <?php echo $form->error($model, 'job', $htmlOptions = array()); ?>
-                        </td>
-                    </tr><!--职业-->
-
-
-
-                    <tr>
-                        <td colspan="2"><?php echo $form->labelEx($model, 'IDcard_photo_front');?></td>
-                        <td colspan="2">
                             <?php echo $form->hiddenField($model, 'IDcard_photo_front', array('class' => 'input-text fl','readonly'=>'readonly'));?>
                             <?php echo show_pic($model->IDcard_photo_front,get_class($model).'_'.'IDcard_photo_front')?>
                             <?php echo $form->error($model, 'IDcard_photo_front', $htmlOptions = array());?>
@@ -124,8 +113,8 @@
 
 
                     <tr>
-                        <td colspan="2"><?php echo $form->labelEx($model, 'IDcard_photo_back'); ?></td>
-                        <td colspan="2">
+                        <td colspan="1"><?php echo $form->labelEx($model, 'IDcard_photo_back'); ?></td>
+                        <td colspan="3">
                             <?php echo show_pic($model->IDcard_photo_back,get_class($model).'_'.'IDcard_photo_back')?>
                             <?php echo $form->error($model, 'IDcard_photo_back', $htmlOptions = array()); ?>
                         </td>
@@ -133,18 +122,60 @@
 
 
 
+
                     <tr>
-                        <td colspan="2"><?php echo $form->labelEx($model, 'business_license');?></td>
-                        <td colspan="2">
+                        <td><?php echo $form->labelEx($model, 'job'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'job', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'job', $htmlOptions = array()); ?>
+                        </td>
+                    </tr><!--职业-->
+
+
+
+                    <tr>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'business_license');?></td>
+                        <td colspan="3">
                             <?php echo $form->hiddenField($model, 'business_license', array('class' => 'input-text fl','readonly'=>'readonly'));?>
                             <?php echo show_pic($model->business_license,get_class($model).'_'.'business_license')?>
                             <?php echo $form->error($model, 'business_license', $htmlOptions = array());?>
                         </td>
                     </tr><!--营业执照-->
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'examine_person'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'examine_person', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'examine_person', $htmlOptions = array()); ?>
+                        </td>
+                        <td><?php echo $form->labelEx($model, 'examine_time');?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'examine_time', array('class' => 'Wdate','style'=>'width:180px;','readonly'=>'readonly'));?>
+                            <?php echo $form->error($model, 'examine_time', $htmlOptions = array());?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1"><?php echo $form->labelEx($model, 'examine_explain');?></td>
+                        <td colspan="3"> <?php echo $form->textArea($model, 'examine_explain',
+                                array('class' => 'input-text', 'style'=>'width:97%;height:100px','maxlength' => '2000','readonly'=>'readonly'));?>
+                            <?php echo $form->error($model, 'examine_explain', $htmlOptions = array());?>
+                        </td>
+                    </tr>
                 </table>
 
             </div><!--box-detail-tab-item end   style="display:block;"-->
-
-        <?php $this->endWidget(); ?>
-    </div><!--box-detail end-->
-</div><!--box end-->
+            <?php $this->endWidget(); ?>
+        </div><!--box-detail end-->
+    </div><!--box end-->
+    <script>
+        $(function() {
+                var $date=$('#<?php echo get_class($model);?>_examine_time');
+                $date.on('click', function() {
+                        WdatePicker( {
+                                startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    </script>

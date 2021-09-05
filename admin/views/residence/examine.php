@@ -73,10 +73,10 @@
 
 
                     <tr>
-                        <td><?php echo $form->labelEx($model, 'ID card_number'); ?></td>
+                        <td><?php echo $form->labelEx($model, 'ID_card_number'); ?></td>
                         <td>
-                            <?php echo $form->textField($model, 'ID card_number', array('class' => 'input-text','readonly'=>'readonly')); ?>
-                            <?php echo $form->error($model, 'ID card_number', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'ID_card_number', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'ID_card_number', $htmlOptions = array()); ?>
                         </td><!--身份证账号-->
                         <td><?php echo $form->labelEx($model, 'location'); ?></td>
                         <td>
@@ -115,7 +115,7 @@
                     <tr>
                         <td colspan="1"><?php echo $form->labelEx($model, 'IDcard_photo_back'); ?></td>
                         <td colspan="3">
-                            <?php echo show_pic($model->IDcard_photo_front,get_class($model).'_'.'IDcard_photo_back')?>
+                            <?php echo show_pic($model->IDcard_photo_back,get_class($model).'_'.'IDcard_photo_back')?>
                             <?php echo $form->error($model, 'IDcard_photo_back', $htmlOptions = array()); ?>
                         </td>
                     </tr><!--身份证照反面-->
@@ -137,7 +137,7 @@
                         <td colspan="1"><?php echo $form->labelEx($model, 'business_license');?></td>
                         <td colspan="3">
                             <?php echo $form->hiddenField($model, 'business_license', array('class' => 'input-text fl','readonly'=>'readonly'));?>
-                            <?php echo show_pic($model->IDcard_photo_front,get_class($model).'_'.'business_license')?>
+                            <?php echo show_pic($model->business_license,get_class($model).'_'.'business_license')?>
                             <?php echo $form->error($model, 'business_license', $htmlOptions = array());?>
                         </td>
                     </tr><!--营业执照-->

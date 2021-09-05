@@ -2,26 +2,23 @@
 <div class="box">
     <div class="box-title c">
         <h2><i class="fa fa-table"></i> 当前界面：社区单位》意向入驻管理》
-            <span style="color:DodgerBlue">添加待审核</span></h2>
+            <span style="color:DodgerBlue">待审核列表</span></h2>
+        <form action="<?php echo Yii::app()->request->url; ?>" method="get">
+            <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
+            <label style="margin-right:10px;">
+                <span>查询日期：</span>
+                <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
+                <span>-</span>
+                <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
+            </label>
+            <label style="margin-right:10px;">
+                <span>关键字：</span>
+                <input style="width:200px;" class="input-text" type="text" name="keywords"
+                       value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
+            </label>
+            <button class="btn btn-blue" type="submit">查询</button>
+        </form>
     </div><!--box-title end-->
-
-        <div class="box-search">
-            <form action="<?php echo Yii::app()->request->url; ?>" method="get">
-                <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r'); ?>">
-                <label style="margin-right:10px;">
-                    <span>查询日期：</span>
-                    <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date');?>">
-                    <span>-</span>
-                    <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date');?>">
-                </label>
-                <label style="margin-right:10px;">
-                    <span>关键字：</span>
-                    <input style="width:200px;" class="input-text" type="text" name="keywords"
-                           value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
-                </label>
-                <button class="btn btn-blue" type="submit">查询</button>
-            </form>
-        </div><!--box-search end-->
         <div class="box-table">
             <table class="list">
                 <thead>
@@ -29,11 +26,12 @@
                     <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
 
                     <th><?php echo $model->getAttributeLabel('boat_id'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('boat_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('boat_type'); ?></th>
                     <th><?php echo $model->getAttributeLabel('registered_captain_name'); ?></th>
                     <th><?php echo $model->getAttributeLabel('captain_phone'); ?></th>
                     <th><?php echo $model->getAttributeLabel('affiliated_company'); ?></th>
-                    <th><?php echo $model->getAttributeLabel('design_drainage'); ?></th>
+                    <th><?php echo $model->getAttributeLabel('gross_tonnage'); ?></th>
                     <th><?php echo $model->getAttributeLabel('state'); ?></th>
                     <th><?php echo $model->getAttributeLabel('operation_time'); ?></th>
 
@@ -47,11 +45,12 @@
                                                             value="<?php echo CHtml::encode($v->id); ?>"></td>
 
                         <td style='text-align: center;'><?php echo $v->boat_id; ?></td>
+                        <td style='text-align: center;'><?php echo $v->boat_name; ?></td>
                         <td><?php echo $v->boat_type; ?></td>
                         <td style='text-align: center;'><?php echo $v->registered_captain_name; ?></td>
                         <td style='text-align: center;'><?php echo $v->captain_phone; ?></td>
                         <td><?php echo $v->affiliated_company; ?></td>
-                        <td><?php echo $v->design_drainage; ?></td>
+                        <td><?php echo $v->gross_tonnage; ?></td>
                         <td><?php echo $v->state; ?></td>
                         <td><?php echo $v->operation_time; ?></td>
 

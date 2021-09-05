@@ -31,10 +31,74 @@
                             <?php echo $form->error($model, 'boat_id', $htmlOptions = array()); ?>
                         </td>
 
+                        <td><?php echo $form->labelEx($model, 'boat_name'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'boat_name', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'boat_name', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'fishing_license_no'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'fishing_license_no', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'fishing_license_no', $htmlOptions = array()); ?>
+                        </td>
+
                         <td><?php echo $form->labelEx($model, 'boat_type'); ?></td>
                         <td>
                             <?php echo $form->textField($model, 'boat_type', array('class' => 'input-text','readonly'=>'readonly')); ?>
                             <?php echo $form->error($model, 'boat_type', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'port_of_registry'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'port_of_registry', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'port_of_registry', $htmlOptions = array()); ?>
+                        </td>
+
+                        <td><?php echo $form->labelEx($model, 'main_job_type'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'main_job_type', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'main_job_type', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'main_operation_mode'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'main_operation_mode', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'main_operation_mode', $htmlOptions = array()); ?>
+                        </td>
+
+                        <td><?php echo $form->labelEx($model, 'boat_length'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'boat_length', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'boat_length', $htmlOptions = array()); ?>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td><?php echo $form->labelEx($model, 'boat_shape_width'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'boat_shape_width', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'boat_shape_width', $htmlOptions = array()); ?>
+                        </td>
+
+                        <td><?php echo $form->labelEx($model, 'boat_shape_depth'); ?></td>
+                        <td>
+                            <?php echo $form->textField($model, 'boat_shape_depth', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'boat_shape_depth', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 
@@ -63,26 +127,10 @@
                             <?php echo $form->error($model, 'captain_phone', $htmlOptions = array()); ?>
                         </td>
 
-                        <td><?php echo $form->labelEx($model, 'captain_id_card'); ?></td>
+                        <td><?php echo $form->labelEx($model, 'gross_tonnage'); ?></td>
                         <td>
-                            <?php echo $form->textField($model, 'captain_id_card', array('class' => 'input-text','readonly'=>'readonly')); ?>
-                            <?php echo $form->error($model, 'captain_id_card', $htmlOptions = array()); ?>
-                        </td>
-                    </tr>
-
-
-
-                    <tr>
-                        <td><?php echo $form->labelEx($model, 'design_draft'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'design_draft', array('class' => 'input-text','readonly'=>'readonly')); ?>
-                            <?php echo $form->error($model, 'design_draft', $htmlOptions = array()); ?>
-                        </td>
-
-                        <td><?php echo $form->labelEx($model, 'design_drainage'); ?></td>
-                        <td>
-                            <?php echo $form->textField($model, 'design_drainage', array('class' => 'input-text','readonly'=>'readonly')); ?>
-                            <?php echo $form->error($model, 'design_drainage', $htmlOptions = array()); ?>
+                            <?php echo $form->textField($model, 'gross_tonnage', array('class' => 'input-text','readonly'=>'readonly')); ?>
+                            <?php echo $form->error($model, 'gross_tonnage', $htmlOptions = array()); ?>
                         </td>
                     </tr>
 

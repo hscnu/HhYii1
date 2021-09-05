@@ -77,12 +77,13 @@ class FishingReportController extends BaseController {
     }
 
     function saveData($model, $post) {
+        put_msg(11111111111);
+        put_msg($_POST);
         $model->attributes = $post;
         $model->count=ReportDetail::model()->count('order_id='.$model->id);
         $model->state=4;
         show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
     }
-
 
 
     public function actionUpdateVerify($id='0') {
