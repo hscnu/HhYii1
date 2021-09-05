@@ -14,7 +14,7 @@ class YzOnShelfInfoController extends BaseController {
         $modelName = $this->model;
         $model = $modelName::model();
         $data = $model->find('id='.$id);
-        YzOnShelfProduct::model()->deleteAll('report_order='.$data['report_order']);
+        YzOnShelfProduct::model()->deleteAll('apply_order='.$data['apply_order']);
         parent::_clear($id);
     }
 
@@ -23,10 +23,10 @@ class YzOnShelfInfoController extends BaseController {
         $modelName = $this->model;
         $model = new $modelName('create');
         $model->check_save=0;//跳过必填（required）检验
-        $model->report_order = Date('YmdHis').get_session('userId');
+        $model->apply_order = Date('YmdHis').get_session('userId');
         $model->state = '填写中';
-        $model->reporter_id = get_session('userId');
-        $model->reporter_name = get_session('TCNAME');
+        $model->apply_id = get_session('userId');
+        $model->apply_name = get_session('TCNAME');
         $model->save();
         $this->actionUpdate($model->id);//跳转到修改动作
     }
@@ -46,7 +46,7 @@ class YzOnShelfInfoController extends BaseController {
 
             $this->render('update', $data);
         } else {
-            put_msg($id);
+//            put_msg($id);
             $this->saveData2($model, $_POST[$modelName]);
         }
     }
@@ -55,10 +55,11 @@ class YzOnShelfInfoController extends BaseController {
         $model->attributes = $post1;
         $modelName2 = 'YzOnShelfProduct';
 
-        $production = $_POST['dataArray'];
-        $report_order = $model->report_order;
+        $number = $_POST['dataNumber'];
+        $price = $_POST['dataPrice'];
+        $apply_order = $model->apply_order;
 
-        $check = YzOnShelfProduct::model()->find('report_order='.$report_order);
+        $check = YzOnShelfProduct::model()->find('apply_order='.$apply_order);
 
         if(empty($check)){
 
@@ -66,19 +67,21 @@ class YzOnShelfInfoController extends BaseController {
 
             foreach ($tmp as $k =>$v){
                 $model2=new $modelName2();
-                $model2->report_order = $report_order;
-                $model2->production = $production[$k];
+                $model2->apply_order = $apply_order;
+                $model2->number = $number[$k];
+                $model2->price = $price[$k];
                 $model2->product_id = $v->product_id;
                 $model2->product_name = $v->product_name;
-                $model2->production_unit = $v->production_unit;
+                $model2->number_unit = $v->production_unit;
                 $model2->origin_place = $v->origin_place;
                 $model2->save();
             }
         }
         else{
-            $tmp = YzOnShelfProduct::model()->findAll('report_order='.$report_order.' order by product_id');
+            $tmp = YzOnShelfProduct::model()->findAll('apply_order='.$apply_order.' order by product_id');
             foreach ($tmp as $k =>$v){
-                $v->production = $production[$k];
+                $v->number = $number[$k];
+                $v->price = $price[$k];
                 $v->save();
             }
         }
@@ -95,7 +98,7 @@ class YzOnShelfInfoController extends BaseController {
             $message2 = '保存失败';
         }
         if ($model->save()) {
-            $model->deleteAll("report_order=".$report_order." and state='填写中'");
+            $model->deleteAll("apply_order=".$apply_order." and state='填写中'");
             show_status($model->save(), $message1, get_cookie('_currentUrl_'), $message2);
         }
         else show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
@@ -109,7 +112,7 @@ class YzOnShelfInfoController extends BaseController {
 //        }
 //        else{
 //            $model = new YzOnShelfProduct();
-//            $model->report_order=DecodeAsk('report_order');
+//            $model->apply_order=DecodeAsk('apply_order');
 //        }
 //        if (!Yii::app()->request->isPostRequest) {
 //            $data = array();
@@ -162,14 +165,14 @@ class YzOnShelfInfoController extends BaseController {
 
 
     //列表搜索
-    public function actionIndex($keywords = '',$start_date_operate='',$end_date_operate='',$start_date_report='', $end_date_report='') {
+    public function actionIndex($keywords = '') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
 
         $data = $model->findAll("state='填写中'");
         foreach ($data as $v) {
-            YzOnShelfProduct::model()->deleteAll('report_order='.$v['report_order']);
+            YzOnShelfProduct::model()->deleteAll('apply_order='.$v['apply_order']);
         }
         $model->deleteAll("state='填写中'");
 
@@ -179,7 +182,7 @@ class YzOnShelfInfoController extends BaseController {
 
         $user_type = get_session('F_ROLENAME');
         if ($user_type === '用户') {
-            $criteria->addCondition('reporter_id=' . get_session('userId'));
+            $criteria->addCondition('apply_id=' . get_session('userId'));
         }
 
         $data = array();
@@ -197,7 +200,7 @@ class YzOnShelfInfoController extends BaseController {
 
         $data = $model->findAll("state='填写中'");
         foreach ($data as $v) {
-            YzOnShelfProduct::model()->deleteAll('report_order='.$v['report_order']);
+            YzOnShelfProduct::model()->deleteAll('apply_order='.$v['apply_order']);
         }
         $model->deleteAll("state='填写中'");
 
@@ -249,7 +252,7 @@ class YzOnShelfInfoController extends BaseController {
                         $model->save();
                     }
 
-                    $detailList = YzOnShelfProduct::model()->findAll('report_order=' . $model->report_order);
+                    $detailList = YzOnShelfProduct::model()->findAll('apply_order=' . $model->apply_order);
                     $data = array();
                     $data['model'] = $model;
                     $data['detailList'] = $detailList;
@@ -266,7 +269,7 @@ class YzOnShelfInfoController extends BaseController {
                     $model->save();
                 }
 
-                $detailList = YzOnShelfProduct::model()->findAll('report_order=' . $model->report_order);
+                $detailList = YzOnShelfProduct::model()->findAll('apply_order=' . $model->apply_order);
                 $data['model'] = $model;
                 $data['detailList'] = $detailList;
                 $data['isClose'] = DecodeAsk('isClose');
@@ -283,7 +286,7 @@ class YzOnShelfInfoController extends BaseController {
     function saveDataVerify($post) {
 //        put_msg($post);
 
-        $model = YzOnShelfInfo::model()->find('report_order='.$post['report_order']);
+        $model = YzOnShelfInfo::model()->find('apply_order='.$post['apply_order']);
         $model->attributes=$post;
         $model->audit_date = Date('Y-m-d');
 
@@ -313,11 +316,11 @@ class YzOnShelfInfoController extends BaseController {
         $data=array();
         $modelName = $this->model;
         $model = $modelName::model();
-        $data['waitreportCount']= $model->count("state='待上报' and reporter_id = ".get_session('userId'));
-        $data['waitCount']= $model->count("state='待审核' and reporter_id = ".get_session('userId'));
+        $data['waitreportCount']= $model->count("state='待上报' and apply_id = ".get_session('userId'));
+        $data['waitCount']= $model->count("state='待审核' and apply_id = ".get_session('userId'));
 //        $data['auditedCount']= $model->count("state='通过' or state='不通过'");
-        $data['passCount']= $model->count("state='通过' and reporter_id = ".get_session('userId'));
-        $data['noPassCount']= $model->count("state='不通过' and reporter_id = ".get_session('userId'));
+        $data['passCount']= $model->count("state='通过' and apply_id = ".get_session('userId'));
+        $data['noPassCount']= $model->count("state='不通过' and apply_id = ".get_session('userId'));
         return $data;
     }
 
@@ -330,7 +333,7 @@ class YzOnShelfInfoController extends BaseController {
 
         $data = $model->findAll("state='填写中'");
         foreach ($data as $v) {
-            YzOnShelfProduct::model()->deleteAll('report_order='.$v['report_order']);
+            YzOnShelfProduct::model()->deleteAll('apply_order='.$v['apply_order']);
         }
         $model->deleteAll("state='填写中'");
 
@@ -346,8 +349,8 @@ class YzOnShelfInfoController extends BaseController {
         $criteria->condition=get_where($criteria->condition,($start_date_operate!=""),'operate_time>=',$start_date_operate,'"');
         $criteria->condition=get_where($criteria->condition,($end_date_operate!=""),'operate_time<=',$end_date_operate,'"');
 
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'apply_date>=',$start_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'apply_date<=',$end_date_report,'"');
 
         $data = array();
 
@@ -392,8 +395,8 @@ class YzOnShelfInfoController extends BaseController {
         $model=$this->setCookieAndGetModel();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getYZReportInfoKeyWords($keywords);
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'apply_date>=',$start_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'apply_date<=',$end_date_report,'"');
         $data = array();
         parent::_list($model, $criteria, 'index_verify_appoint', $data);
     }
@@ -406,7 +409,7 @@ class YzOnShelfInfoController extends BaseController {
 
 //        $data = $model->findAll("state='填写中'");
 //        foreach ($data as $v) {
-//            YzOnShelfProduct::model()->deleteAll('report_order='.$v['report_order']);
+//            YzOnShelfProduct::model()->deleteAll('apply_order='.$v['apply_order']);
 //        }
 //        $model->deleteAll("state='填写中'");
 
@@ -419,13 +422,13 @@ class YzOnShelfInfoController extends BaseController {
         }
         else $criteria ->addCondition("state='待审核'");
 
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'apply_date>=',$start_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'apply_date<=',$end_date_report,'"');
         $criteria->condition=get_where($criteria->condition,($start_date_operate!=""),'operate_time>=',$start_date_operate,'"');
         $criteria->condition=get_where($criteria->condition,($end_date_operate!=""),'operate_time<=',$end_date_operate,'"');
         $user_type = get_session('F_ROLENAME');
         if ($user_type === '用户') {
-            $criteria->addCondition('reporter_id=' . get_session('userId'));
+            $criteria->addCondition('apply_id=' . get_session('userId'));
         }
 
         $data = $this->getAppointCountList();
@@ -450,8 +453,8 @@ class YzOnShelfInfoController extends BaseController {
         $model=$this->setCookieAndGetModel();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getYZReportInfoKeyWords($keywords);
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'apply_date>=',$start_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'apply_date<=',$end_date_report,'"');
         $data = array();
         parent::_list($model, $criteria, 'index_appoint', $data);
     }
@@ -493,7 +496,7 @@ class YzOnShelfInfoController extends BaseController {
 
 
     public function getYZReportInfoKeyWords($keywords){
-        return  get_like('1','theme,report_order,report_date,reporter_name ,state,operate_time,auditor',$keywords);
+        return  get_like('1','theme,apply_order,apply_date,apply_name ,state,operate_time,auditor',$keywords);
     }
 
 

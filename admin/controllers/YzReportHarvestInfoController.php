@@ -14,7 +14,7 @@ class YzReportHarvestInfoController extends BaseController {
         $modelName = $this->model;
         $model = $modelName::model();
         $data = $model->find('id='.$id);
-        YzReportHarvestProduct::model()->deleteAll('apply_order='.$data['apply_order']);
+        YzReportHarvestProduct::model()->deleteAll('report_order='.$data['report_order']);
         parent::_clear($id);
     }
 
@@ -23,10 +23,10 @@ class YzReportHarvestInfoController extends BaseController {
         $modelName = $this->model;
         $model = new $modelName('create');
         $model->check_save=0;//跳过必填（required）检验
-        $model->apply_order = Date('YmdHis').get_session('userId');
+        $model->report_order = Date('YmdHis').get_session('userId');
         $model->state = '填写中';
-        $model->apply_id = get_session('userId');
-        $model->apply_name = get_session('TCNAME');
+        $model->reporter_id = get_session('userId');
+        $model->reporter_name = get_session('TCNAME');
         $model->save();
         $this->actionUpdate($model->id);//跳转到修改动作
     }
@@ -56,9 +56,9 @@ class YzReportHarvestInfoController extends BaseController {
         $modelName2 = 'YzReportHarvestProduct';
 
         $production = $_POST['dataArray'];
-        $apply_order = $model->apply_order;
+        $report_order = $model->report_order;
 
-        $check = YzReportHarvestProduct::model()->find('apply_order='.$apply_order);
+        $check = YzReportHarvestProduct::model()->find('report_order='.$report_order);
 
         if(empty($check)){
 
@@ -66,7 +66,7 @@ class YzReportHarvestInfoController extends BaseController {
 
             foreach ($tmp as $k =>$v){
                 $model2=new $modelName2();
-                $model2->apply_order = $apply_order;
+                $model2->report_order = $report_order;
                 $model2->production = $production[$k];
                 $model2->product_id = $v->product_id;
                 $model2->product_name = $v->product_name;
@@ -76,7 +76,7 @@ class YzReportHarvestInfoController extends BaseController {
             }
         }
         else{
-            $tmp = YzReportHarvestProduct::model()->findAll('apply_order='.$apply_order.' order by product_id');
+            $tmp = YzReportHarvestProduct::model()->findAll('report_order='.$report_order.' order by product_id');
             foreach ($tmp as $k =>$v){
                 $v->production = $production[$k];
                 $v->save();
@@ -95,7 +95,7 @@ class YzReportHarvestInfoController extends BaseController {
             $message2 = '保存失败';
         }
         if ($model->save()) {
-            $model->deleteAll("apply_order=".$apply_order." and state='填写中'");
+            $model->deleteAll("report_order=".$report_order." and state='填写中'");
             show_status($model->save(), $message1, get_cookie('_currentUrl_'), $message2);
         }
         else show_status($model->save(), '保存成功', get_cookie('_currentUrl_'), '保存失败');
@@ -109,7 +109,7 @@ class YzReportHarvestInfoController extends BaseController {
 //        }
 //        else{
 //            $model = new YzReportHarvestProduct();
-//            $model->apply_order=DecodeAsk('apply_order');
+//            $model->report_order=DecodeAsk('report_order');
 //        }
 //        if (!Yii::app()->request->isPostRequest) {
 //            $data = array();
@@ -169,7 +169,7 @@ class YzReportHarvestInfoController extends BaseController {
 
         $data = $model->findAll("state='填写中'");
         foreach ($data as $v) {
-            YzReportHarvestProduct::model()->deleteAll('apply_order='.$v['apply_order']);
+            YzReportHarvestProduct::model()->deleteAll('report_order='.$v['report_order']);
         }
         $model->deleteAll("state='填写中'");
 
@@ -179,7 +179,7 @@ class YzReportHarvestInfoController extends BaseController {
 
         $user_type = get_session('F_ROLENAME');
         if ($user_type === '用户') {
-            $criteria->addCondition('apply_id=' . get_session('userId'));
+            $criteria->addCondition('reporter_id=' . get_session('userId'));
         }
 
         $data = array();
@@ -197,7 +197,7 @@ class YzReportHarvestInfoController extends BaseController {
 
         $data = $model->findAll("state='填写中'");
         foreach ($data as $v) {
-            YzReportHarvestProduct::model()->deleteAll('apply_order='.$v['apply_order']);
+            YzReportHarvestProduct::model()->deleteAll('report_order='.$v['report_order']);
         }
         $model->deleteAll("state='填写中'");
 
@@ -249,7 +249,7 @@ class YzReportHarvestInfoController extends BaseController {
                         $model->save();
                     }
 
-                    $detailList = YzReportHarvestProduct::model()->findAll('apply_order=' . $model->apply_order);
+                    $detailList = YzReportHarvestProduct::model()->findAll('report_order=' . $model->report_order);
                     $data = array();
                     $data['model'] = $model;
                     $data['detailList'] = $detailList;
@@ -266,7 +266,7 @@ class YzReportHarvestInfoController extends BaseController {
                     $model->save();
                 }
 
-                $detailList = YzReportHarvestProduct::model()->findAll('apply_order=' . $model->apply_order);
+                $detailList = YzReportHarvestProduct::model()->findAll('report_order=' . $model->report_order);
                 $data['model'] = $model;
                 $data['detailList'] = $detailList;
                 $data['isClose'] = DecodeAsk('isClose');
@@ -283,7 +283,7 @@ class YzReportHarvestInfoController extends BaseController {
     function saveDataVerify($post) {
 //        put_msg($post);
 
-        $model = YzReportHarvestInfo::model()->find('apply_order='.$post['apply_order']);
+        $model = YzReportHarvestInfo::model()->find('report_order='.$post['report_order']);
         $model->attributes=$post;
         $model->audit_date = Date('Y-m-d');
 
@@ -313,11 +313,11 @@ class YzReportHarvestInfoController extends BaseController {
         $data=array();
         $modelName = $this->model;
         $model = $modelName::model();
-        $data['waitreportCount']= $model->count("state='待上报' and apply_id = ".get_session('userId'));
-        $data['waitCount']= $model->count("state='待审核' and apply_id = ".get_session('userId'));
+        $data['waitreportCount']= $model->count("state='待上报' and reporter_id = ".get_session('userId'));
+        $data['waitCount']= $model->count("state='待审核' and reporter_id = ".get_session('userId'));
 //        $data['auditedCount']= $model->count("state='通过' or state='不通过'");
-        $data['passCount']= $model->count("state='通过' and apply_id = ".get_session('userId'));
-        $data['noPassCount']= $model->count("state='不通过' and apply_id = ".get_session('userId'));
+        $data['passCount']= $model->count("state='通过' and reporter_id = ".get_session('userId'));
+        $data['noPassCount']= $model->count("state='不通过' and reporter_id = ".get_session('userId'));
         return $data;
     }
 
@@ -330,7 +330,7 @@ class YzReportHarvestInfoController extends BaseController {
 
         $data = $model->findAll("state='填写中'");
         foreach ($data as $v) {
-            YzReportHarvestProduct::model()->deleteAll('apply_order='.$v['apply_order']);
+            YzReportHarvestProduct::model()->deleteAll('report_order='.$v['report_order']);
         }
         $model->deleteAll("state='填写中'");
 
@@ -346,8 +346,8 @@ class YzReportHarvestInfoController extends BaseController {
         $criteria->condition=get_where($criteria->condition,($start_date_operate!=""),'operate_time>=',$start_date_operate,'"');
         $criteria->condition=get_where($criteria->condition,($end_date_operate!=""),'operate_time<=',$end_date_operate,'"');
 
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'apply_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'apply_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
 
         $data = array();
 
@@ -392,8 +392,8 @@ class YzReportHarvestInfoController extends BaseController {
         $model=$this->setCookieAndGetModel();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getYZReportInfoKeyWords($keywords);
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'apply_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'apply_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
         $data = array();
         parent::_list($model, $criteria, 'index_verify_appoint', $data);
     }
@@ -406,7 +406,7 @@ class YzReportHarvestInfoController extends BaseController {
 
 //        $data = $model->findAll("state='填写中'");
 //        foreach ($data as $v) {
-//            YzReportHarvestProduct::model()->deleteAll('apply_order='.$v['apply_order']);
+//            YzReportHarvestProduct::model()->deleteAll('report_order='.$v['report_order']);
 //        }
 //        $model->deleteAll("state='填写中'");
 
@@ -419,13 +419,13 @@ class YzReportHarvestInfoController extends BaseController {
         }
         else $criteria ->addCondition("state='待审核'");
 
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'apply_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'apply_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
         $criteria->condition=get_where($criteria->condition,($start_date_operate!=""),'operate_time>=',$start_date_operate,'"');
         $criteria->condition=get_where($criteria->condition,($end_date_operate!=""),'operate_time<=',$end_date_operate,'"');
         $user_type = get_session('F_ROLENAME');
         if ($user_type === '用户') {
-            $criteria->addCondition('apply_id=' . get_session('userId'));
+            $criteria->addCondition('reporter_id=' . get_session('userId'));
         }
 
         $data = $this->getAppointCountList();
@@ -450,8 +450,8 @@ class YzReportHarvestInfoController extends BaseController {
         $model=$this->setCookieAndGetModel();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getYZReportInfoKeyWords($keywords);
-        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'apply_date>=',$start_date_report,'"');
-        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'apply_date<=',$end_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($start_date_report!=""),'report_date>=',$start_date_report,'"');
+        $criteria->condition=get_where($criteria->condition,($end_date_report!=""),'report_date<=',$end_date_report,'"');
         $data = array();
         parent::_list($model, $criteria, 'index_appoint', $data);
     }
@@ -493,7 +493,7 @@ class YzReportHarvestInfoController extends BaseController {
 
 
     public function getYZReportInfoKeyWords($keywords){
-        return  get_like('1','theme,apply_order,apply_date,apply_name ,state,operate_time,auditor',$keywords);
+        return  get_like('1','theme,report_order,report_date,reporter_name ,state,operate_time,auditor',$keywords);
     }
 
 

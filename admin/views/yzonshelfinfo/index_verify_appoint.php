@@ -6,22 +6,25 @@
 
             <a style="display:none;" id="j-delete" class="btn" href="javascript:;"
                onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i
-                        class="fa fa-trash-o"></i>删除</a>
+                    class="fa fa-trash-o"></i>删除</a>
 
 
         </div><!--box-header end-->
         <div class="box-detail-tab box-detail-tab mt15">
             <ul class="c">
-
                 <?php $action=strtolower(Yii::app()->controller->getAction()->id);?>
-                <li<?php if($action=='indexverify_today'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('YzOnShelfInfo/indexverify_today');?>">今日已审核<?php echo "(".$todayFinishCount.")";?></a>
+                <li<?php if($action=='indexverify_appoint_wait'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('YzOnShelfInfo/indexverify_appoint_wait');?>">待审核</a>
                 </li>
-
-                <li<?php if($action=='indexverify_wait'){?> class="current"<?php }?>>
-                    <a href="<?php echo $this->createUrl('YzOnShelfInfo/indexverify_wait');?>">待审核<?php echo "(".$waitCount.")";?></a>
+                <li<?php if($action=='indexverify_appoint_finish'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('YzOnShelfInfo/indexverify_appoint_finish');?>">已审核</a>
                 </li>
-
+                <li<?php if($action=='indexverify_appoint_by_pass'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('YzOnShelfInfo/indexverify_appoint_by_pass');?>">已通过</a>
+                </li>
+                <li<?php if($action=='indexverify_appoint_by_no_pass'){?> class="current"<?php }?>>
+                    <a href="<?php echo $this->createUrl('YzOnShelfInfo/indexverify_appoint_by_no_pass');?>">不通过</a>
+                </li>
 
             </ul>
         </div>
@@ -33,11 +36,21 @@
                     <input style="width:200px;" class="input-text" type="text" name="keywords"
                            value="<?php echo Yii::app()->request->getParam('keywords'); ?>">
                 </label>
+                <label style="margin-right:10px;">
+                    <span>操作时间：</span>
+                    <input style="width:120px;" class="input-text" type="text" id="start_date_operate" name="start_date_operate" value="<?php echo Yii::app()->request->getParam('start_date_operate');?>">
+                    <span>-</span>
+                    <input style="width:120px;" class="input-text" type="text" id="end_date_operate" name="end_date_operate" value="<?php echo Yii::app()->request->getParam('end_date_operate');?>">
+                </label>
+
+                <label style="margin-right:10px;">
+                    <span>上架日期：</span>
+                    <input style="width:120px;" class="input-text" type="text" id="start_date_report" name="start_date_report" value="<?php echo Yii::app()->request->getParam('start_date_report');?>">
+                    <span>-</span>
+                    <input style="width:120px;" class="input-text" type="text" id="end_date_report" name="end_date_report" value="<?php echo Yii::app()->request->getParam('end_date_report');?>">
+                </label>
 
                 <button class="btn btn-blue" type="submit">查询</button>
-                <?php ?>
-                <button class="btn" type="button" onclick="AuditDetail(0,1);">审核下一上架记录</button>
-                <!--                <a class="btn" href="--><?php //echo $this->createUrl('UpdateVerify'); ?><!--">审核</a>-->
             </form>
         </div><!--box-search end-->
         <div class="box-table">
@@ -51,10 +64,11 @@
                     <th style="text-align: center"><?php echo $model->getAttributeLabel('theme'); ?></th>
                     <th style="text-align: center"><?php echo $model->getAttributeLabel('remark'); ?></th>
                     <th style="text-align: center"><?php echo $model->getAttributeLabel('state'); ?></th>
+                    <th style="text-align: center"><?php echo $model->getAttributeLabel('audit_date'); ?></th>
                     <th style="text-align: center" width="20%"><?php echo $model->getAttributeLabel('audit_opinion'); ?></th>
 
 
-                    <th style="text-align: center">待定操作</th>
+                    <th style="text-align: center">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -69,11 +83,9 @@
                         <td style='text-align: center;'><?php echo $v->theme; ?></td>
                         <td style="text-align: center"><?php echo $v->remark; ?></td>
                         <td style="text-align: center"><?php echo $v->state; ?></td>
+                        <td style="text-align: center"><?php echo $v->audit_date; ?></td>
                         <td style="text-align: center"><?php echo $v->audit_opinion; ?></td>
 
-                        <td style="text-align: center">
-                            <!--                            <button class="btn" type="button" onclick="AuditDetail(--><?php ////echo $v->id;?><!--//////,0);">审核</button>-->
-                        </td>
                     </tr>
                 <?php } ?>
                 </tbody>
@@ -82,27 +94,28 @@
         <div class="box-page c"><?php $this->page($pages); ?></div>
     </div><!--box-content end-->
 </div><!--box end-->
-<script>
-    var deleteUrl = '<?php echo $this->createUrl('delete', array('id' => 'ID')); ?>';
-    function AuditDetail(id=0,isAdd=0){
-        url = '<?php echo $this->createUrl("UpdateVerify");?>'
-        url +='&id='+id +'&isAdd='+isAdd
-        $.dialog.data('id',0)
-        $.dialog.open(url,{
-            id: 'updateDetail',
-            lock:true,opacity:0.3,
-            width:'1000px',
-            height:'80%',
-            title:"商品上架审核界面",
-            close: function () {
-                redirect = '<?php echo str_replace('create','update',Yii::app()->request->getUrl())?>'
-                redirect+='&id='+'<?php echo $model->id;?>'
-                window.location.href = redirect;
-            }
-        });
-    };
-</script>
 
+
+<script>
+    var $start_date=$('#start_date_operate');
+    var $end_date=$('#end_date_operate');
+    $start_date.on('click', function(){
+        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});
+    });
+    $end_date.on('click', function(){
+        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});
+    });
+</script>
+<script>
+    var $start_date=$('#start_date_report');
+    var $end_date=$('#end_date_report');
+    $start_date.on('click', function(){
+        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});
+    });
+    $end_date.on('click', function(){
+        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});
+    });
+</script>
 <script>
 
     function Return(id=0){

@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="box-title c"><h1><i class="fa fa-table"></i>单位信息</h1>
+    <div class="box-title c"><h1><i class="fa fa-table"></i>养殖商品上架审核信息</h1>
         <span class="back"><a class="btn" href="javascript:;" onclick="we.back();"><i class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->
     <div class="box-detail">
         <?php $form = $this->beginWidget('CActiveForm', get_form_list()); ?>
@@ -52,9 +52,9 @@
                 <thead>
                 <tr>
 <!--                    <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>-->
-                    <?php $model2 = ReportProduct::model();?>
+                    <?php $model2 = YzOnShelfProduct::model();?>
                     <?php
-                    $str='product_name,number,number_unit,price,put_time,sale_time,supplier,trade_means,contact_details';
+                    $str='product_name,number,number_unit,price,origin_place';
                     echo $model2->gridHead($str); ?>
                 </tr>
                 </thead>
@@ -122,23 +122,23 @@
         $.dialog.data('detailId','<?php echo $model->id;?>')
         $.dialog.close();
     }
-    function DetailVerify(id=0){
-        url = '<?php echo $this->createUrl("UpdateDetailVerify");?>'
-        url +='&detail_id='+id
-        $.dialog.data('id',0)
-        $.dialog.open(url,{
-            id: 'updateDetail',
-            lock:true,opacity:0.3,
-            width:'1000px',
-            height:'80%',
-            title:"审核上架商品",
-            close: function () {
-                redirect = '<?php echo str_replace('create','update_verify',Yii::app()->request->getUrl())?>'
-                redirect+='&id='+'<?php echo $model->id;?>'
-                window.location.href = redirect;
-            }
-        });
-    };
+    //function DetailVerify(id=0){
+    //    url = '<?php //echo $this->createUrl("UpdateDetailVerify");?>//'
+    //    url +='&detail_id='+id
+    //    $.dialog.data('id',0)
+    //    $.dialog.open(url,{
+    //        id: 'updateDetail',
+    //        lock:true,opacity:0.3,
+    //        width:'1000px',
+    //        height:'80%',
+    //        title:"审核上架商品",
+    //        close: function () {
+    //            redirect = '<?php //echo str_replace('create','update_verify',Yii::app()->request->getUrl())?>//'
+    //            redirect+='&id='+'<?php //echo $model->id;?>//'
+    //            window.location.href = redirect;
+    //        }
+    //    });
+    //};
     $(function(){
         let api = $.dialog.open.api;	// 			art.dialog.open扩展方法
         api.button(

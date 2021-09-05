@@ -1,5 +1,5 @@
 <div class="box">
-    <div class="box-title c"><h1><i class="fa fa-table"></i>单位信息</h1><span class="back"><a class="btn"
+    <div class="box-title c"><h1><i class="fa fa-table"></i>养殖收成产量上报信息</h1><span class="back"><a class="btn"
                                                                                            href="javascript:;"
                                                                                            onclick="we.back();"><i
                         class="fa fa-reply"></i>返回</a></span></div><!--box-title end-->

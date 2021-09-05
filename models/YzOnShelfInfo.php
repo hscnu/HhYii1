@@ -51,10 +51,12 @@ class YzOnShelfInfo extends BaseModel
             'apply_id' => '申请者ID',
             'apply_name' => '申请者',
             'theme' => '主题',
+            'remark' => '备注',
             'state' => '上架申请状态',
             'operate_time' => '操作时间',
             'auditor' => '审核员',
             'auditor_id' => '审核员ID',
+            'audit_date' => '审核日期',
             'audit_opinion' => '审核意见'
         );
     }
