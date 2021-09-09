@@ -234,7 +234,6 @@ class IceController extends BaseController {
         $model = $modelName::model();
         $criteria = new CDbCriteria;
         $criteria -> condition = $this->getIceKeyWords($keywords);
-        $criteria->addCondition('user_id='.get_session('userId'));
         $criteria -> addCondition("order_state=4" );
         $data = $this->getAppointCountList();
         $model->deleteAll('order_state=0');//每次进来删除订单状态为0的订单
@@ -301,32 +300,50 @@ class IceController extends BaseController {
         $modelName = 'IceType';
         $model = $modelName::model();
         $criteria = new CDbCriteria;
-        $criteria -> condition = $this->getIceKeyWords($keywords);
+        $criteria -> condition = $this->getIceTypeKeyWords($keywords);
         parent::_list($model, $criteria, 'index_ice_type');
+    }
+
+    //添加送货人
+    public function actionIndex_addDeliverymen($keywords = '') {
+        set_cookie('_currentUrl_', Yii::app()->request->url);
+        $modelName = 'DeliveryMen';
+        $model = $modelName::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = $this->getDeliveryMenKeyWords($keywords);
+        parent::_list($model, $criteria, 'index_addDeliverymen');
     }
 
     //点击功能切换页面函数（尾）
 
 
-    //查询关键字
-    public function getIceKeyWords($keywords){
-        return  get_like('1','order_id,title,fishing_boat,order_time,take_type,order_remark',$keywords);
-    }
     //选择派送人员
     public function actionSetShrIdAndName($oId,$shrId){
-        $shr=User::model()->find('userId='.$shrId);
+        $shr=DeliveryMen::model()->find('deliver_id='.$shrId);
         $order=Ice::model()->findAll("id in (".$oId.")");
         if($order){
             foreach ($order as $v){
                 $v->deliver_id=$shrId;
-                $v->deliver_name=$shr->TCNAME;
-                $v->deliver_tel=$shr->PHONE;
+                $v->deliver_name=$shr->name;
+                $v->deliver_tel=$shr->tel;
                 $v->save();
             }
         }
         echo CJSON::encode('succeed');
     }
-    //获取用户keyword
+    //添加派送人员
+    public function actionAddDeliverymen($shrId){
+        $shr=User::model()->find('userId='.$shrId);
+
+        if(DeliveryMen::model()->find('deliver_id='.$shrId)){
+
+        }
+        if(!DeliveryMen::model()->find('deliver_id='.$shrId))
+        {
+            DeliveryMen::model()->create($shr->userId,$shr->TCNAME,$shr->PHONE);
+            echo CJSON::encode('succeed');
+        }
+    }
 
 
 
@@ -442,6 +459,9 @@ class IceController extends BaseController {
         if($views=='index_logistic'){
             $criteria->addCondition('deliver_id='.get_session('userId'));
         }
+        elseif($views=='index_accept_ice'){
+
+        }
         else{
             $criteria->addCondition('user_id='.get_session('userId'));
         }
@@ -460,8 +480,8 @@ class IceController extends BaseController {
         $date['waitCount']= $model->count("order_state=2 and user_id=".get_session('userId'));//2，已提交待渔业公司审核
         $date['examine_finishCount']= $model->count("order_state=3 and user_id=".get_session('userId'));//3，渔业公司已审核待物流审核
         $date['examine_logisticsCount']= $model->count("order_state=4 and user_id=".get_session('userId'));//4，物流已审核待冰出库
-        $date['accept_ice_by_oneself_Count']= $model->count("order_state=4 and take_type='自取' and user_id=".get_session('userId') );
-        $date['accept_ice_by_logistics_Count']= $model->count("order_state=4 and take_type='配送' and user_id=".get_session('userId') );
+        $date['accept_ice_by_oneself_Count']= $model->count("order_state=4 and take_type='自取'");
+        $date['accept_ice_by_logistics_Count']= $model->count("order_state=4 and take_type='配送'" );
         $date['wait_deliver_Count']= $model->count("order_state=5 and deliver_id=".get_session('userId'));//5，
         $date['delivering_Count']= $model->count("order_state=6 and deliver_id=".get_session('userId'));//6，配送员正在配送待签收
         $date['wait_accept_Count']= $model->count("order_state=6 and user_id=".get_session('userId'));//6，配送员正在配送待签收
@@ -475,10 +495,23 @@ class IceController extends BaseController {
 
 
     //按键相关函数（头）
+    //获取用户表关键字
     public function getUserKeyWords($keywords){
-        return  get_like('1','TCNAME',$keywords);
+        return  get_like('1','userId,TCNAME',$keywords);
     }
-    //打开弹出框
+    //获取配送人表关键字
+    public function getDeliveryMenKeyWords($keywords){
+        return  get_like('1','deliver_id,name,tel',$keywords);
+    }
+    //查询冰表关键字
+    public function getIceKeyWords($keywords){
+        return  get_like('1','order_id,title,fishing_boat,order_time,take_type,order_remark',$keywords);
+    }
+    //查询冰明细关键字
+    public function getIceTypeKeyWords($keywords){
+        return  get_like('1','ice_type,ice_id,specification,unit_price',$keywords);
+    }
+    //打开用户弹出框
     public function actionOpenDialogShr($keywords=''){
         $model = User::model();
         $criteria = new CDbCriteria;
@@ -486,6 +519,15 @@ class IceController extends BaseController {
         $data = array();
         parent::_list($model, $criteria, 'select', $data);
     }
+    //打开送货人弹出框
+    public function actionOpenDialogDeliverMen($keywords=''){
+        $model = DeliveryMen::model();
+        $criteria = new CDbCriteria;
+        $criteria -> condition = $this->getDeliveryMenKeyWords($keywords);
+        $data = array();
+        parent::_list($model, $criteria, 'selectDeliverymen', $data);
+    }
+
     //按键确认
     public function actionqrsh($id,$keywords=''){
         $tmp=Ice::model()->find('id='.$id);
@@ -540,26 +582,6 @@ class IceController extends BaseController {
         echo '<script>window.history.back();</script>';
     }
     //按键相关函数（尾）
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //物流审核页面
 

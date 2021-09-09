@@ -28,10 +28,11 @@
                     <tr>
                         <td><?php echo $form->labelEx($model, 'order_time');?></td>
                         <td colspan="3">
-                            年月日：
+                            <p>年月日:
                             <?php echo $form->textField($model, 'order_time', array('class' => 'Wdate','style'=>'width:100px;','value'=>Date('Y-m-d')));?>
                             <?php echo $form->error($model, 'order_time', $htmlOptions = array());?>
-                            时间段：
+                            </p>
+                            时间段:
                             <?php echo $form->textField($model, 'former_time', array('class' => 'Wdate','style'=>'width:80px;','value'=>Date('H:m:s')));?>
                             <?php echo $form->error($model, 'former_time', $htmlOptions = array());?>
                             ~

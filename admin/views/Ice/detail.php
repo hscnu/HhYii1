@@ -170,7 +170,7 @@
 </script>
 <script>
     function chooseShr(id){
-        url = '<?php echo $this->createUrl("OpenDialogShr");?>'
+        url = '<?php echo $this->createUrl("OpenDialogDeliverMen");?>'
         $.dialog.data('id',0)
         $.dialog.open(url,{
             id: 'chooseShr',

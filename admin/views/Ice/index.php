@@ -55,6 +55,7 @@
 
                         <div class="article-info">
                             <p>
+                                <span class="muted">订单编号：<?php echo $v->order_id;?></span>
                                 <span class="muted"><i class="icon-author icon2"></i><?php echo $v->order_name;?></span>
                                 <span class="muted"><i class="icon-time icon2"></i><?php echo $v->create_time;?></span>
                             </p>
