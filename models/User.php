@@ -143,5 +143,14 @@ class User extends BaseModel {
 //        }
         return array_merge($data,$userItem);
     }
+    public function saveTypeRz($state=0){
+        if(empty($state))return;
+        $userId=get_session('userId');
+        $tmp=$this->find('userId='.$userId);
+        if($tmp){
+            $tmp->TYPE=$_SESSION['Rztype'];
+            $tmp->save();
+        }
+    }
 
 }

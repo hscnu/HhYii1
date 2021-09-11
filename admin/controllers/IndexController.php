@@ -72,13 +72,14 @@ class IndexController extends BaseController {
         Yii::app()->session['F_ROLENAME']=$role;
         $model= User::model()->find("TCOD='". $usercode."' or TUNAME='".$usercode."'");
         if(!empty($model)){
-//            $pass=md5(md5($pass));
+            $pass=md5(md5($pass));
             if($pass==$model->TPWD)
 //            if($model->F_ROLENAME==$role)
             {
                 $data['TCOD']=$model->TCOD;
                 $data['TUNAME']=$model->TCNAME;
                 $data['f_kcszid']=1;
+                $data['massage']=empty($model->TYPE)?1:0;
                 Yii::app()->session['TCNAME']=$model->TCNAME;
                 Yii::app()->session['TCOD']=$model->TCOD;
                 Yii::app()->session['F_ROLENAME']=$role;
@@ -186,9 +187,10 @@ class IndexController extends BaseController {
         $data['user_login'] = "0";
         $this->render($s1,$data);
     }
+
     public function actionChooseType($TUNAME="",$TPWD="",$tname=""){
-        Yii::app()->session['admin_id']=null;
-        $_SESSION["admin"]=null;
+        //Yii::app()->session['admin_id']=null;
+       // $_SESSION["admin"]=null;
         $model = new User('create');
         $data = array();
         $data['model'] = $model;
@@ -212,6 +214,27 @@ class IndexController extends BaseController {
 
     public function actionSetNavBy(){
         $this->actionSetRole('捕鱼模块');
+    }
+
+    public function actionMassageUpdate($type){
+        $Types=array(
+            'D'=>'DisinfectionCenter',
+        );
+        $Views=array(
+            'D'=>'disinfectionCenterUpdate',
+        );
+        $_SESSION["Rztype"]=$type;
+        $modelName=$Types[$type];
+        $view=$Views[$type];
+//        $model=new $modelName('create');
+//        if (!Yii::app()->request->isPostRequest) {
+//            $data = array();
+//            $data['model'] = $model;
+//            $this->render($view, $data);
+//        } else {
+//            $this->saveMassage($model, $_POST[$modelName],$type);
+//        }
+        $this->redirect(array('DisinfectionCenter/Create'));
     }
 
     public function actionSetNavXd(){

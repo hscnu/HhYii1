@@ -77,14 +77,23 @@
             },
             dataType:'json',
             success: function(data) {
+                var falg=data.massage;
                 s1=data.f_kcszid;
-                if (s1>0){
-                    var s22='https://zcps.scnu.edu.cn<?php echo $this->createUrl("index/index&TCOD=");?>'+s1;
-                    s22='/Hhyii/index.php?r=index/index';
-                    self.location.href =s22;
-                }else{
-                    alert("密码 或 用户身份 错误");
-                }
+
+                    if (s1>0){
+                        if(falg>0){
+                        alert("初次登录，请完善信息！");
+                        var s3='/Hhyii/index.php?r=index/chooseType';
+                        self.location.href =s3;
+                        }else{
+                            var s22='https://zcps.scnu.edu.cn<?php echo $this->createUrl("index/index&TCOD=");?>'+s1;
+                            s22='/Hhyii/index.php?r=index/index';
+                            self.location.href =s22;
+                        }
+                    }else{
+                        alert("密码 或 用户身份 错误");
+                    }
+
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 console.log(XMLHttpRequest);
